@@ -9,7 +9,7 @@ class Usuario(AbstractUser):
     apellido = models.CharField(max_length=255)
     es_hijo = models.BooleanField(default=False)
     es_tutor = models.BooleanField(default=False)
-    REQUIRED_FIELDS = [nombre, apellido, es_hijo, es_tutor]
+    REQUIRED_FIELDS = ['nombre', 'apellido', 'es_hijo', 'es_tutor']
     class Meta:
         constraints = [
             models.CheckConstraint(

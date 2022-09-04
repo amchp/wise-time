@@ -3,6 +3,7 @@ import CrudForm from './componentes/CrudForm';
 import CrudApp from './componentes/CrudApp'; 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ActivityInfo from './componentes/ActivityInfo';
+import HijoApp from './componentesHijo/HijoApp';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
               <Route path="actividades/crear" element={<CrudForm />}/>
               <Route path="actividades/:id/editar" element={<CrudForm />}/>
               <Route path="actividades/:id" element={<ActivityInfo />}/>
+              <Route path="actividades_hijo" element={<HijoApp/>}/>
           </Routes>
       </BrowserRouter>
     </div>
