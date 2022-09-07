@@ -1,9 +1,9 @@
 import React from 'react'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { borrarActividad } from '../servicios/ActividadServicio' 
+import { borrarActividad } from '../../../servicios/ActividadServicio' 
 
-const CrudTableRow = ({el}) => {
+const TutorActividadTableRow = ({el}) => {
     const onDelete = () => {
       alert("Seguro que quieres borrar esta actividad");
       borrarActividad(el);
@@ -23,4 +23,4 @@ const CrudTableRow = ({el}) => {
     )
 }
 
-export default CrudTableRow
+export default TutorActividadTableRow

@@ -21,6 +21,9 @@ class Usuario(AbstractUser):
             ),
         ]
 
+    def __str__(self):
+        return self.nombre + ' ' + self.apellido
+
 
 class Tutor(models.Model):
     usuario = models.OneToOneField(

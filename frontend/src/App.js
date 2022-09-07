@@ -1,26 +1,30 @@
-import React from 'react'
-import CrudForm from './componentes/CrudForm'; 
-import CrudApp from './componentes/CrudApp'; 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ActivityInfo from './componentes/ActivityInfo';
-import HijoApp from './componentesHijo/HijoApp';
+import React, { useState, useEffect } from 'react';
+import { conseguirUsurioLogeado } from './servicios/AuthenticacionServicio';
+import CircularProgress from '@mui/material/CircularProgress';
+import TutorApp from './componentes/Tutor/TutorApp'; 
+import HijoApp from './componentes/Hijo/HijoApp';
 
 
 function App() {
-  return (
-    <div className="App">
-      <h1>WiseTime</h1>
-      <BrowserRouter>
-          <Routes>
-              <Route path="actividades" element={<CrudApp />}/>
-              <Route path="actividades/crear" element={<CrudForm />}/>
-              <Route path="actividades/:id/editar" element={<CrudForm />}/>
-              <Route path="actividades/:id" element={<ActivityInfo />}/>
-              <Route path="actividades_hijo" element={<HijoApp/>}/>
-          </Routes>
-      </BrowserRouter>
-    </div>
-  );
+  const [usuario, setUsuario] = useState({es_hijo: false, es_tutor: false});
+  useEffect(()=> {
+    const conseguirUsuario = async () => {
+      const data = await conseguirUsurioLogeado();
+      setUsuario(data);
+    };
+    conseguirUsuario();
+  }, []);
+  if(usuario.es_hijo){
+    return (<HijoApp data={usuario}/>)
+  }else if(usuario.es_tutor){
+    return (<TutorApp data={usuario}/>);
+  }else{
+    if(localStorage.getItem('tokenKey')){
+      <CircularProgress />
+    }else{
+      return (<h1>No tiene usuario</h1>);
+    }
+  }
 }
 
 export default App;

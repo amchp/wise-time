@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-export async function conseguirTodasActividades() {
+export async function conseguirTodasActividades(filtros = {}) {
     const response = await axios.get(
-        'http://127.0.0.1:8000/api/v1/actividad/'
+        'http://127.0.0.1:8000/api/v1/actividad/', filtros
     );
     return response.data;
 }
@@ -21,7 +21,7 @@ export async function crearActividad(data) {
     );
 }
 
-export async function editarActividad(data) {
+export async function actualizarActividad(data) {
     await axios.patch(
         `http://127.0.0.1:8000/api/v1/actividad/${data.id}/`,
         data

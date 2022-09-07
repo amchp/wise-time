@@ -2,7 +2,9 @@ import React from 'react'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-const TableRowHijo = ({el}) => {
+
+
+const HijoActividadTableRow = ({el}) => {
     const accept = () => {
       
     }
@@ -18,4 +20,4 @@ const TableRowHijo = ({el}) => {
     )
 }
 
-export default TableRowHijo
+export default HijoActividadTableRow

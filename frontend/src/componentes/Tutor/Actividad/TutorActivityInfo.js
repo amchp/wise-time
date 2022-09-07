@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {useParams} from 'react-router-dom';
 import {Box} from '@mui/material';
-import { conseguirActividad } from '../servicios/ActividadServicio';
+import { conseguirActividad } from '../../../servicios/ActividadServicio';
 
-const ActivityInfo = () => {
+const TutorActivityInfo = () => {
     const [actividad, setActividad] = useState([]);
     const { id } = useParams();
     useEffect(() => {
@@ -23,4 +23,4 @@ const ActivityInfo = () => {
         </Box>
     )
 }
-export default ActivityInfo;
+export default TutorActivityInfo;
