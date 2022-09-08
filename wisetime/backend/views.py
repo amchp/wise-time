@@ -1,5 +1,5 @@
-from .models import Actividad, Hijo, HistoriaDeLaActividad
-from .serializers import ActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer
+from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad
+from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -41,3 +41,14 @@ class HistoriaDeLaActividadView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return HistoriaDeLaActividad.objects.all()
+class HijoActividadView(viewsets.ModelViewSet):
+
+    serializer_class = HijoActividadSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'actividad',
+        'hijo',
+    ]
+
+    def get_queryset(self):
+        return HijoActividad.objects.all()

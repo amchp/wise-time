@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (Actividad, Hijo, HistoriaDeLaActividad)
+from .models import (Actividad, Hijo, HijoActividad, HistoriaDeLaActividad)
 
 
 class ActividadSerializer(serializers.ModelSerializer):
@@ -34,3 +34,7 @@ class HistoriaDeLaActividadSerializer(serializers.ModelSerializer):
     
     def conseguir_actividad(self, historia_de_la_actividad):
         return ActividadSerializer(historia_de_la_actividad.hijo_actividad.actividad).data
+class HijoActividadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HijoActividad
+        fields = '__all__'

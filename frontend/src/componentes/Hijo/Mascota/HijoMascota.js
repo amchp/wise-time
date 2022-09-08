@@ -27,7 +27,7 @@ const HijoMascota= () => {
       <Stack
         justifyContent="center"
         alignItems="center"
-        marginTop={9}
+        marginTop
       >
 
         <img
