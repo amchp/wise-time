@@ -15,8 +15,6 @@ const initialForm = {
 };
 
 const TutorActividadForm = ({ usuario }) => {
-  console.log("Usuario?");
-  console.log(usuario.id);
   const navigate = useNavigate();
   const { id } = useParams();
   const creating = !id ? true : false;
@@ -31,24 +29,15 @@ const TutorActividadForm = ({ usuario }) => {
     "Domingo": true
   });
 
-  let [hijos, setHijos] = useState(["Hola"]);
+  let [hijos, setHijos] = useState([]);
   const [hijosSeleccionados, setHijosSeleccionados] = useState([]);
-  function addHijo(nombre) {
-    setHijos((hijosAnteriores) => {
-      return [...hijosAnteriores, nombre]
-    });
-  }
 
   //
   useEffect(() => {
     const conseguirHijos = async () => {
-      const consulta = await conseguirTodosLosHijos({ padre: usuario.id });
-      const num = consulta.length;
-      console.log("Numero de consultas" + { num });
-      consulta.forEach((hijo) => {
-        addHijo(hijo.nombre);
-
-      });
+      const filtros = { 'tutor': usuario.id.toString() };
+      const consulta = await conseguirTodosLosHijos(filtros);
+      setHijos(consulta);
     }
     conseguirHijos(); //Consigue TODOS los hijos
     if (id) {
@@ -150,10 +139,10 @@ const TutorActividadForm = ({ usuario }) => {
               input={<OutlinedInput label="Tag" />}
               renderValue={(valor) => valor.join(', ')}
             >
-              {hijos.map((nombre) => (
-                <MenuItem key={nombre} value={nombre}>
-                  <Checkbox checked={hijosSeleccionados.indexOf(nombre) > -1} />
-                  <ListItemText primary={nombre} />
+              {hijos.map((hijo) => (
+                <MenuItem key={hijo.nombre} value={hijo.id}>
+                  <Checkbox checked={hijosSeleccionados.indexOf(hijo.id) > -1} name="{hijo.usuario}"/>
+                  <ListItemText primary={hijo} />
                 </MenuItem>
               ))}
             </Select>

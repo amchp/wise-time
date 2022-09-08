@@ -5,7 +5,12 @@ from .models import (Actividad, Hijo, HijoActividad, HistoriaDeLaActividad)
 class ActividadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actividad
-        fields = '__all__'
+        fields = [
+            'nombre',
+            'descripcion',
+            'dias',
+            'hijos',
+        ]
 
 
 class HijoSerializer(serializers.ModelSerializer):
@@ -14,7 +19,7 @@ class HijoSerializer(serializers.ModelSerializer):
         model = Hijo
         fields = [
             'usuario',
-            'padre',
+            'tutor',
             'nombre',
         ]
 

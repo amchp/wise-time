@@ -19,8 +19,8 @@ const TutorActividadTableRow = ({ el }) => {
       <TableCell component="th" scope="row">{el.nombre}</TableCell>
       <TableCell align="right">{el.hora}</TableCell>
       <TableCell align="center"><Stack direction="row" spacing={1}>
-        <Button variant="outlined"  href={`actividades/${el.id}`}>Informacion</Button>
-        <Button variant="outlined" href={`actividades/${el.id}/editar/`}>Editar</Button>
+        <Button variant="outlined"  href={`${el.id}/`}>Informacion</Button>
+        <Button variant="outlined" href={`${el.id}/editar/`}>Editar</Button>
         <Button variant="outlined" color="error" onClick={onDelete}>Eliminar</Button>
       </Stack>
       </TableCell>

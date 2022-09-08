@@ -57,10 +57,11 @@ class Actividad(models.Model):
     dias = ArrayField(models.CharField(
         max_length=255, choices=DiasSemana.choices), max_length=7)
     hora = models.TimeField()
+    hijos = models.ManyToManyField("Hijo", through=HijoActividad)
 
 
 class Hijo(models.Model):
     usuario = models.OneToOneField(
         Usuario, on_delete=models.CASCADE, primary_key=True)
-    padre = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     actividades = models.ManyToManyField(Actividad, through=HijoActividad)

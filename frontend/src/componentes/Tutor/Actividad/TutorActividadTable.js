@@ -18,7 +18,7 @@ const TutorActividadTable = () => {
     const conseguirDatosTabla = async () => {
       const semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
       const diaDeLaSemana = semana[new Date().getDay()];
-      const filtros = { "hijo": 1, "dias": diaDeLaSemana };
+      const filtros = { "hijos": 1, "dias": diaDeLaSemana };
       const datos = await conseguirTodasActividades(filtros);
       setData(datos);
     }
@@ -34,7 +34,7 @@ const TutorActividadTable = () => {
       }}>
 
       <h3>Actividades Semanales</h3>
-      <Button variant="outlined" href="actividades/crear">Agregar</Button>
+      <Button variant="outlined" href="crear/">Agregar</Button>
       <br/>
       <Grid container direction="column"  alignItems="center">
       <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 700, border: "3px solid #6DCBC4" }}  flex={1}>

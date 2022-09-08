@@ -11,6 +11,7 @@ class ActividadView(viewsets.ModelViewSet):
     filterset_fields = [
         'nombre',
         'descripcion',
+        'hijos',
     ]
 
     def get_queryset(self):
@@ -22,7 +23,7 @@ class HijoView(viewsets.ModelViewSet):
     serializer_class = HijoSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
-        'padre',
+        'tutor',
         'actividades',
     ]
 
