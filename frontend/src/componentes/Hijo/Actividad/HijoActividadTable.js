@@ -8,29 +8,38 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import HijoActividadTableRow from './HijoActividadTableRow';
-import { Grid, Paper } from '@mui/material/';
-import { conseguirTodasActividades } from '../../../servicios/ActividadServicio';
+import { Grid, Paper, Box } from '@mui/material/';
+import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
+import fondoActividadHijo1 from '../../../imagenes/fondoActividadHijo1.svg';
 
 const HijoActividadTable = ({ usuario }) => {
-    //Recorro arreglo de dias en cada actividad para filtrar :)
-    const [data, setData] = useState([]);
+    const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
+    const [actividadesPorConfimar,ponerActividadesPorConfimar] = useState({});
     useEffect(() => {
         const conseguirDatosTabla = async () => {
-            const semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
-            const currentDay = new Date();
-            const diaDeLaSemana = semana[currentDay.getDay()];
-            const filtros = { "hijo": usuario.id, "dias": diaDeLaSemana };
-            const datos = await conseguirTodasActividades(filtros);
-            setData(datos);
+            const actividades = await conseguirActividadesParaTabla(usuario.id);
+            ponerTablaDeActividades(actividades);
+            console.log(actividades);
+            const confimarActividad = await conseguirHistoriasDeActividadesParaLosEstados(usuario.id);
+            console.log(confimarActividad);
+            ponerActividadesPorConfimar(confimarActividad);
         }
         conseguirDatosTabla();
     }, []);
     return (
-        <div>
+        <Box
+        class="fondoActividadHijo1"
+        style={{
+            backgroundImage: `url(${fondoActividadHijo1})`,
+            backgroundSize: "cover",
+            height: "100vh"}}>
+
+        <Stack marginLeft={8} sx={{ width: '150px',}}>
             <h1>ACTIVIDADES</h1>
             <h3>Actividades del día</h3>
-            <br />
-            <Grid container direction="column"  alignItems="center">
+        </Stack>
+        
+            <Grid container direction="column"  alignItems="center" paddingTop={3}>
             <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 650, border: "3px solid #6DCBC4" }} flex={1}>
                 <TableContainer component={Paper} >
                     <Table aria-label="simple table" >
@@ -42,7 +51,7 @@ const HijoActividadTable = ({ usuario }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.length === 0 ? (
+                            {tablaDeActividades.length === 0 ? (
                                 <TableRow
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
@@ -50,14 +59,15 @@ const HijoActividadTable = ({ usuario }) => {
                                     </TableCell>
                                     <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
                                 </TableRow >
-                            ) : (data.map((el) => <HijoActividadTableRow key={el.id} el={el} />)
+                            ) : (tablaDeActividades.map((el) => <HijoActividadTableRow usuario={usuario} key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]}/>)
                             )}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Stack>
             </Grid>
-        </div>
+            
+        </Box>
     )
 }
 export default HijoActividadTable;

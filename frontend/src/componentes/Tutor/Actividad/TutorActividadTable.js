@@ -8,23 +8,36 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Grid, Paper, Box } from '@mui/material/';
-import { conseguirTodasActividades } from '../../../servicios/ActividadServicio';
+import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
-import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.png';
+import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
+
 
 const TutorActividadTable = () => {
-  const [data, setData] = useState([]);
+  const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
+  const [actividadesPorConfimar,ponerActividadesPorConfimar] = useState({});
+
   useEffect(() => {
     const conseguirDatosTabla = async () => {
-      const semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
-      const diaDeLaSemana = semana[new Date().getDay()];
-      const filtros = { "hijos": 1, "dias": diaDeLaSemana };
-      const datos = await conseguirTodasActividades(filtros);
-      setData(datos);
+      const actividades = await conseguirActividadesParaTabla(3);
+      ponerTablaDeActividades(actividades);
+      const confimarActividad = await conseguirHistoriasDeActividadesParaLosEstados(3);
+      ponerActividadesPorConfimar(confimarActividad);
     }
     conseguirDatosTabla();
   }, []);
   return (
+    <Box>
+      <nav>
+      <div>
+      <img
+          
+          src={require('../../../imagenes/logoWiseTime.svg')}
+          alt='logo'
+
+        />         
+      </div>
+      </nav>
     <Box
       class="fondoActividadTutor"
       style={{
@@ -33,11 +46,15 @@ const TutorActividadTable = () => {
         height: "100vh",
       }}>
 
+      
+      <Stack marginLeft={8} sx={{ width: '150px',}}>
       <h3>Actividades Semanales</h3>
-      <Button variant="outlined" href="crear/">Agregar</Button>
       <br/>
-      <Grid container direction="column"  alignItems="center">
-      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 700, border: "3px solid #6DCBC4" }}  flex={1}>
+      <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} href="crear/">Agregar</Button>
+      <br/>
+      </Stack>
+      <Grid container direction="column"  alignItems="center" paddingTop={3}>
+      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "3px solid #6DCBC4" }}  flex={1}>
         <TableContainer component={Paper} >
           <Table aria-label="simple table" >
             <TableHead>
@@ -48,7 +65,7 @@ const TutorActividadTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.length === 0 ? (
+              {tablaDeActividades.length === 0 ? (
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                 >
@@ -56,13 +73,14 @@ const TutorActividadTable = () => {
                   </TableCell>
                   <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
                 </TableRow >
-              ) : (data.map((el) => <TutorActividadTableRow key={el.id} el={el} />)
+              ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} />)
               )}
             </TableBody>
           </Table>
         </TableContainer>
       </Stack>
       </Grid>
+    </Box>
     </Box>
   )
 }

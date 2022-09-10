@@ -15,7 +15,7 @@ function App() {
     conseguirUsuario();
   }, []);
   if(usuario.es_hijo){
-    return (<HijoApp data={usuario}/>)
+    return (<HijoApp usuario={usuario}/>)
   }else if(usuario.es_tutor){
     return (<TutorApp data={usuario}/>);
   }else{

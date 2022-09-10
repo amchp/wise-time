@@ -37,6 +37,10 @@ class HijoActividad(models.Model):
 
 
 class HistoriaDeLaActividad(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['hijo_actividad', 'dia'], name='name of constraint')
+        ]
     hijo_actividad = models.ForeignKey(HijoActividad, on_delete=models.CASCADE)
     completado = models.BooleanField(default=False)
     confirmado = models.BooleanField(default=False)
@@ -64,4 +68,5 @@ class Hijo(models.Model):
     usuario = models.OneToOneField(
         Usuario, on_delete=models.CASCADE, primary_key=True)
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    puntos = models.IntegerField(default=0)
     actividades = models.ManyToManyField(Actividad, through=HijoActividad)

@@ -1,8 +1,17 @@
+import {ponerFiltros} from './ServicioGeneral'
+
 const axios = require('axios');
+
+export async function conseguirHijosActividad(filtros = {}) {
+    const response = await axios.get(
+        'http://127.0.0.1:8000/api/v1/hijo_actividad/', ponerFiltros(filtros)
+    );
+    return response.data;
+}
 
 export async function conseguirTodasLasHistoriaDeLaActividades(filtros = {}) {
     const response = await axios.get(
-        'http://127.0.0.1:8000/api/v1/historia_de_la_actividad/', filtros
+        'http://127.0.0.1:8000/api/v1/historia_de_la_actividad/', ponerFiltros(filtros)
     );
     return response.data;
 }

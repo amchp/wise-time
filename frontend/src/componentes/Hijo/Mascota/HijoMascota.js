@@ -6,7 +6,7 @@ import fondoMascota from '../../../imagenes/fondoMascota.png';
 import Fab from '@mui/material/Fab';
 
 
-const HijoMascota= () => {
+const HijoMascota= ({usuario}) => {
   return (
     
     <Box
@@ -17,7 +17,7 @@ const HijoMascota= () => {
         height: "100vh",
       }}>
 
-      <MascotaNivel />
+      <MascotaNivel  usuario={usuario}/>
       <Stack direction="row" justifyContent={"flex_start"} alignItems="center" paddingLeft={15}  >
       <Fab color="error" aria-label="add" height="70"
           width="70" >
@@ -27,7 +27,7 @@ const HijoMascota= () => {
       <Stack
         justifyContent="center"
         alignItems="center"
-        marginTop
+        marginTop={8}
       >
 
         <img

@@ -1,10 +1,18 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import {conseguirHijo} from '../../../servicios/HijoServicio';
 
+export const MascotaNivel = ({usuario}) =>{
+return(
+<Box>
+  <LinearWithValueLabel usuario={usuario}/>
+</Box>
+  )
+}
 function LinearProgressWithLabel(props) {
   return (
     <Box >
@@ -35,21 +43,21 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function LinearWithValueLabel() {
-  const [progress, setProgress] = React.useState(10);
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
-    }, 800);
-    return () => {
-      clearInterval(timer);
-    };
+export default function LinearWithValueLabel({usuario}) {
+  const [puntos, ponerPuntos] = useState(0);
+  
+  useEffect(() => {
+    const conseguirPuntosHijo = async () => {
+      const hijo = await conseguirHijo(usuario.id);
+      ponerPuntos(hijo.puntos);
+    }
+    conseguirPuntosHijo();
   }, []);
 
   return (
     <Box sx={{ width: '100%' }}>
-      <LinearProgressWithLabel value={progress} />
+      <LinearProgressWithLabel value={puntos} />
     </Box>
   );
 }
+

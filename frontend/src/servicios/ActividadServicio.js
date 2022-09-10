@@ -1,15 +1,17 @@
+import {ponerFiltros} from './ServicioGeneral'
+
 const axios = require('axios');
 
 export async function conseguirTodasActividades(filtros = {}) {
     const response = await axios.get(
-        'http://127.0.0.1:8000/api/v1/actividad/', filtros
+        'http://127.0.0.1:8000/api/v1/actividad/', ponerFiltros(filtros)
     );
     return response.data;
 }
 
 export async function conseguirActividad(id) {
     const response = await axios.get(
-        `http://127.0.0.1:8000/api/v1/actividad/${id}`
+        `http://127.0.0.1:8000/api/v1/actividad/${id}/`
     );
     return response.data;
 }

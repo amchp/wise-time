@@ -1,12 +1,36 @@
 import React from 'react'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { borrarActividad } from '../../../servicios/ActividadServicio'
+import {actualizarHistoriaDeLaActividad, eliminarHistoriaDeLaActividad} from '../../../servicios/HistoriaDeActividadServicio'
 
-const TutorActividadTableRow = ({ el }) => {
+const TutorActividadTableRow = ({ el, historiaActividad }) => {
+  const noHecho = historiaActividad === undefined;
+  const completado = historiaActividad !== undefined && !historiaActividad.confirmado;
+  const confimardo = historiaActividad !== undefined && historiaActividad.confirmado;
+
+  const confimar = () => {
+    const confimarActividad = async() =>{
+      const data = {
+        'id': historiaActividad.id,
+        'completado': true,
+        'confirmado': true,
+      };
+      await actualizarHistoriaDeLaActividad(data);
+    }
+    confimarActividad();
+  }
+  const denegar = () => {
+    const denegarActividad = async() =>{
+      const data = {
+        "id": historiaActividad.id
+      };
+      await eliminarHistoriaDeLaActividad(data);
+    }
+    denegarActividad();
+  }
   const onDelete = () => {
     alert("Seguro que quieres borrar esta actividad?");
     borrarActividad(el);
@@ -19,9 +43,13 @@ const TutorActividadTableRow = ({ el }) => {
       <TableCell component="th" scope="row">{el.nombre}</TableCell>
       <TableCell align="right">{el.hora}</TableCell>
       <TableCell align="center"><Stack direction="row" spacing={1}>
-        <Button variant="outlined"  href={`${el.id}/`}>Informacion</Button>
-        <Button variant="outlined" href={`${el.id}/editar/`}>Editar</Button>
-        <Button variant="outlined" color="error" onClick={onDelete}>Eliminar</Button>
+      
+      { (completado) && <Button variant="contained" color="success" sx={{ backgroundColor: '#79C665' }} onClick={confimar}>Confirmar</Button>}
+      { (completado) && <Button variant="contained" color="error" sx={{ backgroundColor: '#ED6060' }}  onClick={denegar}>Denegar</Button>}
+      
+        <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} href={`${el.id}/`}>Informacion</Button>
+        <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} href={`${el.id}/editar/`}>Editar</Button>
+        <Button variant="contained" color="error" sx={{ backgroundColor: '#ED6060' }} onClick={onDelete}>Eliminar</Button>
       </Stack>
       </TableCell>
     </TableRow>

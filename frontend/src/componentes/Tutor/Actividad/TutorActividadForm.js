@@ -5,13 +5,14 @@ import Checkbox from '@mui/material/Checkbox';
 import { useParams, useNavigate } from 'react-router-dom';
 import { conseguirActividad, crearActividad, actualizarActividad } from '../../../servicios/ActividadServicio';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
-import { conseguirHijosPorActividad } from '../../../servicios/HijoServicio';
+import { conseguirHijosActividad } from '../../../servicios/HistoriaDeActividadServicio';
 import { InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography } from '@mui/material/';
 const initialForm = {
   "nombre": "",
   "descripcion": "",
   "dias": ["Lunes", "Martes"],
   "hora": "",
+  "hijos": []
 };
 
 const TutorActividadForm = ({ usuario }) => {
@@ -31,21 +32,19 @@ const TutorActividadForm = ({ usuario }) => {
 
   let [hijos, setHijos] = useState([]);
   const [hijosSeleccionados, setHijosSeleccionados] = useState([]);
-
-  //
+  const [mapaIDNombre,setMapaIDNombre]= useState({});
   useEffect(() => {
     const conseguirHijos = async () => {
       const filtros = { 'tutor': usuario.id.toString() };
       const consulta = await conseguirTodosLosHijos(filtros);
+      let listaHijos=[];
+
       setHijos(consulta);
     }
     conseguirHijos(); //Consigue TODOS los hijos
     if (id) {
       const conseguirDatos = async () => {
         const data = await conseguirActividad(id);
-        const consultaHA = await conseguirHijosPorActividad({ "actividad": id });
-        console.log(consultaHA)
-        console.log(id);
         const temp = {
           "Lunes": false,
           "Martes": false,
@@ -54,12 +53,25 @@ const TutorActividadForm = ({ usuario }) => {
           "Viernes": false,
           "Sabado": false,
           "Domingo": false
-        }
+        };
+        const filtroDeHijoActvidad = {'hijo__tutor': usuario.id, 'activdad': id};
+        //
         data.dias.forEach((day) => {
           temp[day] = true;
         });
         setDateMap(temp);
         setForm(data);
+        //mapa ID : Nombre
+        let mapaNombresID={};
+        hijos.forEach((hijo)=>{if (hijosmap[hijo.usuario]) {
+          mapaNombresID[hijo.usuario]=hijo.nombre;
+        }});
+        setMapaIDNombre(mapaNombresID);
+        //
+        let listaNombres=Object.values(mapaNombresID);
+        console.log(listaNombres);
+        setHijosSeleccionados(listaNombres);
+
 
 
       };
@@ -82,14 +94,11 @@ const TutorActividadForm = ({ usuario }) => {
     });
 
   }
+    
   const handleCheckMark = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setHijosSeleccionados(
-      typeof value === 'string' ? value.split(',') : value,
-    );
-    console.log(hijosSeleccionados)
+    const {checked,value,name} = e.target;
+    console.log(e.target);
+    setHijosSeleccionados(name);
   }
 
   const handleCheckBox = (e) => {
@@ -104,7 +113,10 @@ const TutorActividadForm = ({ usuario }) => {
 
   const handleSubmit = () => {
     const dias = Object.keys(dateMap).filter(key => dateMap[key]);
+    
+    console.log(dias);
     form.dias = dias;
+    form.hijos=hijos;
     if (creating) {
       create(form);
     } else {
@@ -129,23 +141,25 @@ const TutorActividadForm = ({ usuario }) => {
       <form onSubmit={handleSubmit}>
         <Grid container rowSpacing={2}>
           <Grid item xs={12}>
-            <InputLabel id="multiple-checkbox-hijos">Seleccione hijos !</InputLabel>
-            <Select
-              labelId="demo-multiple-checkbox-label"
+            <FormControl sx={{ m: 1 }}>
+              <InputLabel id="dropDown">Seleccione hijos</InputLabel>
+              <Select labelId="demo-multiple-checkbox-label" 
               id="demo-multiple-checkbox"
               multiple
               value={hijosSeleccionados}
-              onChange={handleCheckMark}
+              onChange={handleChange}
               input={<OutlinedInput label="Tag" />}
-              renderValue={(valor) => valor.join(', ')}
-            >
-              {hijos.map((hijo) => (
-                <MenuItem key={hijo.nombre} value={hijo.id}>
-                  <Checkbox checked={hijosSeleccionados.indexOf(hijo.id) > -1} name="{hijo.usuario}"/>
-                  <ListItemText primary={hijo} />
-                </MenuItem>
-              ))}
-            </Select>
+              renderValue={(selected) => selected.join(', ')}
+              
+        >
+          {hijos.map((name) => (
+            <MenuItem key={name} value={name}>
+              <Checkbox checked={hijosSeleccionados.indexOf(name) > -1} />
+              <ListItemText primary={name} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
           </Grid>
 
           <Grid item xs={12}>

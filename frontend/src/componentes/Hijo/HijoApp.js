@@ -8,8 +8,8 @@ const HijoApp =  ({usuario}) => {
         <div>
             <BrowserRouter>
                 <Routes>
-                    <Route path="actividades" element={<HijoActividadTable data={usuario}/>}/>
-                    <Route path="mascota" element={<HijoMascota/>}/>
+                    <Route path="actividades" element={<HijoActividadTable usuario={usuario}/>}/>
+                    <Route path="mascota" element={<HijoMascota usuario={usuario}/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

@@ -42,6 +42,8 @@ class HistoriaDeLaActividadView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return HistoriaDeLaActividad.objects.all()
+
+
 class HijoActividadView(viewsets.ModelViewSet):
 
     serializer_class = HijoActividadSerializer
@@ -49,6 +51,7 @@ class HijoActividadView(viewsets.ModelViewSet):
     filterset_fields = [
         'actividad',
         'hijo',
+        'hijo__tutor'
     ]
 
     def get_queryset(self):
