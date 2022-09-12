@@ -7,25 +7,46 @@ import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography} from '@mui/material/';
+import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography,FormControl,InputLabel,Select,MenuItem} from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
 import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
 import { Link } from "react-router-dom";
+import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 
 const TutorActividadTable = ({usuario}) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar,ponerActividadesPorConfimar] = useState({});
+  const [hijos,setHijos]=useState([]);
+  const [hijoSelecionado, setHijoSeleccionado] = useState(0);
+  const [nombreHijo,setNombreHijo]=useState('');
+  const [reload, setReload]= useState(false);
+
+  const conseguirInformacionDeLosHijos = async () =>{
+    const filtros = { 'tutor': usuario.id.toString() };
+    return await conseguirTodosLosHijos(filtros);
+  }
 
   useEffect(() => {
     const conseguirDatosTabla = async () => {
-      const actividades = await conseguirActividadesParaTabla(3);
-      ponerTablaDeActividades(actividades);
-      const confimarActividad = await conseguirHistoriasDeActividadesParaLosEstados(3);
-      ponerActividadesPorConfimar(confimarActividad);
+      if(hijoSelecionado !== 0){
+        const actividades = await conseguirActividadesParaTabla(hijoSelecionado);
+        ponerTablaDeActividades(actividades);
+        const confimarActividad = await conseguirHistoriasDeActividadesParaLosEstados(hijoSelecionado);
+        ponerActividadesPorConfimar(confimarActividad);
+      }
+      const informacionDeHijos = await conseguirInformacionDeLosHijos();
+      setHijos(informacionDeHijos);
     }
     conseguirDatosTabla();
-  }, []);
+  }, [hijoSelecionado, reload]);
+  const manejarDropDown = (event) => {
+    const id = event.explicitOriginalTarget.id;
+    const value=event.target.value;
+    
+    setNombreHijo(value);
+    setHijoSeleccionado(id);
+  };
   return (
     <Box>
       <AppBar position="static"  style={{
@@ -58,7 +79,20 @@ const TutorActividadTable = ({usuario}) => {
       <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
       </Link>
       </Stack>
-
+      <Stack>
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
+        <Select
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          value={nombreHijo}
+          label="Hijo"
+          onChange={manejarDropDown}
+        >
+          {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
+        </Select>
+      </FormControl>
+      </Stack>
       <Grid container direction="column"  alignItems="center">
       <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: 'White', maxHeight: '60px'}}> 
       <Typography  variant="h4" color="#B4B1B1" margin={1}>Actividades Semanales</Typography>
@@ -85,7 +119,7 @@ const TutorActividadTable = ({usuario}) => {
                   </TableCell>
                   <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
                 </TableRow >
-              ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} />)
+              ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={setReload} />)
               )}
             </TableBody>
 

@@ -7,10 +7,9 @@ import { Link } from "react-router-dom";
 import { borrarActividad } from '../../../servicios/ActividadServicio'
 import {actualizarHistoriaDeLaActividad, eliminarHistoriaDeLaActividad} from '../../../servicios/HistoriaDeActividadServicio'
 
-const TutorActividadTableRow = ({ el, historiaActividad }) => {
-  const noHecho = historiaActividad === undefined;
+const TutorActividadTableRow = ({ el, historiaActividad, setReload }) => {
   const completado = historiaActividad !== undefined && !historiaActividad.confirmado;
-  const confimardo = historiaActividad !== undefined && historiaActividad.confirmado;
+  const confirmado = historiaActividad !== undefined && historiaActividad.confirmado;
 
   const confimar = () => {
     const confimarActividad = async() =>{
@@ -22,6 +21,7 @@ const TutorActividadTableRow = ({ el, historiaActividad }) => {
       await actualizarHistoriaDeLaActividad(data);
     }
     confimarActividad();
+    setReload(true);
   }
   const denegar = () => {
     const denegarActividad = async() =>{
@@ -31,13 +31,27 @@ const TutorActividadTableRow = ({ el, historiaActividad }) => {
       await eliminarHistoriaDeLaActividad(data);
     }
     denegarActividad();
+    setReload(true);
   }
   const onDelete = () => {
     alert("Seguro que quieres borrar esta actividad?");
     borrarActividad(el);
+    setReload(true);
   }
+  const changeColor=()=>{
+    if(confirmado){
+      return '#B2FF8E'
+    }
+    else if(completado){
+      return '#C0A8FF'
+    }
+    else{
+      return 'white'
+    }
+  }
+  console.log(changeColor());
   return (
-    <TableRow
+    <TableRow style={{backgroundColor: changeColor()}}
 
       sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
     >

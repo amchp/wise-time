@@ -17,7 +17,6 @@ class ActividadView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Actividad.objects.all()
 
-
 class HijoView(viewsets.ModelViewSet):
 
     serializer_class = HijoSerializer

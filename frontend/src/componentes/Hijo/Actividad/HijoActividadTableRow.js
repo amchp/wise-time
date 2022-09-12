@@ -10,7 +10,6 @@ import {conseguirHijosActividad, crearHistoriaDeLaActividad} from '../../../serv
 
 const HijoActividadTableRow = ({ usuario, el, historiaActividad }) => {
   const noHecho = historiaActividad === undefined;
-  console.log(historiaActividad);
   const completado = historiaActividad !== undefined && !historiaActividad.confirmado;
   const confimardo = historiaActividad !== undefined && historiaActividad.confirmado;
   

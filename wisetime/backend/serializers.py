@@ -16,12 +16,28 @@ class ActividadSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         actividad = super().create(validated_data)
-        # ...
+        hijos = self.context['request'].data.pop('hijos', [])
+        for hijo_id in hijos:
+            hijo = Hijo.objects.get(pk=hijo_id)
+            hijoActivdad = HijoActividad(actividad=actividad, hijo=hijo)
+            hijoActivdad.save()
         return actividad
 
     def update(self, instance, validated_data):
-        super().update(instance, validated_data)
-        # ...
+        actividad = super().update(instance,validated_data)
+        hijos = self.context['request'].data.pop('hijos', [])
+        visto = set()
+        hijos_actividad_actuales = HijoActividad.objects.filter(actividad=actividad)
+        for hijo_id in hijos:
+            hijo = Hijo.objects.get(pk=hijo_id)
+            hijoActivdad = HijoActividad(actividad=actividad, hijo=hijo)
+            visto.add(hijo_id)
+            hijoActivdad.save()
+        for hijo_actividad in hijos_actividad_actuales:
+            if hijo_actividad.hijo.pk not in visto:
+                hijo_actividad.delete()
+        return actividad
+
 
 
 class HijoSerializer(serializers.ModelSerializer):
