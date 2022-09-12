@@ -16,6 +16,7 @@ import fondoActividadHijo1 from '../../../imagenes/fondoActividadHijo1.svg';
 const HijoActividadTable = ({ usuario }) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar, ponerActividadesPorConfimar] = useState({});
+  const [reload, setReload]= useState(false);
   useEffect(() => {
     const conseguirDatosTabla = async () => {
       const actividades = await conseguirActividadesParaTabla(usuario.id);
@@ -26,7 +27,7 @@ const HijoActividadTable = ({ usuario }) => {
       ponerActividadesPorConfimar(confimarActividad);
     }
     conseguirDatosTabla();
-  }, []);
+  }, [reload]);
   return (
     <Box>
       <AppBar position="static"  style={{
@@ -77,7 +78,7 @@ const HijoActividadTable = ({ usuario }) => {
                     </TableCell>
                     <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
                   </TableRow >
-                ) : (tablaDeActividades.map((el) => <HijoActividadTableRow usuario={usuario} key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} />)
+                ) : (tablaDeActividades.map((el) => <HijoActividadTableRow usuario={usuario} key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={reload} setReload={setReload} />)
                 )}
               </TableBody>
             </Table>

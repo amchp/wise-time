@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { borrarActividad } from '../../../servicios/ActividadServicio'
 import {actualizarHistoriaDeLaActividad, eliminarHistoriaDeLaActividad} from '../../../servicios/HistoriaDeActividadServicio'
 
-const TutorActividadTableRow = ({ el, historiaActividad, setReload }) => {
+const TutorActividadTableRow = ({ el, historiaActividad, reload, setReload }) => {
   const completado = historiaActividad !== undefined && !historiaActividad.confirmado;
   const confirmado = historiaActividad !== undefined && historiaActividad.confirmado;
 
@@ -21,7 +21,7 @@ const TutorActividadTableRow = ({ el, historiaActividad, setReload }) => {
       await actualizarHistoriaDeLaActividad(data);
     }
     confimarActividad();
-    setReload(true);
+    setReload(!reload);
   }
   const denegar = () => {
     const denegarActividad = async() =>{
@@ -31,12 +31,12 @@ const TutorActividadTableRow = ({ el, historiaActividad, setReload }) => {
       await eliminarHistoriaDeLaActividad(data);
     }
     denegarActividad();
-    setReload(true);
+    setReload(!reload);
   }
   const onDelete = () => {
     alert("Seguro que quieres borrar esta actividad?");
     borrarActividad(el);
-    setReload(true);
+    setReload(!reload);
   }
   const changeColor=()=>{
     if(confirmado){
@@ -49,7 +49,6 @@ const TutorActividadTableRow = ({ el, historiaActividad, setReload }) => {
       return 'white'
     }
   }
-  console.log(changeColor());
   return (
     <TableRow style={{backgroundColor: changeColor()}}
 

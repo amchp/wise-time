@@ -8,7 +8,7 @@ import {conseguirHijosActividad, crearHistoriaDeLaActividad} from '../../../serv
 
 
 
-const HijoActividadTableRow = ({ usuario, el, historiaActividad }) => {
+const HijoActividadTableRow = ({ usuario, el, historiaActividad, reload, setReload }) => {
   const noHecho = historiaActividad === undefined;
   const completado = historiaActividad !== undefined && !historiaActividad.confirmado;
   const confimardo = historiaActividad !== undefined && historiaActividad.confirmado;
@@ -29,6 +29,7 @@ const HijoActividadTableRow = ({ usuario, el, historiaActividad }) => {
       await crearHistoriaDeLaActividad(data);
     }
     conseguirHijoActividadYCrearHistoriaDeActividad();
+    setReload(!reload);
   }
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

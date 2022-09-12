@@ -29,6 +29,7 @@ const TutorActividadTable = ({usuario}) => {
 
   useEffect(() => {
     const conseguirDatosTabla = async () => {
+      console.log("HI");
       if(hijoSelecionado !== 0){
         const actividades = await conseguirActividadesParaTabla(hijoSelecionado);
         ponerTablaDeActividades(actividades);
@@ -119,7 +120,7 @@ const TutorActividadTable = ({usuario}) => {
                   </TableCell>
                   <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
                 </TableRow >
-              ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={setReload} />)
+              ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={reload} setReload={setReload} />)
               )}
             </TableBody>
 
