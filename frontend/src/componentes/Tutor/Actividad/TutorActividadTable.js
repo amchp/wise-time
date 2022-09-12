@@ -7,13 +7,13 @@ import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Grid, Paper, Box } from '@mui/material/';
+import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography} from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
 import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
+import { Link } from "react-router-dom";
 
-
-const TutorActividadTable = () => {
+const TutorActividadTable = ({usuario}) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar,ponerActividadesPorConfimar] = useState({});
 
@@ -28,16 +28,19 @@ const TutorActividadTable = () => {
   }, []);
   return (
     <Box>
-      <nav>
-      <div>
-      <img
-          
-          src={require('../../../imagenes/logoWiseTime.svg')}
-          alt='logo'
-
-        />         
-      </div>
-      </nav>
+      <AppBar position="static"  style={{
+                backgroundColor: "White"
+            }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters  >
+                        <img
+                            
+                            src={require('../../../imagenes/logoWiseTime2.png')}
+                            width="130" height="35"
+                            alt='Logo' />
+                    </Toolbar>
+                </Container>
+            </AppBar>
     <Box
       class="fondoActividadTutor"
       style={{
@@ -47,16 +50,24 @@ const TutorActividadTable = () => {
       }}>
 
       
-      <Stack marginLeft={8} sx={{ width: '150px',}}>
-      <h3>Actividades Semanales</h3>
-      <br/>
-      <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} href="crear/">Agregar</Button>
-      <br/>
+      
+      <Grid container direction="column">
+
+      <Stack marginLeft={10}  marginTop={8} sx={{ width: '150px'}}>
+      <Link to='crear/'>
+      <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
+      </Link>
       </Stack>
-      <Grid container direction="column"  alignItems="center" paddingTop={3}>
-      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "3px solid #6DCBC4" }}  flex={1}>
+
+      <Grid container direction="column"  alignItems="center">
+      <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: 'White', maxHeight: '60px'}}> 
+      <Typography  variant="h4" color="#B4B1B1" margin={1}>Actividades Semanales</Typography>
+      </Box> 
+
+      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4",borderRadius:2 }} marginTop={4} flex={1}>
         <TableContainer component={Paper} >
           <Table aria-label="simple table" >
+
             <TableHead>
               <TableRow>
                 <TableCell align="center"><b>Nombre</b></TableCell>
@@ -64,6 +75,7 @@ const TutorActividadTable = () => {
                 <TableCell align="center"><b>Acciones</b></TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {tablaDeActividades.length === 0 ? (
                 <TableRow
@@ -76,12 +88,15 @@ const TutorActividadTable = () => {
               ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} />)
               )}
             </TableBody>
+
           </Table>
         </TableContainer>
       </Stack>
       </Grid>
+      </Grid>
     </Box>
     </Box>
+    
   )
 }
 export default TutorActividadTable

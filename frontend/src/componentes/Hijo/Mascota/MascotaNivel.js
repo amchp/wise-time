@@ -18,8 +18,8 @@ function LinearProgressWithLabel(props) {
     <Box >
       <Stack direction="row" justifyContent={"flex-end"} alignItems="center" spacing={3} paddingRight={8} paddingTop={7}  >
         
-        <Box sx={{ width: '400px',}} border={2} borderRadius={50} >
-          <LinearProgress variant="determinate"  {...props} color="error"  />
+        <Box sx={{ width: '400px',height:'9px'}} border={4} borderRadius={20} >
+          <LinearProgress variant="determinate" sx={{ height:'9px'}}  {...props} color="error"  />
         </Box>
         <Box sx={{ minWidth: 35  }}>
           <Typography variant="h6" color="Black">{`${Math.round(
@@ -60,4 +60,3 @@ export default function LinearWithValueLabel({usuario}) {
     </Box>
   );
 }
-

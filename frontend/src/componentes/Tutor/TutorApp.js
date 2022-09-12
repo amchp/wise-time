@@ -11,7 +11,7 @@ const TutorApp =  ({data}) => {
         <div>
             <BrowserRouter>
                 <Routes>
-                    <Route path="actividades" element={<TutorActividadTable/>}/>
+                    <Route path="actividades" element={<TutorActividadTable usuario={data}/>}/>
                     <Route path="actividades/crear" element={<TutorActividadForm usuario={data} />}/>
                     <Route path="actividades/:id/editar" element={<TutorActividadForm usuario={data}/>}/>
                     <Route path="actividades/:id" element={<TutorActivityInfo usuario={data}/>}/>

@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+import { Link } from "react-router-dom";
 import { borrarActividad } from '../../../servicios/ActividadServicio'
 import {actualizarHistoriaDeLaActividad, eliminarHistoriaDeLaActividad} from '../../../servicios/HistoriaDeActividadServicio'
 
@@ -46,9 +47,12 @@ const TutorActividadTableRow = ({ el, historiaActividad }) => {
       
       { (completado) && <Button variant="contained" color="success" sx={{ backgroundColor: '#79C665' }} onClick={confimar}>Confirmar</Button>}
       { (completado) && <Button variant="contained" color="error" sx={{ backgroundColor: '#ED6060' }}  onClick={denegar}>Denegar</Button>}
-      
-        <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} href={`${el.id}/`}>Informacion</Button>
-        <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} href={`${el.id}/editar/`}>Editar</Button>
+        <Link to={`${el.id}`}>
+        <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} >Información</Button>
+        </Link>
+        <Link to={`${el.id}/editar`}>
+          <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }}>Editar</Button>
+        </Link>
         <Button variant="contained" color="error" sx={{ backgroundColor: '#ED6060' }} onClick={onDelete}>Eliminar</Button>
       </Stack>
       </TableCell>

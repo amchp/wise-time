@@ -54,17 +54,9 @@ const TutorActivityInfo = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography variant="h6" gutterBottom>
-                            Dias
-                        </Typography>
-                        <TextField
-                            fullWidth
-                            id="description"
-                            value={actividad.dias ? actividad.dias.toString() : " "}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
+                    <Grid container direction="row" spacing={2}>
+                    {}
+                    </Grid>
                     </Grid>
                 </Grid>
 

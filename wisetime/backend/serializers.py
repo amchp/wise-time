@@ -14,6 +14,15 @@ class ActividadSerializer(serializers.ModelSerializer):
             'hijos',
         ]
 
+    def create(self, validated_data):
+        actividad = super().create(validated_data)
+        # ...
+        return actividad
+
+    def update(self, instance, validated_data):
+        super().update(instance, validated_data)
+        # ...
+
 
 class HijoSerializer(serializers.ModelSerializer):
     nombre = serializers.StringRelatedField(source='usuario')

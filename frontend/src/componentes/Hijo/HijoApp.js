@@ -5,7 +5,7 @@ import HijoMascota from './Mascota/HijoMascota';
 
 const HijoApp =  ({usuario}) => {
     return(
-        <div>
+        <div> 
             <BrowserRouter>
                 <Routes>
                     <Route path="actividades" element={<HijoActividadTable usuario={usuario}/>}/>

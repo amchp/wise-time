@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import MascotaNivel from './MascotaNivel';
 import fondoMascota from '../../../imagenes/fondoMascota.png';
 import Fab from '@mui/material/Fab';
-
+import { Link } from "react-router-dom";
 
 const HijoMascota= ({usuario}) => {
   return (
@@ -18,11 +18,13 @@ const HijoMascota= ({usuario}) => {
       }}>
 
       <MascotaNivel  usuario={usuario}/>
-      <Stack direction="row" justifyContent={"flex_start"} alignItems="center" paddingLeft={15}  >
-      <Fab color="error" aria-label="add" height="70"
-          width="70" >
-      <h1>A</h1>
+      <Stack direction="row" justifyContent={"flex_start"} alignItems="center" paddingLeft={20}  >
+      <Link to="/actividades">
+      <Fab color="error" aria-label="add" height="90"
+          width="90" >
+      <img width="50" height="50"src={require('../../../imagenes/volver.png')} alt="icono volver"/>
       </Fab>
+      </Link>
     </Stack>
       <Stack
         justifyContent="center"
