@@ -77,6 +77,11 @@ class HistoriaDeLaActividadSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
+class MonitoreoDeActividadSerializer(serializers.Serializer):
+    dia = serializers.DateField()
+    cuenta = serializers.IntegerField()
+
+
 class HijoActividadSerializer(serializers.ModelSerializer):
     class Meta:
         model = HijoActividad

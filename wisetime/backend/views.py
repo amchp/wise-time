@@ -1,7 +1,9 @@
 from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad
-from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer
+from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer
 from rest_framework import viewsets
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Count
 
 
 class ActividadView(viewsets.ModelViewSet):
@@ -16,6 +18,7 @@ class ActividadView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Actividad.objects.all()
+
 
 class HijoView(viewsets.ModelViewSet):
 
@@ -41,6 +44,32 @@ class HistoriaDeLaActividadView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return HistoriaDeLaActividad.objects.all()
+
+
+class MonitoreoDeActividadView(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = MonitoreoDeActividadSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'hijo_actividad__hijo',
+        'dia',
+        'confirmado'
+    ]
+
+    def list(self, request):
+        query_set_filtrado = self.filter_queryset(self.get_queryset())
+
+        query_set_resumido = query_set_filtrado.values(
+            'dia'
+        ).annotate(
+            cuenta=Count('dia')
+        )
+
+        serializer = self.get_serializer(query_set_resumido, many=True)
+        return Response(serializer.data)
+
+    def get_queryset(self):
+        return HistoriaDeLaActividad.objects
 
 
 class HijoActividadView(viewsets.ModelViewSet):

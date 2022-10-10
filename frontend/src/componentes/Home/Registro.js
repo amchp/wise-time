@@ -12,20 +12,14 @@ import fondoHomo from '../../imagenes/fondoHomo.svg';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-const theme = createTheme();
-export default function Formulario() {
+
+export default function Registro() {
+  const theme = createTheme({
+    typography: {
+    fontFamily: ["Nunito", "sans-serif"].join(","),
+    },
+});
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -35,6 +29,8 @@ export default function Formulario() {
           password: data.get('password'),
           nombreHijo: data.get('nombreHijo'),
           edadHijo: data.get('edadHijo'),
+          nombreUsuarioHijo: data.get('nombreUsuarioHijo'),
+          passwordHijo: data.get('passwordHijo'),
         });
       };
     return (
@@ -72,12 +68,15 @@ export default function Formulario() {
              Registro
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Typography component="h5" variant="subtitle1" color="secondary">
+             Datos Personales*
+            </Typography>
             <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="nombreTutor"
-                label="Nombre"
+                label="Nombre y Apellido"
                 name="nombreTutor"
                 autoComplete="nombreTutor"
                 autoFocus
@@ -105,12 +104,15 @@ export default function Formulario() {
                 autoComplete="current-password"
                 color="secondary"
               />
-              <TextField
+              <Typography component="h5" variant="subtitle1" color="secondary">
+             Datos Niño*
+            </Typography>
+            <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="nombreHijo"
-                label="Nombre Niño"
+                label="Nombre y Apellido Niño"
                 name="nombreHijo"
                 autoComplete="nombreHijo"
                 autoFocus
@@ -125,6 +127,30 @@ export default function Formulario() {
                 name="edadHijo"
                 autoComplete="edadHijo"
                 autoFocus
+                color="secondary"
+                type="number"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="nombreUsuarioHijo"
+                label="Nombre de Usuario "
+                name="nombreUsuarioHijo"
+                autoComplete="nombreUsuarioHijo"
+                autoFocus
+                color="secondary"
+              />
+              
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="passwordHijo"
+                label="Contraseña"
+                type="password"
+                id="passwordHijo"
+                autoComplete="passwordHijo"
                 color="secondary"
               />
               <Button

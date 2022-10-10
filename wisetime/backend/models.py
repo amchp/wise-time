@@ -1,3 +1,4 @@
+from email.policy import default
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -10,6 +11,7 @@ class Usuario(AbstractUser):
     es_hijo = models.BooleanField(default=False)
     es_tutor = models.BooleanField(default=False)
     REQUIRED_FIELDS = ['nombre', 'apellido', 'es_hijo', 'es_tutor']
+
     class Meta:
         constraints = [
             models.CheckConstraint(
@@ -17,12 +19,14 @@ class Usuario(AbstractUser):
                 check=(
                     models.Q(es_hijo=True, es_tutor=False) |
                     models.Q(es_hijo=False, es_tutor=True)
-                    ),
+                ),
             ),
         ]
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido
+
+    # def _create_user():
 
 
 class Tutor(models.Model):
@@ -39,7 +43,8 @@ class HijoActividad(models.Model):
 class HistoriaDeLaActividad(models.Model):
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['hijo_actividad', 'dia'], name='name of constraint')
+            models.UniqueConstraint(
+                fields=['hijo_actividad', 'dia'], name='name of constraint')
         ]
     hijo_actividad = models.ForeignKey(HijoActividad, on_delete=models.CASCADE)
     completado = models.BooleanField(default=False)
@@ -70,3 +75,4 @@ class Hijo(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     puntos = models.IntegerField(default=0)
     actividades = models.ManyToManyField(Actividad, through=HijoActividad)
+    # edad = models.IntegerField(default=0)

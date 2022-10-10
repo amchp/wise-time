@@ -29,7 +29,6 @@ const TutorActividadTable = ({usuario}) => {
 
   useEffect(() => {
     const conseguirDatosTabla = async () => {
-      console.log("HI");
       if(hijoSelecionado !== 0){
         const actividades = await conseguirActividadesParaTabla(hijoSelecionado);
         ponerTablaDeActividades(actividades);
