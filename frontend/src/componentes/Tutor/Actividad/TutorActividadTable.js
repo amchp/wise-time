@@ -79,8 +79,7 @@ const TutorActividadTable = ({usuario}) => {
       <Link to='crear/'>
       <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
       </Link>
-      </Stack>
-      <Stack>
+
       <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
         <Select

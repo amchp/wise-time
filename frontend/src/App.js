@@ -3,10 +3,11 @@ import { conseguirUsurioLogeado } from './servicios/AuthenticacionServicio';
 import CircularProgress from '@mui/material/CircularProgress';
 import TutorApp from './componentes/Tutor/TutorApp'; 
 import HijoApp from './componentes/Hijo/HijoApp';
-
+import HomePage from './componentes/Home/HomePage';
 
 function App() {
   const [usuario, setUsuario] = useState({es_hijo: false, es_tutor: false});
+
   useEffect(()=> {
     const conseguirUsuario = async () => {
       const data = await conseguirUsurioLogeado();
@@ -14,6 +15,7 @@ function App() {
     };
     conseguirUsuario();
   }, []);
+  console.log(usuario);
   if(usuario.es_hijo){
     return (<HijoApp usuario={usuario}/>)
   }else if(usuario.es_tutor){
@@ -22,7 +24,7 @@ function App() {
     if(localStorage.getItem('tokenKey')){
       <CircularProgress />
     }else{
-      return (<h1>No tiene usuario</h1>);
+      return (<HomePage/>);
     }
   }
 }
