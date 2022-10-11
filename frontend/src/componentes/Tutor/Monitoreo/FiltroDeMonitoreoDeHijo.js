@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FormControl,InputLabel,Select,MenuItem, Typography, DateRangePicker, TextField, Box} from '@mui/material/';
+import { FormControl,InputLabel,Select,MenuItem, Typography, TextField, Box} from '@mui/material/';
+// import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 
 const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
@@ -36,10 +37,11 @@ const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
             {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
             </Select>
             <Typography sx={{ mt: 2, mb: 1 }}>Dias</Typography>
-            <DateRangePicker
+            {/* <DateRangePicker
             calendars={1}
             value={value}
             onChange={(newValue) => {
+                console.log(value);
                 setValue(newValue);
             }}
             renderInput={(startProps, endProps) => (
@@ -49,7 +51,7 @@ const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
                 <TextField {...endProps} />
                 </React.Fragment>
             )}
-            />
+            /> */}
             </FormControl>
         </div>
     )

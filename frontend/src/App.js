@@ -15,7 +15,7 @@ function App() {
     };
     conseguirUsuario();
   }, []);
-  console.log(usuario);
+  
   if(usuario.es_hijo){
     return (<HijoApp usuario={usuario}/>)
   }else if(usuario.es_tutor){
@@ -24,7 +24,6 @@ function App() {
     if(localStorage.getItem('tokenKey')){
       <CircularProgress />
     }else{
-      console.log("???????")
       return (<HomePage/>);
     }
   }

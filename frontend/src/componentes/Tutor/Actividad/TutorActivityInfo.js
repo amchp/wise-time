@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography, TextField, Button, Container } from '@mui/material';
 import { conseguirActividad } from '../../../servicios/ActividadServicio';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const TutorActivityInfo = () => {
     const [actividad, setActividad] = useState([]);
@@ -13,8 +14,14 @@ const TutorActivityInfo = () => {
         };
         conseguirDatos();
     }, [])
+    const theme = createTheme({
+        typography: {
+            fontFamily: ["Nunito", "sans-serif"].join(","),
+        },
+    });
     return (
         <Box >
+        <ThemeProvider theme={theme}>
             <Container fixed sx={{ borderRadius: '5%', border: '1px dashed blue', p: 10 }}>
                 <Grid container direction="column" alignItems="center">
                     <Grid item xs={6}>
@@ -84,8 +91,9 @@ const TutorActivityInfo = () => {
 
 
             </Container>
-
+            </ThemeProvider>
         </Box >
+        
     )
 }
 export default TutorActivityInfo;

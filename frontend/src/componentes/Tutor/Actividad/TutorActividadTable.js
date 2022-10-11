@@ -74,12 +74,12 @@ const TutorActividadTable = ({usuario}) => {
       
       <Grid container direction="column">
 
-      <Stack marginLeft={10}  marginTop={8} sx={{ width: '150px'}}>
+      <Stack marginLeft={10}  marginTop={4} sx={{ width: '150px'}}>
       <Link to='crear/'>
       <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
       </Link>
 
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ m: 1, width: 300 ,backgroundColor: 'White'}}>
         <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
         <Select
           labelId="demo-multiple-name-label"
@@ -97,7 +97,7 @@ const TutorActividadTable = ({usuario}) => {
       <Typography  variant="h4" color="#B4B1B1" margin={1}>Actividades Semanales</Typography>
       </Box> 
 
-      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4",borderRadius:2 }} marginTop={4} flex={1}>
+      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4",borderRadius:2 }} marginTop={3} flex={1}>
         <TableContainer component={Paper} >
           <Table aria-label="simple table" >
 

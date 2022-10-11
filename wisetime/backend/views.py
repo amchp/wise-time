@@ -1,17 +1,11 @@
 from urllib import response
-from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Usuario, Tutor
-from .serializers import UsuarioSerializer, ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, TutorSerializer
+from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Tutor
+from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, TutorSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
-from djoser.views import UserViewSet
-class customUserView(UserViewSet):
-    def crearTipo(self,request):
-        serializador_usuario=UsuarioSerializer(Usuario,many=True)
-        print (request.data)
-        print(serializador_usuario)
-        return()
+
 
 
 class ActividadView(viewsets.ModelViewSet):
@@ -58,11 +52,11 @@ class MonitoreoDeActividadView(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = MonitoreoDeActividadSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = [
-        'hijo_actividad__hijo',
-        'dia',
-        'confirmado'
-    ]
+    filterset_fields = {
+        'hijo_actividad__hijo' : ['exact'],
+        'dia': ['gte', 'lte', 'exact'],
+        'confirmado': ['exact']
+    }
 
     def list(self, request):
         query_set_filtrado = self.filter_queryset(self.get_queryset())

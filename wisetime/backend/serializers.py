@@ -1,14 +1,8 @@
 from pyexpat import model
 from rest_framework import serializers
-from .models import (Actividad, Hijo, HijoActividad, HistoriaDeLaActividad,Usuario,Tutor)
+from .models import (Actividad, Hijo, HijoActividad, HistoriaDeLaActividad,Tutor)
 
 
-class UsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Usuario
-        fields= ('id','nombre','apellido','es_hijo','es_tutor','password')
-    
-        
 class ActividadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actividad
@@ -60,7 +54,6 @@ class HijoSerializer(serializers.ModelSerializer):
         ]
 
 
-
 class HistoriaDeLaActividadSerializer(serializers.ModelSerializer):
     actividad = serializers.SerializerMethodField('conseguir_actividad')
 
@@ -83,11 +76,6 @@ class HistoriaDeLaActividadSerializer(serializers.ModelSerializer):
             instance.hijo_actividad.hijo.puntos += 5
             instance.hijo_actividad.hijo.save()
         return super().update(instance, validated_data)
-
-
-class MonitoreoDeActividadSerializer(serializers.Serializer):
-    dia = serializers.DateField()
-    cuenta = serializers.IntegerField()
 
 
 class HijoActividadSerializer(serializers.ModelSerializer):

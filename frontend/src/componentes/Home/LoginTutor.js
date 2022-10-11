@@ -1,13 +1,14 @@
 import React from 'react';
 import { Grid, Box, Container, Typography, Button, Stack, AppBar, Toolbar, TextField, FormControl, FormHelperText } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import fondoLoginTutor from '../../imagenes/fondoLoginTutor.png';
-
+import {crearToken} from '../../servicios/AuthenticacionServicio';
 const LoginTutor = () => {
+    const navigate = useNavigate();
     const theme = createTheme({
         typography: {
             fontFamily: ["Nunito", "sans-serif"].join(","),
@@ -20,6 +21,9 @@ const LoginTutor = () => {
     const {register,handleSubmit,reset,formState: { errors },} = useForm({resolver: yupResolver(userSchema),});
     const formHandleSubmit = (data) => {
         console.log(data);
+        crearToken(data.email,data.password);
+        navigate("/actividades");
+        
     };
     return (
         <Box>

@@ -4,7 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { conseguirActividad, crearActividad, actualizarActividad } from '../../../servicios/ActividadServicio';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 import { conseguirHijosActividad } from '../../../servicios/HistoriaDeActividadServicio';
-import { FormControl,InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography } from '@mui/material/';
+import { FormControl,InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography,Stack } from '@mui/material/';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 const initialForm = {
   "nombre": "",
   "descripcion": "",
@@ -41,11 +42,13 @@ const TutorActividadForm = ({ usuario }) => {
     let listaHijos=[];
     const dicionarioDeIdAHijo={};
     const dicionarioDeHijoAId={};
+    console.log(informacionDeHijos);
     informacionDeHijos.forEach((hijo)=>{
       dicionarioDeIdAHijo[hijo.usuario]=hijo.nombre;
       dicionarioDeHijoAId[hijo.nombre]=hijo.usuario;
       listaHijos.push(hijo.nombre);
     });
+    console.log(listaHijos);
     return {listaHijos, dicionarioDeIdAHijo , dicionarioDeHijoAId}
   }
   
@@ -138,9 +141,15 @@ const TutorActividadForm = ({ usuario }) => {
     navigate('/actividades/')
   };
 
-
+  const theme = createTheme({
+    typography: {
+        fontFamily: ["Nunito", "sans-serif"].join(","),
+    },
+});
 
   return (
+    <ThemeProvider theme={theme}>
+    <Stack marginTop={5}>
     <Container fixed sx={{ p: 2, border: '1px dashed grey' }}>
       <Grid container direction="column" alignItems="center">
         <Grid item xs={6}>
@@ -246,6 +255,8 @@ const TutorActividadForm = ({ usuario }) => {
 
 
     </Container>
+    </Stack>
+    </ThemeProvider>
 
   )
 

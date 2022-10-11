@@ -1,11 +1,33 @@
-import React, { useEffect, useState } from 'react'
+// import React, {useState, useEffect} from 'react';
+// import Paper from '@mui/material/Paper';
+// import {
+//   Chart,
+//   BarSeries,
+//   Title,
+//   ArgumentAxis,
+//   ValueAxis,
+// } from '@devexpress/dx-react-chart-material-ui';
+// import { Animation } from '@devexpress/dx-react-chart';
 
-const GraficaDeMonitoreoDeHijo =  ({usuario}) => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+// const GraficaDeMonitoreoDeHijo =  ({usuario, inforamacionDeGrafica}) => {
 
-export default GraficaDeMonitoreoDeHijo
+//     return (
+//         <Paper>
+//           <Chart
+//             data={inforamacionDeGrafica}
+//           >
+//             <ArgumentAxis/>
+//             <ValueAxis/>
+  
+//             <BarSeries
+//               valueField="population"
+//               argumentField="year"
+//             />
+//             <Title text="World population" />
+//             <Animation />
+//           </Chart>
+//         </Paper>
+//       );
+// }
+
+// export default GraficaDeMonitoreoDeHijo

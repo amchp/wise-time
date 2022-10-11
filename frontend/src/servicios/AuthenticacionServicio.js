@@ -15,8 +15,9 @@ export async function crearToken(user,password){
     await axios.post(
         'http://127.0.0.1:8000/auth/token/login',datos
     ).then(response=>{
-        console.log("Token Creado",response.data);
-        localStorage.setItem('tokenKey',response.data)
+        console.log("Token Creado",response.data.auth_token);
+        localStorage.setItem('tokenKey',response.data.auth_token)
+        
     });
     
 

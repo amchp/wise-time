@@ -36,3 +36,10 @@ export async function eliminarHistoriaDeLaActividad(data){
         data
     );
 }
+
+export async function conseguirMonitoreoDeHijo(filtros){
+    const response = await axios.get(
+        'http://127.0.0.1:8000/api/v1/monitoreo_de_actividad/', ponerFiltros(filtros)
+    );
+    return response.data;
+}

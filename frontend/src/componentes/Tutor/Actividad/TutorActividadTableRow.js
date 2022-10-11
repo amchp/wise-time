@@ -4,10 +4,16 @@ import Stack from '@mui/material/Stack';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { Link } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { borrarActividad } from '../../../servicios/ActividadServicio'
 import {actualizarHistoriaDeLaActividad, eliminarHistoriaDeLaActividad} from '../../../servicios/HistoriaDeActividadServicio'
 
 const TutorActividadTableRow = ({ el, historiaActividad, reload, setReload }) => {
+  const theme = createTheme({
+    typography: {
+        fontFamily: ["Nunito", "sans-serif"].join(","),
+    },
+});
   const completado = historiaActividad !== undefined && !historiaActividad.confirmado;
   const confirmado = historiaActividad !== undefined && historiaActividad.confirmado;
 
@@ -50,6 +56,7 @@ const TutorActividadTableRow = ({ el, historiaActividad, reload, setReload }) =>
     }
   }
   return (
+    <ThemeProvider theme={theme}>
     <TableRow style={{backgroundColor: changeColor()}}
 
       sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
@@ -70,6 +77,7 @@ const TutorActividadTableRow = ({ el, historiaActividad, reload, setReload }) =>
       </Stack>
       </TableCell>
     </TableRow>
+    </ThemeProvider>
   )
 }
 
