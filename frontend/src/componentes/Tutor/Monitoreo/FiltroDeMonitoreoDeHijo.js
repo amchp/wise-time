@@ -3,6 +3,7 @@ import { FormControl,InputLabel,Select,MenuItem, Typography, DateRangePicker, Te
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 
 const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
+    const [value, setValue] = useState("");
     const [hijos, setHijos] = useState([]);
     
     const [nombreHijo,setNombreHijo]=useState('');
@@ -34,7 +35,7 @@ const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
             >
             {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
             </Select>
-            <Typography sx={{ mt: 2, mb: 1 }}>1 calendar </Typography>
+            <Typography sx={{ mt: 2, mb: 1 }}>Dias</Typography>
             <DateRangePicker
             calendars={1}
             value={value}

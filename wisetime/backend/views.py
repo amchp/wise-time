@@ -1,9 +1,17 @@
-from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad
-from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer
+from urllib import response
+from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Usuario, Tutor
+from .serializers import UsuarioSerializer, ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, TutorSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
+from djoser.views import UserViewSet
+class customUserView(UserViewSet):
+    def crearTipo(self,request):
+        serializador_usuario=UsuarioSerializer(Usuario,many=True)
+        print (request.data)
+        print(serializador_usuario)
+        return()
 
 
 class ActividadView(viewsets.ModelViewSet):
@@ -16,7 +24,7 @@ class ActividadView(viewsets.ModelViewSet):
         'hijos',
     ]
 
-    def get_queryset(self):
+    def get_queryset(self,request):
         return Actividad.objects.all()
 
 
@@ -84,3 +92,14 @@ class HijoActividadView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return HijoActividad.objects.all()
+class TutorView(viewsets.ModelViewSet):
+
+    serializer_class = TutorSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'email','usuario'
+    ]
+
+    def get_queryset(self):
+        return Tutor.objects.all()
+

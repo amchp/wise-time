@@ -15,6 +15,7 @@ const TutorApp =  ({usuario}) => {
                     <Route path="actividades/crear" element={<TutorActividadForm usuario={usuario} />}/>
                     <Route path="actividades/:id/editar" element={<TutorActividadForm usuario={usuario}/>}/>
                     <Route path="actividades/:id" element={<TutorActivityInfo usuario={usuario}/>}/>
+                    
                 </Routes>
             </BrowserRouter>
         </div>

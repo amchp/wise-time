@@ -24,6 +24,7 @@ function App() {
     if(localStorage.getItem('tokenKey')){
       <CircularProgress />
     }else{
+      console.log("???????")
       return (<HomePage/>);
     }
   }

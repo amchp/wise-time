@@ -26,7 +26,7 @@ class Usuario(AbstractUser):
     def __str__(self):
         return self.nombre + ' ' + self.apellido
 
-    # def _create_user():
+    
 
 
 class Tutor(models.Model):
