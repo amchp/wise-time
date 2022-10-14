@@ -40,9 +40,11 @@ const TutorActividadTableRow = ({ el, historiaActividad, reload, setReload }) =>
     setReload(!reload);
   }
   const onDelete = () => {
-    alert("Seguro que quieres borrar esta actividad?");
+    if(window.confirm("Seguro que quieres borrar esta actividad?")){
+    
     borrarActividad(el);
     setReload(!reload);
+    }
   }
   const changeColor=()=>{
     if(confirmado){

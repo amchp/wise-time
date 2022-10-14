@@ -51,6 +51,7 @@ class HijoSerializer(serializers.ModelSerializer):
             'tutor',
             'nombre',
             'puntos',
+            'edad',
         ]
 
 
@@ -87,3 +88,6 @@ class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
         fields = ['usuario','nombre','email']
+class MonitoreoDeActividadSerializer(serializers.Serializer):
+    dia = serializers.DateField()
+    cuenta = serializers.IntegerField()

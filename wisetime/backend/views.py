@@ -1,5 +1,5 @@
 from urllib import response
-from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Tutor
+from .models import Actividad, HijoActividad, HistoriaDeLaActividad, Tutor, Hijo
 from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, TutorSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response

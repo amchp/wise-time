@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography,FormControl,InputLabel,Select,MenuItem} from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
@@ -21,6 +22,12 @@ const TutorActividadTable = ({usuario}) => {
   const [hijoSelecionado, setHijoSeleccionado] = useState(0);
   const [nombreHijo,setNombreHijo]=useState('');
   const [reload, setReload]= useState(false);
+
+  const theme = createTheme({
+    typography: {
+        fontFamily: ["Nunito", "sans-serif"].join(","),
+    },
+});
 
   const conseguirInformacionDeLosHijos = async () =>{
     const filtros = { 'tutor': usuario.id.toString() };
@@ -48,6 +55,7 @@ const TutorActividadTable = ({usuario}) => {
     setHijoSeleccionado(id);
   };
   return (
+    <ThemeProvider theme={theme}>
     <Box>
       <AppBar position="static"  style={{
                 backgroundColor: "White"
@@ -129,7 +137,7 @@ const TutorActividadTable = ({usuario}) => {
       </Grid>
     </Box>
     </Box>
-    
+    </ThemeProvider>
   )
 }
 export default TutorActividadTable

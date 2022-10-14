@@ -19,7 +19,7 @@ const TutorApp =  ({data}) => {
                     <Route path="actividades/crear" element={<TutorActividadForm usuario={data} />}/>
                     <Route path="actividades/:id/editar" element={<TutorActividadForm usuario={data}/>}/>
                     <Route path="actividades/:id" element={<TutorActivityInfo usuario={data}/>}/>
-                    <Route path="registrohijos" element={<RegistroHijos/>}/>
+                    <Route path="registrohijos" element={<RegistroHijos usuario={data}/>}/>
                     {/* <Route path="monitoreo" element={<MonitoreoDeHijo/>}/> */}
                 </Routes>
             </BrowserRouter>

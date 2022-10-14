@@ -6,6 +6,8 @@ import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 import { conseguirHijosActividad } from '../../../servicios/HistoriaDeActividadServicio';
 import { FormControl,InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography,Stack } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box} from '@mui/material/';
+import fondoLoginTutor from '../../../imagenes/fondoLoginTutor.png';
 const initialForm = {
   "nombre": "",
   "descripcion": "",
@@ -149,7 +151,9 @@ const TutorActividadForm = ({ usuario }) => {
 
   return (
     <ThemeProvider theme={theme}>
-    <Stack marginTop={5}>
+      
+
+    <Stack marginTop={5} sx={{ backgroundColor: 'white'}}>
     <Container fixed sx={{ p: 2, border: '1px dashed grey' }}>
       <Grid container direction="column" alignItems="center">
         <Grid item xs={6}>
@@ -256,6 +260,7 @@ const TutorActividadForm = ({ usuario }) => {
 
     </Container>
     </Stack>
+  
     </ThemeProvider>
 
   )

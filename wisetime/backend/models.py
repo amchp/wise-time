@@ -75,4 +75,4 @@ class Hijo(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     puntos = models.IntegerField(default=0)
     actividades = models.ManyToManyField(Actividad, through=HijoActividad)
-    # edad = models.IntegerField(default=0)
+    edad = models.IntegerField(default=0)
