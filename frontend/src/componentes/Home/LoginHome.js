@@ -69,7 +69,9 @@ const LoginHome   = () => {
         width="100" height="100"
         src={require('../../imagenes/caritaFeliz.png')}
         alt='FotoCaritaFeliz'/>
+        <Link to='/loginhijo'>
         <Button variant="contained" color="warning"sx={{ backgroundColor: '#FCA600', maxWidth: '300px' }} >ingresa como niño</Button>
+        </Link>
         </Stack>
         </Box> 
 

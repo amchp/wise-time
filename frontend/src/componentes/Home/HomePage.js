@@ -4,7 +4,9 @@ import RegistroTutor from './RegistroTutor';
 import WiseTimeHome from './WiseTimeHome'
 import LoginHome from './LoginHome'
 import LoginTutor from './LoginTutor'
+import LoginHijo from './LoginHijo';
 import '../../App.css';
+
 
 
 
@@ -18,6 +20,7 @@ export default function HomePage() {
                     <Route path="registrotutor" element={<RegistroTutor/>}/>
                     <Route path="login" element={<LoginHome/>}/>
                     <Route path="logintutor" element={<LoginTutor/>}/>
+                    <Route path="loginhijo" element={<LoginHijo/>}/>
                 </Routes>
             </BrowserRouter>
     </div>

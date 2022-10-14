@@ -7,7 +7,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import fondoLoginTutor from '../../imagenes/fondoLoginTutor.png';
 import {crearToken} from '../../servicios/AuthenticacionServicio';
-const LoginTutor = () => {
+
+const LoginHijo = () => {
     const [errores,setErrores]=useState(false);
     const theme = createTheme({
         typography: {
@@ -15,29 +16,25 @@ const LoginTutor = () => {
         },
     });
     const userSchema = yup.object().shape({
-        email: yup.string().email("No es un email valido").required("Campo de email vacio"),
+        username: yup.string().required("Campo de nombre de usuario vacio"),
         password: yup.string().max(20).required("Campo de contraseña vacio"),
     });
     const {register,handleSubmit,reset,formState: { errors },} = useForm({resolver: yupResolver(userSchema),});
     const formHandleSubmit = (data) => {
         console.log(data);
         const inicioSesion=async()=>{
-            const err= await crearToken(data.email,data.password,true);
+            const err= await crearToken(data.username,data.password,true);
             if (err.response.status==400) {
                 setErrores(true);
             }
-            
-            
         }
         inicioSesion();
-        
-        
+
     }
     if (errores) {
-        alert("Correo y contraseña incorrectas o no está asociado");
+        alert("nombre de usuario y contraseña incorrectas o no está asociado");
         setErrores(false);
     }
-
     return (
         <Box>
             <ThemeProvider theme={theme}>
@@ -81,17 +78,17 @@ const LoginTutor = () => {
                                                     margin="normal"
                                                     required
                                                     fullWidth
-                                                    id="email"
-                                                    label=" Correo electrónico "
-                                                    name="email"
-                                                    autoComplete="email"
+                                                    id="username"
+                                                    label=" Nombre de Usuario "
+                                                    name="username"
+                                                    autoComplete="username"
                                                     autoFocus
                                                     color="secondary"
                                                     sx={{width:"300px"}}
-                                                    error={!!errors["email"]}
-                                                    {...register("email")}
+                                                    error={!!errors["username"]}
+                                                    {...register("username")}
                                                 />
-                                                <FormHelperText sx={{ color: 'red' }}>{errors["email"] ? errors["email"].message : ""}</FormHelperText>
+                                                <FormHelperText sx={{ color: 'red' }}>{errors["username"] ? errors["username"].message : ""}</FormHelperText>
                                             </FormControl>
 
                                             <FormControl>
@@ -136,4 +133,4 @@ const LoginTutor = () => {
 
 }
 
-export default LoginTutor 
+export default LoginHijo

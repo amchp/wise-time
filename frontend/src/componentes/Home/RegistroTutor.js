@@ -30,7 +30,7 @@ export default function RegistroTutor() {
         nombreTutor: yup.string().required("Campo de nombre vacio"),
         apellidoTutor: yup.string().required("Campo de apellido vacio"),
         email: yup.string().email("No es un email valido").required("Campo de email vacio"),
-        password: yup.string().max(20).required("Campo de contraseña vacio"),
+        password: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
     });
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: yupResolver(userSchema), });
     
@@ -44,7 +44,14 @@ export default function RegistroTutor() {
             username: data.email,
             password: data.password,
         };
-        crearUsuarioTutor(coleccion).then(response => { crearToken(coleccion.username, coleccion.password) });
+        crearUsuarioTutor(coleccion).then(response => { 
+             
+            const inicioSesion=async()=>{
+                const err= await crearToken(coleccion.username, coleccion.password,false);
+                console.log(err);
+            }
+            inicioSesion();
+        });
     };
     
     return (
