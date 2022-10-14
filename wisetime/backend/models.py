@@ -26,8 +26,6 @@ class Usuario(AbstractUser):
     def __str__(self):
         return self.nombre + ' ' + self.apellido
 
-    
-
 
 class Tutor(models.Model):
     usuario = models.OneToOneField(
@@ -75,4 +73,10 @@ class Hijo(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     puntos = models.IntegerField(default=0)
     actividades = models.ManyToManyField(Actividad, through=HijoActividad)
-    # edad = models.IntegerField(default=0)
+    edad = models.IntegerField(default=0)
+
+
+class Sugerencia(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255)
+    edad = models.IntegerField()

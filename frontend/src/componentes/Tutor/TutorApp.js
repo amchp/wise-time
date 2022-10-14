@@ -5,6 +5,7 @@ import TutorActividadForm from './Actividad/TutorActividadForm';
 import TutorActivityInfo from './Actividad/TutorActivityInfo';
 import RegistroHijos from './Configuraciones/RegistroHijos';
 import MonitoreoDeHijo from './Monitoreo/MonitoreoDeHijo';
+import SugerenciaTable from './Sugerencias/SugerenciaTable';
 import '../../App.css';
 
 
@@ -20,7 +21,8 @@ const TutorApp =  ({data}) => {
                     <Route path="actividades/:id/editar" element={<TutorActividadForm usuario={data}/>}/>
                     <Route path="actividades/:id" element={<TutorActivityInfo usuario={data}/>}/>
                     <Route path="registrohijos" element={<RegistroHijos/>}/>
-                    {/* <Route path="monitoreo" element={<MonitoreoDeHijo/>}/> */}
+                    <Route path="monitoreo" element={<MonitoreoDeHijo usuario={data}/>}/>
+                    <Route path="sugerencias" element={<SugerenciaTable usuario={data}/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

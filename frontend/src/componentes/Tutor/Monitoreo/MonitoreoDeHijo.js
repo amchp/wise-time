@@ -5,27 +5,35 @@ import { conseguirMonitoreoDeHijo } from '../../../servicios/HistoriaDeActividad
 
 const MonitoreoDeHijo =  ({usuario}) => {
     const [hijoSelecionado, setHijoSeleccionado] = useState(0);
-    const [diaInicial, setDiaInicial] = useState('');
-    const [diaFinal, setDiaFinal] = useState('');
-    const [inforamacionDeGrafica, setInforamacionDeGrafica] = useState({});
+    const [dias, setDias] = useState([new Date(), new Date()]);
+    const [inforamacionDeGrafica, setInforamacionDeGrafica] = useState([{dia: "", cuenta: 0}]);
+
+    const dateToString = (date) => {
+        const dd = date.getUTCDate() < 10 ? '0' + date.getUTCDate() : date.getUTCDate().toString();
+        const mm = date.getMonth() < 9 ? '0' + (date.getUTCMonth() + 1) : (date.getUTCMonth() + 1).toString();
+        const yyyy = date.getUTCFullYear();
+        return `${yyyy}-${mm}-${dd}`;
+    };
 
     const conseguirInformacionDeGrafica = async () =>{
         const filtros = {
             'hijo_actividad__hijo': hijoSelecionado,
-            'dia__gte': diaInicial,
-            'dia__lte': diaFinal,
+            'dia__gte': dateToString(dias[0]),
+            'dia__lte': dateToString(dias[1]),
             'confirmado': true
         }
-        return await conseguirMonitoreoDeHijo(filtros);
+        const datosDeGrafica = await conseguirMonitoreoDeHijo(filtros);
+        console.log(datosDeGrafica, typeof datosDeGrafica);
+        setInforamacionDeGrafica(datosDeGrafica);
     }
 
     useEffect(()=> {
-        setInforamacionDeGrafica(conseguirInformacionDeGrafica());
-    }, [hijoSelecionado, diaInicial, diaFinal])
+        conseguirInformacionDeGrafica();
+    }, [hijoSelecionado, dias])
     
     return (
         <div>
-            <FiltroDeMonitoreoDeHijo usuario={usuario} setHijoSeleccionado={setHijoSeleccionado} setDiaInicial={setDiaInicial} setDiaFinal={setDiaFinal}/>
+            <FiltroDeMonitoreoDeHijo usuario={usuario} setHijoSeleccionado={setHijoSeleccionado} setDias={setDias} dias={dias}/>
             <GraficaDeMonitoreoDeHijo inforamacionDeGrafica={inforamacionDeGrafica}/>
         </div>
     )

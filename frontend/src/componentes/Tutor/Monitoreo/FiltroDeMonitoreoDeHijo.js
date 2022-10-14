@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FormControl,InputLabel,Select,MenuItem, Typography, TextField, Box} from '@mui/material/';
-// import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 
-const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
-    const [value, setValue] = useState("");
+const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado, dias, setDias }) => {
     const [hijos, setHijos] = useState([]);
     
     const [nombreHijo,setNombreHijo]=useState('');
@@ -37,21 +36,7 @@ const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado }) => {
             {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
             </Select>
             <Typography sx={{ mt: 2, mb: 1 }}>Dias</Typography>
-            {/* <DateRangePicker
-            calendars={1}
-            value={value}
-            onChange={(newValue) => {
-                console.log(value);
-                setValue(newValue);
-            }}
-            renderInput={(startProps, endProps) => (
-                <React.Fragment>
-                <TextField {...startProps} />
-                <Box sx={{ mx: 2 }}> to </Box>
-                <TextField {...endProps} />
-                </React.Fragment>
-            )}
-            /> */}
+            <DateRangePicker onChange={setDias} value={dias} />
             </FormControl>
         </div>
     )

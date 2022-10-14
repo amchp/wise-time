@@ -1,11 +1,10 @@
 from urllib import response
-from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Tutor
-from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, TutorSerializer
+from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Sugerencia, Tutor
+from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, SugerenciaSerializer, TutorSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
-
 
 
 class ActividadView(viewsets.ModelViewSet):
@@ -18,7 +17,7 @@ class ActividadView(viewsets.ModelViewSet):
         'hijos',
     ]
 
-    def get_queryset(self,request):
+    def get_queryset(self):
         return Actividad.objects.all()
 
 
@@ -53,7 +52,7 @@ class MonitoreoDeActividadView(viewsets.ReadOnlyModelViewSet):
     serializer_class = MonitoreoDeActividadSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = {
-        'hijo_actividad__hijo' : ['exact'],
+        'hijo_actividad__hijo': ['exact'],
         'dia': ['gte', 'lte', 'exact'],
         'confirmado': ['exact']
     }
@@ -86,14 +85,27 @@ class HijoActividadView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return HijoActividad.objects.all()
+
+
 class TutorView(viewsets.ModelViewSet):
 
     serializer_class = TutorSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
-        'email','usuario'
+        'email', 'usuario'
     ]
 
     def get_queryset(self):
         return Tutor.objects.all()
 
+
+class SugerenciaView(viewsets.ModelViewSet):
+
+    serializer_class = SugerenciaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'edad',
+    ]
+
+    def get_queryset(self):
+        return Sugerencia.objects.all()
