@@ -20,6 +20,7 @@ const initialForm = {
 export default function RegistroTutor() {
     const [formulario, setFormulario] = useState(initialForm);
     const [valido, setValido] = useState(false);
+    const [passwordMatch, setpasswordMatch] = useState(false);
     const [user, setUser] = useState({});
     const theme = createTheme({
         typography: {
@@ -31,11 +32,13 @@ export default function RegistroTutor() {
         apellidoTutor: yup.string().required("Campo de apellido vacio"),
         email: yup.string().email("No es un email valido").required("Campo de email vacio"),
         password: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
+        password2: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
     });
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: yupResolver(userSchema), });
     
     const formHandleSubmit = (data) => {
         console.log(data);
+        if(data.password === data.password2){
         const coleccion = {
             nombre: data.nombreTutor,
             apellido: data.apellidoTutor,
@@ -52,6 +55,10 @@ export default function RegistroTutor() {
             }
             inicioSesion();
         });
+        }else{
+        console.log(data);
+        setpasswordMatch(true);
+        }
     };
     
     return (
@@ -109,7 +116,7 @@ export default function RegistroTutor() {
                                     autoComplete="nombreTutor"
                                     autoFocus
                                     color="secondary"
-                                    sx={{width:"500px"}}
+                                    sx={{width:"400px"}}
                                     error={!!errors["nombreTutor"]}
                                     {...register("nombreTutor")}
                                 />
@@ -126,7 +133,7 @@ export default function RegistroTutor() {
                                     autoComplete="apellidoTutor"
                                     autoFocus
                                     color="secondary"
-                                    sx={{width:"500px"}}
+                                    sx={{width:"400px"}}
                                     error={!!errors["apellidoTutor"]}
                                     {...register("apellidoTutor")}
                                 />
@@ -143,7 +150,7 @@ export default function RegistroTutor() {
                                     autoComplete="email"
                                     autoFocus
                                     color="secondary"
-                                    sx={{width:"500px"}}
+                                    sx={{width:"400px"}}
                                     error={!!errors["email"]}
                                     {...register("email")}
                                 />
@@ -160,11 +167,29 @@ export default function RegistroTutor() {
                                     id="password"
                                     autoComplete="current-password"
                                     color="secondary"
-                                    sx={{width:"500px"}}
+                                    sx={{width:"400px"}}
                                     error={!!errors["password"]}
                                     {...register("password")}
                                 />
                                 <FormHelperText sx={{ color: 'red' }}>{errors["password"] ? errors["password"].message : ""}</FormHelperText>
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password2"
+                                    label="Ingrese la contraseña nuevamente"
+                                    type="password"
+                                    id="password2"
+                                    autoComplete="current-password"
+                                    color="secondary"
+                                    sx={{width:"400px"}}
+                                    error={!!errors["password2"]}
+                                    {...register("password2")}
+                                />
+                                <FormHelperText sx={{ color: 'red' }}>{errors["password2"] ? errors["password2"].message : ""}</FormHelperText>
+                                <FormHelperText sx={{ color: 'red' }}>{passwordMatch ? "las contraseñas no son iguales, por favor ingresela correctamente" : ""}</FormHelperText>
                             </FormControl>
                             <Button
                                 type="submit"
