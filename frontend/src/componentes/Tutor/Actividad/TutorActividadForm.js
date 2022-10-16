@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { conseguirActividad, crearActividad, actualizarActividad } from '../../../servicios/ActividadServicio';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 import { conseguirHijosActividad } from '../../../servicios/HistoriaDeActividadServicio';
-import { FormControl,InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography,Stack } from '@mui/material/';
+import { FormControl,InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography,Stack,AppBar,Toolbar } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box} from '@mui/material/';
 import fondoLoginTutor from '../../../imagenes/fondoLoginTutor.png';

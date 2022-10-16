@@ -1,4 +1,5 @@
 import React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TutorActividadTable from './Actividad/TutorActividadTable';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TutorActividadForm from './Actividad/TutorActividadForm'; 
@@ -12,8 +13,14 @@ import '../../App.css';
 
 
 const TutorApp =  ({data}) => {
+    const theme = createTheme({
+        typography: {
+            fontFamily: ["Nunito", "sans-serif"].join(","),
+        },
+    });
     return(
         <div>
+            <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <Routes>
                 <Route path="actividades" element={<TutorActividadTable usuario={data}/>}/>
@@ -25,6 +32,7 @@ const TutorApp =  ({data}) => {
                     <Route path="sugerencias" element={<SugerenciaTable usuario={data}/>}/>
                 </Routes>
             </BrowserRouter>
+            </ThemeProvider>
         </div>
     );
 }

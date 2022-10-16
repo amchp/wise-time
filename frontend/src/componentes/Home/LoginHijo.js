@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import { Grid, Box, Container, Typography, Button, Stack, AppBar, Toolbar, TextField, FormControl, FormHelperText } from '@mui/material/';
-import { createTheme, ThemeProvider } from '@mui/material/';
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -10,11 +9,6 @@ import {crearToken} from '../../servicios/AuthenticacionServicio';
 
 const LoginHijo = () => {
     const [errores,setErrores]=useState(false);
-    const theme = createTheme({
-        typography: {
-            fontFamily: ["Nunito", "sans-serif"].join(","),
-        },
-    });
     const userSchema = yup.object().shape({
         username: yup.string().required("Campo de nombre de usuario vacio"),
         password: yup.string().max(20).required("Campo de contraseña vacio"),
@@ -37,7 +31,7 @@ const LoginHijo = () => {
     }
     return (
         <Box>
-            <ThemeProvider theme={theme}>
+            
                 <AppBar position="static" style={{
                     backgroundColor: "White"
                 }}>
@@ -126,7 +120,7 @@ const LoginHijo = () => {
 
                     </Grid>
                 </Box>
-            </ThemeProvider>
+            
         </Box>
 
     )

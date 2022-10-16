@@ -6,14 +6,20 @@ import LoginHome from './LoginHome'
 import LoginTutor from './LoginTutor'
 import LoginHijo from './LoginHijo';
 import '../../App.css';
+import { createTheme, ThemeProvider } from '@mui/material/';
 
 
 
 
 export default function HomePage() {
+  const theme = createTheme({
+    typography: {
+        fontFamily: ["Nunito", "sans-serif"].join(","),
+    },
+});
   return (
     <div>
-
+      <ThemeProvider theme={theme}>  
         <BrowserRouter>
                 <Routes>
                 <Route path="/" element={<WiseTimeHome/>}/>
@@ -23,6 +29,7 @@ export default function HomePage() {
                     <Route path="loginhijo" element={<LoginHijo/>}/>
                 </Routes>
             </BrowserRouter>
+        </ThemeProvider>
     </div>
   )
 }

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FormControl,InputLabel,Select,MenuItem, Typography, TextField, Box} from '@mui/material/';
+import { FormControl,InputLabel,Select,MenuItem, Typography, TextField, } from '@mui/material/';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
+import { Grid, Box, Container, Button, Stack, AppBar, Toolbar } from '@mui/material/';
+import { createTheme, ThemeProvider } from '@mui/material/';
+import { Link } from "react-router-dom";
+import fondoHome from '../../../imagenes/fondoHome.png';
 
 const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado, dias, setDias }) => {
     const [hijos, setHijos] = useState([]);
@@ -22,9 +26,17 @@ const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado, dias, setDias }
         setNombreHijo(value);
         setHijoSeleccionado(id);
     };
+    
     return (
-        <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
+        
+            <Box>
+        
+        
+    <Box>
+        <Grid container direction="column">
+             <Stack marginLeft={10}  marginTop={3}>
+            <FormControl sx={{ m: 1, width: 300}}>
+            <Stack sx={{ backgroundColor: 'White' }}>
             <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
             <Select
             labelId="demo-multiple-name-label"
@@ -35,10 +47,17 @@ const FiltroDeMonitoreoDeHijo = ({ usuario, setHijoSeleccionado, dias, setDias }
             >
             {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
             </Select>
+            </Stack>
             <Typography sx={{ mt: 2, mb: 1 }}>Dias</Typography>
-            <DateRangePicker onChange={setDias} value={dias} />
+            <Stack sx={{ backgroundColor: 'White' }}>
+            <DateRangePicker sx={{ backgroundColor: 'White' }} onChange={setDias} value={dias} />
+            </Stack>
             </FormControl>
-        </div>
+            </Stack>
+            </Grid>
+        </Box>
+    
+        </Box>
     )
 }
 

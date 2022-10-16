@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography,FormControl,InputLabel,Select,MenuItem} from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
@@ -23,11 +22,7 @@ const TutorActividadTable = ({usuario}) => {
   const [nombreHijo,setNombreHijo]=useState('');
   const [reload, setReload]= useState(false);
 
-  const theme = createTheme({
-    typography: {
-        fontFamily: ["Nunito", "sans-serif"].join(","),
-    },
-});
+  
 
   const conseguirInformacionDeLosHijos = async () =>{
     const filtros = { 'tutor': usuario.id.toString() };
@@ -46,7 +41,7 @@ const TutorActividadTable = ({usuario}) => {
       setHijos(informacionDeHijos);
     }
     conseguirDatosTabla();
-  }, [hijoSelecionado, reload]);
+  }, [hijos,hijoSelecionado, reload]);
   const manejarDropDown = (event) => {
     const id = event.explicitOriginalTarget.id;
     const value=event.target.value;
@@ -55,21 +50,28 @@ const TutorActividadTable = ({usuario}) => {
     setHijoSeleccionado(id);
   };
   return (
-    <ThemeProvider theme={theme}>
+    
     <Box>
-      <AppBar position="static"  style={{
-                backgroundColor: "White"
-            }}>
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters  >
-                        <img
-                            
+    <Toolbar disableGutters  >
+                        <Stack direction="row" alignItems="center"  justifyContent="space-between" width="100%">
+                          <Stack marginLeft={2}>
+                            <img
                             src={require('../../../imagenes/logoWiseTime2.png')}
                             width="130" height="35"
                             alt='Logo' />
-                    </Toolbar>
-                </Container>
-            </AppBar>
+                          </Stack>
+                            <Stack direction="row" marginRight={3}>
+                              <Stack marginRight={2}>
+                              <Link to='/monitoreo'>
+                              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} >Monitoreo</Button>
+                              </Link>
+                              </Stack>
+                              <Link to='/sugerencias'>
+                              <Button variant="contained" color="warning" sx={{ backgroundColor: '#FCA600', maxWidth: '150px' }} >Sugerencias</Button>
+                              </Link>
+                              </Stack>
+                            </Stack>
+                         </Toolbar>
     <Box
       class="fondoActividadTutor"
       style={{
@@ -81,7 +83,7 @@ const TutorActividadTable = ({usuario}) => {
       
       
       <Grid container direction="column">
-
+      <Stack direction="row" justifyContent="space-between" width="100%">
       <Stack marginLeft={10}  marginTop={4} sx={{ width: '150px'}}>
       <Link to='crear/'>
       <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
@@ -100,6 +102,9 @@ const TutorActividadTable = ({usuario}) => {
         </Select>
       </FormControl>
       </Stack>
+
+      </Stack>
+
       <Grid container direction="column"  alignItems="center">
       <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: 'White', maxHeight: '60px'}}> 
       <Typography  variant="h4" color="#B4B1B1" margin={1}>Actividades Semanales</Typography>
@@ -137,7 +142,7 @@ const TutorActividadTable = ({usuario}) => {
       </Grid>
     </Box>
     </Box>
-    </ThemeProvider>
+    
   )
 }
 export default TutorActividadTable

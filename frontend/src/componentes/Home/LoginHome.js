@@ -1,17 +1,11 @@
 import React from 'react';
 import { Grid, Box, Container, Typography,Button,Stack,AppBar,Toolbar} from '@mui/material/';
-import { createTheme, ThemeProvider} from '@mui/material/';
 import fondoLogin from '../../imagenes/fondoLogin.png';
 import { Link } from "react-router-dom";
 const LoginHome   = () => {
-    const theme = createTheme({
-        typography: {
-        fontFamily: ["Nunito", "sans-serif"].join(","),
-        },
-    });
+    
     return (
     <Box>
-    <ThemeProvider theme={theme}>
     
         <AppBar position="static"  style={{
                 backgroundColor: "White"
@@ -78,7 +72,7 @@ const LoginHome   = () => {
         </Stack>
         </Grid>
         </Box>
-        </ThemeProvider>
+      
         </Box>
     )}
 

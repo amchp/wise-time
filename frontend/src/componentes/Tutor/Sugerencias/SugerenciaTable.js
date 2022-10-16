@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography,FormControl,InputLabel,Select,MenuItem} from '@mui/material/';
 import { conseguirTodasSugerencias } from '../../../servicios/SugerenciasServicio';
 import SugerenciaTableRow from './SugerenciaTableRow';
-import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
+import fondoLoginTutor from '../../../imagenes/fondoLoginTutor.png';
 import { Link } from "react-router-dom";
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 
@@ -54,18 +54,23 @@ const SugerenciaTable = ({usuario}) => {
             }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters  >
-                        <img
-                            
+                        <Stack direction="row" alignItems="center"  justifyContent="space-between" width="100%">
+                            <img
                             src={require('../../../imagenes/logoWiseTime2.png')}
                             width="130" height="35"
                             alt='Logo' />
+                            <Link to='/actividades'>
+                            <Button  variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '300px' }} >volver</Button>
+                            </Link>
+                        </Stack>
                     </Toolbar>
+                    
                 </Container>
-            </AppBar>
+        </AppBar>
     <Box
       class="fondoActividadTutor"
       style={{
-        backgroundImage: `url(${fondoActividadTutor})`,
+        backgroundImage: `url(${fondoLoginTutor})`,
         backgroundSize: "cover",
         height: "100vh",
       }}>
@@ -77,8 +82,9 @@ const SugerenciaTable = ({usuario}) => {
       <Stack marginLeft={10}  marginTop={4} sx={{ width: '150px'}}>
 
       <FormControl sx={{ m: 1, width: 300 ,backgroundColor: 'White'}}>
-        <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
+        <InputLabel color="secondary" id="demo-multiple-name-label">Nombre</InputLabel>
         <Select
+          color="secondary"
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
           value={nombreHijo}
@@ -90,11 +96,11 @@ const SugerenciaTable = ({usuario}) => {
       </FormControl>
       </Stack>
       <Grid container direction="column"  alignItems="center">
-      <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: 'White', maxHeight: '60px'}}> 
-      <Typography  variant="h4" color="#B4B1B1" margin={1}>Sugerencias</Typography>
+      <Box border={2} borderRadius={20} color="#7560AB" sx={{ backgroundColor: 'White', maxHeight: '60px'}}> 
+      <Typography  variant="h4" color="Black"  margin={1}>Sugerencias</Typography>
       </Box> 
 
-      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4",borderRadius:2 }} marginTop={3} flex={1}>
+      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #7560AB",borderRadius:2 }} marginTop={3} flex={1}>
         <TableContainer component={Paper} >
           <Table aria-label="simple table" >
 

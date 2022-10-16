@@ -16,7 +16,9 @@ import {
 const GraficaDeMonitoreoDeHijo = ({inforamacionDeGrafica}) => {
 
     return (
+        
         <ResponsiveContainer width="90%" height={400}>
+            
             <BarChart width={730} height={250} data={inforamacionDeGrafica} margin={{ top: 15, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="dia" label={{ value: "Dias", offset: 0, position: "insideBottom" }}/>
@@ -24,6 +26,7 @@ const GraficaDeMonitoreoDeHijo = ({inforamacionDeGrafica}) => {
                 <Tooltip />
                 <Bar dataKey="cuenta" fill="#8884d8" />
             </BarChart>
+            
         </ResponsiveContainer>
     );
 }

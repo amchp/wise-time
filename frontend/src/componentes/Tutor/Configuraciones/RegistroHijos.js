@@ -5,11 +5,16 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as yup from "yup";
 import fondoHomo from '../../../imagenes/fondoHomo.svg';
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { crearUsuarioHijo } from '../../../servicios/AuthenticacionServicio';
-export default function RegistroHijos({usuario}) {
+import {useNavigate } from 'react-router-dom';
+export default function RegistroHijos({ usuario }) {
+    const navigate=useNavigate();
+    const [erroresUsuario, setErroresUsuario] = useState({});
+    const [valido, setValido] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [finalizar, setFinalizar] = useState(false);
     const theme = createTheme({
         typography: {
             fontFamily: ["Nunito", "sans-serif"].join(","),
@@ -18,7 +23,7 @@ export default function RegistroHijos({usuario}) {
     const userSchema = yup.object().shape({
         nombreHijo: yup.string().required("Campo de nombre vacio"),
         apellidoHijo: yup.string().required("Campo de apellido vacio"),
-        edad: yup.string().required("Campo de edad vacio"),
+        edad: yup.number("Debe ser un valor numerico").positive("Tiene menos de 0 años?").integer("Debe ser entero").required("Campo de edad vacio"),
         username: yup.string().required("Campo de nombre de usuario vacio"),
         password: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
     });
@@ -34,15 +39,18 @@ export default function RegistroHijos({usuario}) {
             password: data.password,
         };
         console.log(coleccion);
-        crearUsuarioHijo(coleccion,usuario.id,data.edad).then(response => {
-            console.log("entra");
-            const inicioSesion = async () => {
-                const err = await crearToken(coleccion.username, coleccion.password, false);
-                console.log(err);
+        const registro = async () => {
+            const errorUsuario = await crearUsuarioHijo(coleccion, usuario.id, data.edad,refresh,finalizar);
+            if (errorUsuario.response.status == 400) {
+                setValido(true);
+                setErroresUsuario(errorUsuario.response.data);
+                console.log(errorUsuario.response);
             }
-            inicioSesion();
-        });
+        }
+        registro();
+    
     };
+
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -105,6 +113,7 @@ export default function RegistroHijos({usuario}) {
                                         id="apellidoHijo"
                                         label="Apellido"
                                         name="apellidoHijo"
+                                        defaultValue={usuario.apellido}
                                         autoComplete="apellidoHijo"
                                         autoFocus
                                         sx={{ width: "500px" }}
@@ -145,6 +154,7 @@ export default function RegistroHijos({usuario}) {
                                         {...register("username")}
                                     />
                                     <FormHelperText sx={{ color: 'red' }}>{errors["username"] ? errors["username"].message : ""}</FormHelperText>
+                                    <FormHelperText sx={{ color: 'red' }}>{valido && "username" in erroresUsuario ? erroresUsuario.username : ""}</FormHelperText>
                                 </FormControl>
                                 <FormControl>
                                     <TextField
@@ -161,14 +171,30 @@ export default function RegistroHijos({usuario}) {
                                         {...register("password")}
                                     />
                                     <FormHelperText sx={{ color: 'red' }}>{errors["password"] ? errors["password"].message : ""}</FormHelperText>
+                                    <FormHelperText sx={{ color: 'red' }}>{valido && "password" in erroresUsuario ? erroresUsuario.password : ""}</FormHelperText>
                                 </FormControl>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}>
-                                    Registrate aquí
-                                </Button>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={4}>
+                                        <Button
+                                            onClick={e => { setRefresh(true); }}
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}>
+                                            Guarda los datos de este niño y registra otro
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Button
+                                            onClick={e => { setFinalizar(true); }}
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}>
+                                            Guardar y finalizar
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                             </Stack>
                         </Box>
                     </Box>

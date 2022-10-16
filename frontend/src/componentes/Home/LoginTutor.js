@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import { Grid, Box, Container, Typography, Button, Stack, AppBar, Toolbar, TextField, FormControl, FormHelperText } from '@mui/material/';
-import { createTheme, ThemeProvider } from '@mui/material/';
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -9,11 +8,6 @@ import fondoLoginTutor from '../../imagenes/fondoLoginTutor.png';
 import {crearToken} from '../../servicios/AuthenticacionServicio';
 const LoginTutor = () => {
     const [errores,setErrores]=useState(false);
-    const theme = createTheme({
-        typography: {
-            fontFamily: ["Nunito", "sans-serif"].join(","),
-        },
-    });
     const userSchema = yup.object().shape({
         email: yup.string().email("No es un email valido").required("Campo de email vacio"),
         password: yup.string().max(20).required("Campo de contraseña vacio"),
@@ -26,8 +20,6 @@ const LoginTutor = () => {
             if (err.response.status==400) {
                 setErrores(true);
             }
-            
-            
         }
         inicioSesion();
         
@@ -40,7 +32,7 @@ const LoginTutor = () => {
 
     return (
         <Box>
-            <ThemeProvider theme={theme}>
+            
                 <AppBar position="static" style={{
                     backgroundColor: "White"
                 }}>
@@ -129,7 +121,7 @@ const LoginTutor = () => {
 
                     </Grid>
                 </Box>
-            </ThemeProvider>
+           
         </Box>
 
     )
