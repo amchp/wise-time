@@ -1,6 +1,6 @@
 from urllib import response
-from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Sugerencia, Tutor
-from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, MonitoreoDeActividadSerializer, SugerenciaSerializer, TutorSerializer
+from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Logro, Notificacion, Sugerencia, Tutor
+from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, LogroSerializer, MonitoreoDeActividadSerializer, NotificacionSerializer, SugerenciaSerializer, TutorSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -109,3 +109,27 @@ class SugerenciaView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Sugerencia.objects.all()
+
+
+class LogroView(viewsets.ModelViewSet):
+
+    serializer_class = LogroSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'hijo',
+    ]
+
+    def get_queryset(self):
+        return Logro.objects.all()
+
+
+class NotificacionView(viewsets.ModelViewSet):
+
+    serializer_class = NotificacionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'hijo',
+    ]
+
+    def get_queryset(self):
+        return Notificacion.objects.all()
