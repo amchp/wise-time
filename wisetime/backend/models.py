@@ -1,4 +1,3 @@
-from email.policy import default
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -80,3 +79,15 @@ class Sugerencia(models.Model):
     nombre = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255)
     edad = models.IntegerField()
+
+
+class Logro(models.Model):
+    nombre = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255)
+    hijo = models.ManyToManyField(Hijo)
+
+
+class Notificacion(models.Model):
+    descripcion = models.CharField(max_length=255)
+    hijo = models.ForeignKey(Hijo, on_delete=models.CASCADE)
+    tiempo = models.DateTimeField(auto_now_add=True)

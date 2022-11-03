@@ -1,6 +1,7 @@
 from pyexpat import model
 from rest_framework import serializers
-from .models import (Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Sugerencia,Tutor)
+from .models import (Actividad, Hijo, HijoActividad,
+                     HistoriaDeLaActividad, Logro, Notificacion, Sugerencia, Tutor)
 
 
 class ActividadSerializer(serializers.ModelSerializer):
@@ -25,10 +26,11 @@ class ActividadSerializer(serializers.ModelSerializer):
         return actividad
 
     def update(self, instance, validated_data):
-        actividad = super().update(instance,validated_data)
+        actividad = super().update(instance, validated_data)
         hijos = self.context['request'].data.pop('hijos', [])
         visto = set()
-        hijos_actividad_actuales = HijoActividad.objects.filter(actividad=actividad)
+        hijos_actividad_actuales = HijoActividad.objects.filter(
+            actividad=actividad)
         for hijo_id in hijos:
             hijo = Hijo.objects.get(pk=hijo_id)
             hijoActivdad = HijoActividad(actividad=actividad, hijo=hijo)
@@ -38,7 +40,6 @@ class ActividadSerializer(serializers.ModelSerializer):
             if hijo_actividad.hijo.pk not in visto:
                 hijo_actividad.delete()
         return actividad
-
 
 
 class HijoSerializer(serializers.ModelSerializer):
@@ -83,17 +84,34 @@ class HijoActividadSerializer(serializers.ModelSerializer):
     class Meta:
         model = HijoActividad
         fields = '__all__'
+
+
 class TutorSerializer(serializers.ModelSerializer):
     nombre = serializers.StringRelatedField(source='usuario')
+
     class Meta:
         model = Tutor
-        fields = ['usuario','nombre','email']
+        fields = ['usuario', 'nombre', 'email']
+
 
 class MonitoreoDeActividadSerializer(serializers.Serializer):
     dia = serializers.DateField()
     cuenta = serializers.IntegerField()
 
+
 class SugerenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sugerencia
-        fields = ['nombre','descripcion','edad']
+        fields = ['nombre', 'descripcion', 'edad']
+
+
+class LogroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Logro
+        fields = ['nombre', 'descripcion', 'hijo']
+
+
+class NotificacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notificacion
+        fields = ['descripcion', 'hijo', 'tiempo']

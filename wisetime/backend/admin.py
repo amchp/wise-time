@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Actividad, Sugerencia, Usuario, Tutor, HijoActividad, HistoriaDeLaActividad, Hijo
+from .models import Actividad, Logro, Notificacion, Sugerencia, Usuario, Tutor, HijoActividad, HistoriaDeLaActividad, Hijo
 
 admin.site.register(Actividad)
 
@@ -15,3 +15,6 @@ admin.site.register(Hijo)
 
 admin.site.register(Sugerencia)
 
+admin.site.register(Logro)
+
+admin.site.register(Notificacion)
