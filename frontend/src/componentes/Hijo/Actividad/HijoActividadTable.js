@@ -48,7 +48,8 @@ const HijoActividadTable = ({ usuario }) => {
         style={{
           backgroundImage: `url(${fondoActividadHijo1})`,
           backgroundSize: "cover",
-          height: "100vh"
+          height: "100vh",
+          
         }}>
 
 
