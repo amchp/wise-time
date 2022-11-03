@@ -41,7 +41,7 @@ const Home = () => {
 <Stack justifyContent={"center"} alignItems="center" marginTop={5} >               
 <Box borderRadius={5} sx={{ backgroundColor: '#FFDF80', minHeight: '250px', minWidth: '1000px' }}>
 <Stack justifyContent={"center"} alignItems="center"> 
-<Typography align="center" variant="h5" color="#534726" marginTop={7} marginBottom={3}>Aprovecha tu tiempo sabiamente... <br /> Bienvenido a Wise Time, la app de gestión y monitoreo interactiva para niños  </Typography>
+<Typography align="center" variant="h5" color="#534726" marginTop={7} marginBottom={3}>Aprovecha tu tiempo sabiamente <br /> Bienvenido a Wise Time, la app de gestión y monitoreo interactiva para niños  </Typography>
 <Link to='/registrotutor'>
 <Button variant="contained" color="secondary" sx={{ backgroundColor: '#9E7AFF', maxWidth: '300px' }} >Registrate aqui</Button>
 </Link> 
