@@ -9,9 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Link } from "react-router-dom";
 import HijoActividadTableRow from './HijoActividadTableRow';
-import { Grid, Paper, Box, Toolbar ,AppBar, Container } from '@mui/material/';
+import { Grid, Paper, Box, Toolbar ,AppBar, Container ,Typography} from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados } from '../../../servicios/TablaServicio';
-import fondoActividadHijo1 from '../../../imagenes/fondoActividadHijo1.svg';
+import fondoActividadHijo1 from '../../../imagenes/fondoActividadHijo2.svg';
 
 const HijoActividadTable = ({ usuario }) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
@@ -55,11 +55,20 @@ const HijoActividadTable = ({ usuario }) => {
 
       <Grid container direction="column" alignItems="center" >
       <Stack direction="row" spacing={4}  alignItems="center"  sx={{ width: '200px',height:'200px'}} >
+        <Stack>
         <Link to="/mascota">
-        <Button variant="contained" color="secondary" sx={{ backgroundColor: '#9D79FA' }} ><img width="50" height="50"src={require('../../../imagenes/patita.png')} alt="icono mascota"/></Button>
+        <Button variant="contained" color="secondary" sx={{ backgroundColor: '#9D79FA' }} ><img width="60" height="65"src={require('../../../imagenes/fase1Mascota.gif')} alt="icono mascota"/></Button>
         </Link>
-        <Button variant="contained"  sx={{ backgroundColor: '#64C6FF' }} ><img width="50" height="50"src={require('../../../imagenes/trofeo1.png')} alt="icono trofeo"/></Button>
+        <Typography  variant="subtitle2" color="White" sx={{borderRadius:2,border: "2px solid #9D79FA", minWidth:86,backgroundColor: '#9D79FA' }} marginTop={1}>‎ Ver Mascota </Typography>
+        </Stack>
+        <Stack>
+        <Link to="/logros">
+        <Button variant="contained"  sx={{ backgroundColor: '#64C6FF' }} ><img width="60" height="65"src={require('../../../imagenes/trofeo1.png')} alt="icono trofeo"/></Button>
+        </Link>
+        <Typography  variant="subtitle2" color="White" sx={{borderRadius:2,border: "2px solid #64C6FF", minWidth:86,backgroundColor: '#64C6FF' }} marginTop={1}>‎ ‎ Ver Logros </Typography>
+        </Stack>
       </Stack>
+      
         <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 650, border: "4px solid #6DCBC4",borderRadius:2 }} flex={1}>
           <TableContainer component={Paper} >
             <Table aria-label="simple table" >
