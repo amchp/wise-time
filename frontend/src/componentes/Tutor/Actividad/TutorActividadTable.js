@@ -89,7 +89,7 @@ const TutorActividadTable = ({usuario}) => {
       <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
       </Link>
 
-      <FormControl sx={{ m: 1, width: 300 ,backgroundColor: 'White'}}>
+      <FormControl sx={{ mt: 3, width: 300 ,backgroundColor: 'White'}}>
         <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
         <Select
           labelId="demo-multiple-name-label"
