@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography, TextField, Button, Container } from '@mui/material';
 import { conseguirActividad } from '../../../servicios/ActividadServicio';
+import { Link } from "react-router-dom";
 
 
 const TutorActivityInfo = () => {
@@ -14,10 +15,10 @@ const TutorActivityInfo = () => {
         };
         conseguirDatos();
     }, [])
-    
+
     return (
         <Box >
-        
+
             <Container fixed sx={{ borderRadius: '5%', border: '1px dashed blue', p: 10 }}>
                 <Grid container direction="column" alignItems="center">
                     <Grid item xs={6}>
@@ -57,9 +58,9 @@ const TutorActivityInfo = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                    <Grid container direction="row" spacing={2}>
-                    {}
-                    </Grid>
+                        <Grid container direction="row" spacing={2}>
+                            { }
+                        </Grid>
                     </Grid>
                 </Grid>
 
@@ -77,19 +78,20 @@ const TutorActivityInfo = () => {
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <Button variant="contained" component="label">
-                            Atrás
-
-                        </Button>
+                        <Link to='/actividades'>
+                            <Button variant="contained" component="label">
+                                Volver
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
 
 
 
             </Container>
-            
+
         </Box >
-        
+
     )
 }
 export default TutorActivityInfo;

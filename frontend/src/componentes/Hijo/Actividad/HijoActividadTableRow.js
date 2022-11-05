@@ -45,7 +45,7 @@ const HijoActividadTableRow = ({ usuario, el, historiaActividad, reload, setRelo
           <img width="50" height="50" src="https://lasierraeduca.es/wp-content/uploads/2020/05/Thumbs-Up-icon-2.png" alt="imagen de aceptar" onClick={accept} 
         />
         
-        <Typography  variant="subtitle2" color="White" sx={{borderRadius:2,border: "2px solid #23B000", minWidth:110,backgroundColor: '#16a056' }} marginTop={1}>Completar Tarea </Typography>
+        <Typography  variant="body2" color="White" sx={{borderRadius:2,border: "2px solid #23B000", minWidth:110,backgroundColor: '#16a056' }} marginTop={1}>Completar Tarea </Typography>
         </Stack>
         </Button>}
         
