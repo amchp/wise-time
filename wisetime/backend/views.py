@@ -3,14 +3,34 @@ from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Logro
 from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, LogroSerializer, MonitoreoDeActividadSerializer, NotificacionSerializer, SugerenciaSerializer, TutorSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
+from rest_framework.filters import BaseFilterBackend
+from django_filters.rest_framework import (
+    DjangoFilterBackend,
+    FilterSet,
+    CharFilter
+)
+
+
+class DiasFilter(FilterSet):
+    dias = CharFilter(field_name='dias', lookup_expr='icontains')
+
+    class Meta:
+        model = Actividad
+        fields = ['dias']
+
+
+class DiasFilterBackend(BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        dias = DiasFilter(request.query_params)
+        return (queryset & dias.qs)
+
 
 
 class ActividadView(viewsets.ModelViewSet):
 
     serializer_class = ActividadSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, DiasFilterBackend]
     filterset_fields = [
         'nombre',
         'descripcion',
