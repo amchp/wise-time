@@ -7,31 +7,34 @@ import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography,FormControl,InputLabel,Select,MenuItem} from '@mui/material/';
-import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados} from '../../../servicios/TablaServicio';
+import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography, FormControl, InputLabel, Select, MenuItem, OutlinedInput } from '@mui/material/';
+import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados } from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
 import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
 import { Link } from "react-router-dom";
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
+import { cerrarSesion } from '../../../servicios/AuthenticacionServicio';
 
-const TutorActividadTable = ({usuario}) => {
+const TutorActividadTable = ({ usuario }) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
-  const [actividadesPorConfimar,ponerActividadesPorConfimar] = useState({});
-  const [hijos,setHijos]=useState([]);
+  const [actividadesPorConfimar, ponerActividadesPorConfimar] = useState({});
+  const [hijos, setHijos] = useState([]);
   const [hijoSelecionado, setHijoSeleccionado] = useState(0);
-  const [nombreHijo,setNombreHijo]=useState('');
-  const [reload, setReload]= useState(false);
+  const [nombreHijo, setNombreHijo] = useState('');
+  const [reload, setReload] = useState(false);
+  const [completed, setCompleted ] = useState(0)
+  const [pendiente, setPendiente] = useState(0)
 
   
 
-  const conseguirInformacionDeLosHijos = async () =>{
+  const conseguirInformacionDeLosHijos = async () => {
     const filtros = { 'tutor': usuario.id.toString() };
     return await conseguirTodosLosHijos(filtros);
   }
 
   useEffect(() => {
     const conseguirDatosTabla = async () => {
-      if(hijoSelecionado !== 0){
+      if (hijoSelecionado !== 0) {
         const actividades = await conseguirActividadesParaTabla(hijoSelecionado);
         ponerTablaDeActividades(actividades);
         const confimarActividad = await conseguirHistoriasDeActividadesParaLosEstados(hijoSelecionado);
@@ -41,108 +44,145 @@ const TutorActividadTable = ({usuario}) => {
       setHijos(informacionDeHijos);
     }
     conseguirDatosTabla();
-  }, [hijos,hijoSelecionado, reload]);
+  }, [hijos, hijoSelecionado, reload]);
+
+  useEffect(() => {
+    if(Object.values(actividadesPorConfimar).length > 0){
+      const completado = Object.values(actividadesPorConfimar).filter(activity => activity.confirmado === true).length
+      const pendiente = Object.values(actividadesPorConfimar).filter(activity => activity.confirmado === false).length
+      setCompleted(completado)
+      setPendiente(pendiente)
+    }
+    
+  }, [actividadesPorConfimar]);
+
   const manejarDropDown = (event) => {
     const id = event.explicitOriginalTarget.id;
-    const value=event.target.value;
-    
+    const value = event.target.value;
+
     setNombreHijo(value);
     setHijoSeleccionado(id);
   };
   return (
-    
+
     <Box>
-    <Toolbar disableGutters  >
-                        <Stack direction="row" alignItems="center"  justifyContent="space-between" width="100%">
-                          <Stack marginLeft={2}>
-                            <img
-                            src={require('../../../imagenes/logoWiseTime2.png')}
-                            width="130" height="35"
-                            alt='Logo' />
-                          </Stack>
-                            <Stack direction="row" marginRight={3}>
-                              <Stack marginRight={2}>
-                              <Link to='/monitoreo'>
-                              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} >Monitoreo</Button>
-                              </Link>
-                              </Stack>
-                              <Link to='/sugerencias'>
-                              <Button variant="contained" color="warning" sx={{ backgroundColor: '#FCA600', maxWidth: '150px' }} >Sugerencias</Button>
-                              </Link>
-                              </Stack>
-                            </Stack>
-                         </Toolbar>
-    <Box
-      class="fondoActividadTutor"
-      style={{
-        backgroundImage: `url(${fondoActividadTutor})`,
-        backgroundSize: "cover",
-        height: "100vh",
-      }}>
+      <Toolbar disableGutters  >
+        <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
+          <Stack marginLeft={2} marginTop={2}>
+            <img
+              src={require('../../../imagenes/logoWiseTime2.png')}
+              width="130" height="35"
+              alt='Logo' />
+            <Typography variant="h6" color="#545454" marginTop={2}>¡Bienvenid@ {usuario.nombre + " " + usuario.apellido}!</Typography>
+          </Stack>
+          <Stack direction="row" marginRight={3} spacing={3}>
+            
+              <Link to='/monitoreo'>
+                <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} >Monitoreo</Button>
+              </Link>
+            
+            <Link to='/sugerencias'>
+              <Button variant="contained" color="warning" sx={{ backgroundColor: '#FCA600', maxWidth: '150px' }} >Sugerencias</Button>
+            </Link>
 
-      
-      
-      <Grid container direction="column">
-      <Stack direction="row" justifyContent="space-between" width="100%">
-      <Stack marginLeft={10}  marginTop={4} sx={{ width: '150px'}}>
-      <Link to='crear/'>
-      <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '200px' }} >Agregar</Button>
-      </Link>
+            <Button onClick={() => { cerrarSesion() }} variant="contained" color="error" sx={{ backgroundColor: '#ED6060', maxWidth: '150px' }} >Cerrar Sesión</Button>
 
-      <FormControl sx={{ m: 1, width: 300 ,backgroundColor: 'White'}}>
-        <InputLabel id="demo-multiple-name-label">Nombre</InputLabel>
-        <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          value={nombreHijo}
-          label="Hijo"
-          onChange={manejarDropDown}
-        >
-          {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
-        </Select>
-      </FormControl>
-      </Stack>
+          </Stack>
+        </Stack>
+      </Toolbar>
+      <Box
+        class="fondoActividadTutor"
+        style={{
+          backgroundImage: `url(${fondoActividadTutor})`,
+          backgroundSize: "cover",
+          height: "100vh",
+        }}>
 
-      </Stack>
 
-      <Grid container direction="column"  alignItems="center">
-      <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: 'White', maxHeight: '60px'}}> 
-      <Typography  variant="h4" color="#B4B1B1" margin={1}>Actividades Semanales</Typography>
-      </Box> 
 
-      <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4",borderRadius:2 }} marginTop={3} flex={1}>
-        <TableContainer component={Paper} >
-          <Table aria-label="simple table" >
+        <Grid container direction="column">
+          <Stack  direction="row" alignItems="center" justifyContent="space-between" width="100%">
+            
+              <Stack marginLeft={7}   sx={{ width: '150px' , mb:2}}>
+              <FormControl sx={{ mt: 3, width: 250 ,backgroundColor: 'White' }}>
+                <InputLabel sx={{ width: 250 }} id="demo-multiple-name-label"> Seleccione niño </InputLabel>
+                <Select
+                  labelId="demo-multiple-name-label"
+                  id="demo-multiple-name"
+                  value={nombreHijo}
+                  label="Hijo"
+                  input={
+                    <OutlinedInput id="demo-multiple-name-label" label="Seleccione niño" />
+                  }
 
-            <TableHead>
-              <TableRow>
-                <TableCell align="center"><b>Nombre</b></TableCell>
-                <TableCell align="center"><b>Hora</b></TableCell>
-                <TableCell align="center"><b>Acciones</b></TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {tablaDeActividades.length === 0 ? (
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
+                  onChange={manejarDropDown}
                 >
-                  <TableCell component="th" scope="row">
-                  </TableCell>
-                  <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
-                </TableRow >
-              ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={reload} setReload={setReload} />)
-              )}
-            </TableBody>
+                  {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
+                </Select>
+              </FormControl>
+              </Stack>
+              <Stack marginRight={15} marginTop={3} sx={{ width: '150px' }}>
+              <Link to='crear/'>
+                <Button variant="contained" sx={{ backgroundColor: '#4EBFB7', maxWidth: '450px' }} >Agregar</Button>
+              </Link>
+              
+              <Box border={2} borderRadius={2} marginTop={2} color="#B4B1B1" sx={{ backgroundColor: 'White', maxWidth: '400px', maxHeight: '400px' }}>
 
-          </Table>
-        </TableContainer>
-      </Stack>
-      </Grid>
-      </Grid>
+              <Stack direction="column" justifyContent="center" alignItems="center" margin={1}>
+              <Typography variant="subtitle2" color="#545454" >Estado Actividad</Typography>
+                <Stack direction="row"  marginTop={1} spacing={2}>
+                <Typography variant="subtitle2" color="#7560AB">Pendiente</Typography>
+                <Box  borderRadius={100} color="White" sx={{backgroundColor: '#7560AB', minHeight: '5px',minWidth: '20px'  }}>‎ ‎ {pendiente}</Box>
+                </Stack>
+                <Stack direction="row"  marginTop={1} spacing={1}>
+                <Typography variant="subtitle2" color="#79C665">Completada</Typography>
+                <Box borderRadius={100} color="White" sx={{backgroundColor: '#79C665', minHeight: '5px',minWidth: '20px'  }}>‎ ‎ {completed}</Box>
+                </Stack>
+                </Stack>
+              </Box>
+              
+              </Stack>
+
+          </Stack>
+
+          <Grid container direction="column" alignItems="center">
+            <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: '#B4B1B1', maxHeight: '60px' }}>
+              <Typography variant="h5" color="White" margin={1}>Actividades Semanales</Typography>
+            </Box>
+
+            <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4", borderRadius: 2 }} marginTop={3} flex={1}>
+              <TableContainer component={Paper} >
+                <Table aria-label="simple table" >
+
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center"><b>Nombre</b></TableCell>
+                      <TableCell align="center"><b>Hora</b></TableCell>
+                      <TableCell align="center"><b>Acciones</b></TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {tablaDeActividades.length === 0 ? (
+                      <TableRow
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell component="th" scope="row">
+                        </TableCell>
+                        <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
+                      </TableRow >
+                    ) : (tablaDeActividades.map((el) => <TutorActividadTableRow key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={reload} setReload={setReload} />)
+                    )}
+                  </TableBody>
+
+                </Table>
+              </TableContainer>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
-    </Box>
-    
+
   )
 }
 export default TutorActividadTable

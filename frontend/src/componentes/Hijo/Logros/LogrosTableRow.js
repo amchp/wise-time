@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell';
 
 
 
-const SugerenciaTableRow = ({ el, historiaActividad, reload, setReload }) => {
+const LogrosTableRow = ({ el, historiaActividad, reload, setReload }) => {
   
   return (
     
@@ -18,4 +18,4 @@ const SugerenciaTableRow = ({ el, historiaActividad, reload, setReload }) => {
   )
 }
 
-export default SugerenciaTableRow
+export default LogrosTableRow

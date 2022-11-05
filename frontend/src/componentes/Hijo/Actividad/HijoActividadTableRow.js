@@ -3,6 +3,7 @@ import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
+import {Typography,Stack} from '@mui/material/';
 import {conseguirHijosActividad, crearHistoriaDeLaActividad} from '../../../servicios/HistoriaDeActividadServicio'
 
 
@@ -38,8 +39,17 @@ const HijoActividadTableRow = ({ usuario, el, historiaActividad, reload, setRelo
       </TableCell>
       <TableCell align="right">{el.hora}</TableCell>
       <TableCell align="right">
-        {noHecho && <Button><img width="50" height="50" src="https://lasierraeduca.es/wp-content/uploads/2020/05/Thumbs-Up-icon-2.png" alt="imagen de aceptar" onClick={accept} /></Button>}
-
+        
+        {noHecho && <Button>
+          <Stack justifyContent={"center"} alignItems="center">
+          <img width="50" height="50" src="https://lasierraeduca.es/wp-content/uploads/2020/05/Thumbs-Up-icon-2.png" alt="imagen de aceptar" onClick={accept} 
+        />
+        
+        <Typography  variant="body2" color="White" sx={{borderRadius:2,border: "2px solid #23B000", minWidth:110,backgroundColor: '#16a056' }} marginTop={1}>Completar Tarea </Typography>
+        </Stack>
+        </Button>}
+        
+        
       </TableCell>
     </TableRow>
   )

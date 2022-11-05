@@ -30,6 +30,23 @@ export async function crearToken(user, password, login) {
         return error
     }
 }
+export async function cerrarSesion() {
+    const config = conseguirConfiguracionDeAutenticacion();
+    const token=localStorage.getItem('tokenKey');
+    try {
+        await axios.post(
+            'http://127.0.0.1:8000/auth/token/logout',token,config
+
+        ).then(response => {
+            localStorage.removeItem('tokenKey');
+            window.location.href = '/';
+        })
+
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export async function conseguirUsurioLogeado() {
     const config = conseguirConfiguracionDeAutenticacion();
@@ -94,7 +111,7 @@ export async function crearUsuarioHijo(data, tutorId, edad, refresh, finalizar) 
             await axios.post(
                 'http://127.0.0.1:8000/api/v1/hijo/',
                 datos).then(respose => {
-                    console.log("Hijo creado");
+
                     if (refresh) {
 
                         alert("Registro de " + data.nombre + " completado");
@@ -112,4 +129,37 @@ export async function crearUsuarioHijo(data, tutorId, edad, refresh, finalizar) 
     } catch (error) {
         return error;
     }
+}
+//Actualizar datos de usuario---------
+export async function actualizarNombreYApellido(datos) {
+    const config = conseguirConfiguracionDeAutenticacion();
+    try {
+        await axios.put(
+            'http://127.0.0.1:8000/auth/users/me/', datos, config
+        );
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+export async function actualizarPassword(actual, nueva, repetida) {
+    const datos = {
+        "new_password": nueva,
+        "re_new_password": repetida,
+        "current_password": actual,
+    };
+    const config = conseguirConfiguracionDeAutenticacion();
+    try {
+        await axios.post(
+            'http://127.0.0.1:8000/auth/users/set_password/', datos, config
+        );
+        alert("Contraseña actualizada correctamente, se direccionará a la página principal");
+        cerrarSesion();
+
+
+    } catch (error) {
+        console.log(error);
+    }
+
 }

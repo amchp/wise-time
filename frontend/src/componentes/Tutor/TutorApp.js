@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TutorActividadForm from './Actividad/TutorActividadForm'; 
 import TutorActivityInfo from './Actividad/TutorActivityInfo';
 import RegistroHijos from './Configuraciones/RegistroHijos';
+import Cuenta from './Configuraciones/Cuenta';
 import MonitoreoDeHijo from './Monitoreo/MonitoreoDeHijo';
 import SugerenciaTable from './Sugerencias/SugerenciaTable';
 import '../../App.css';
@@ -30,6 +31,7 @@ const TutorApp =  ({data}) => {
                     <Route path="registrohijos" element={<RegistroHijos usuario={data}/>}/>
                     <Route path="monitoreo" element={<MonitoreoDeHijo usuario={data}/>}/>
                     <Route path="sugerencias" element={<SugerenciaTable usuario={data}/>}/>
+                    <Route path="configuraciones" element={<Cuenta usuario={data}/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>
