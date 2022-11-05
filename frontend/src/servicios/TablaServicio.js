@@ -7,10 +7,22 @@ const conseguirDiaDeLaSemana = () => {
     return semana[new Date().getDay()];
 }
 
-export const conseguirActividadesParaTabla= async (hijo) => {
+export const conseguirActividadesParaTabla= async (hijo,dia) => {
     const diaDeLaSemana = conseguirDiaDeLaSemana();
-    const filtrosActividad = { "hijos": hijo, "dias": diaDeLaSemana };
-    return await conseguirTodasActividades(filtrosActividad);
+    if (dia==='hoy') {
+        const filtroHoy = { "hijos": hijo, "dias": diaDeLaSemana };
+        return await conseguirTodasActividades(filtroHoy);
+    } else if(dia==='todas'){
+        
+        const filtrosActividad = { "hijos": hijo}
+        return await conseguirTodasActividades(filtrosActividad);
+    }else{
+        console.log("Dia especifico" + dia)
+        const filtrosActividad = { "hijos": hijo, "dias": ""+dia+"" };
+        return await conseguirTodasActividades(filtrosActividad);
+    }
+    
+    
 }
 
 const crearDicionarioDeEstadosDeFilas = (historiaDeActividades) => {

@@ -30,7 +30,7 @@ class DiasFilterBackend(BaseFilterBackend):
 class ActividadView(viewsets.ModelViewSet):
 
     serializer_class = ActividadSerializer
-    filter_backends = [DjangoFilterBackend, DiasFilterBackend]
+    filter_backends = [DiasFilterBackend,DjangoFilterBackend]
     filterset_fields = [
         'nombre',
         'descripcion',

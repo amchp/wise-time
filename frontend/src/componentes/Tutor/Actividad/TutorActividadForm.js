@@ -3,7 +3,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { useParams, useNavigate } from 'react-router-dom';
 import { conseguirActividad, crearActividad, actualizarActividad } from '../../../servicios/ActividadServicio';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
-import { conseguirHijosActividad } from '../../../servicios/HistoriaDeActividadServicio';
 import { FormControl, InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography, Stack, AppBar, Toolbar } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
@@ -71,13 +70,15 @@ const TutorActividadForm = ({ usuario }) => {
   }
 
   const sacarListaDeSelecionados = async (dicionarioDeIdAHijo) => {
-    const filtroDeHijoActvidad = { 'hijo__tutor': usuario.id, 'activdad': id };
-    const hijoActividades = await conseguirHijosActividad(filtroDeHijoActvidad);
+    const filtroDeHijoActvidad = { 'tutor': usuario.id, 'actividades': id };
+    const hijoActividades = await conseguirTodosLosHijos(filtroDeHijoActvidad);
+    console.log(hijoActividades);
     let listaSeleccionados = [];
     hijoActividades.forEach((hijoActividad) => {
-      let idHijo = hijoActividad.hijo;
+      let idHijo = hijoActividad.usuario;
       listaSeleccionados.push(dicionarioDeIdAHijo[idHijo]);
     });
+    console.log("Lista ! :",listaSeleccionados);
     return listaSeleccionados;
   }
 
