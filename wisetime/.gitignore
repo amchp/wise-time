@@ -1,3 +1,3 @@
-/backend/__pycache__
-/backend/migrations/__pycache__
-/wisetime/__pycache__
+.backend/__pycache__/
+.backend/migrations/__pycache__/
+.wisetime/__pycache__/
