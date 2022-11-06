@@ -14,7 +14,7 @@ import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
 import { Link } from "react-router-dom";
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 import { cerrarSesion } from '../../../servicios/AuthenticacionServicio';
-import { AiFillFilter } from "react-icons/ai";
+import { AiFillFilter,AiOutlineLineChart,AiOutlineSetting,AiOutlineSchedule} from "react-icons/ai";
 const TutorActividadTable = ({ usuario }) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar, ponerActividadesPorConfimar] = useState({});
@@ -81,13 +81,17 @@ const TutorActividadTable = ({ usuario }) => {
             <Typography variant="h6" color="#545454" marginTop={2}>¡Bienvenid@ {usuario.nombre + " " + usuario.apellido}!</Typography>
           </Stack>
           <Stack direction="row" marginRight={3} spacing={3}>
-
+         
             <Link to='/monitoreo'>
-              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} >Monitoreo</Button>
+              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} ><AiOutlineLineChart/>Monitoreo</Button>
             </Link>
 
             <Link to='/sugerencias'>
-              <Button variant="contained" color="warning" sx={{ backgroundColor: '#FCA600', maxWidth: '150px' }} >Sugerencias</Button>
+              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} > <AiOutlineSchedule/>Sugerencias</Button>
+            </Link>
+
+            <Link to='/configuraciones'>
+              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '130px'}} ><AiOutlineSetting/>Ajustes</Button>
             </Link>
 
             <Button onClick={() => { cerrarSesion() }} variant="contained" color="error" sx={{ backgroundColor: '#ED6060', maxWidth: '150px' }} >Cerrar Sesión</Button>
@@ -160,7 +164,7 @@ const TutorActividadTable = ({ usuario }) => {
             </Stack>
             <Stack marginRight={15} marginTop={3} sx={{ width: '150px' }}>
               <Link to='crear/'>
-                <Button variant="contained" sx={{ backgroundColor: '#4EBFB7', maxWidth: '450px' }} >Agregar</Button>
+                <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '450px' }} >Agregar</Button>
               </Link>
 
               <Box border={2} borderRadius={2} marginTop={2} color="#B4B1B1" sx={{ backgroundColor: 'White', maxWidth: '400px', maxHeight: '400px' }}>
