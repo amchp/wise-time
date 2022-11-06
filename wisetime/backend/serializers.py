@@ -1,7 +1,6 @@
 from pyexpat import model
 from rest_framework import serializers
-from .models import (Actividad, Hijo, HijoActividad,
-                     HistoriaDeLaActividad, Logro, Notificacion, Sugerencia, Tutor)
+from .models import (Actividad, Hijo, HijoActividad,HistoriaDeLaActividad, Logro, Notificacion, Sugerencia, Tutor)
 
 
 class ActividadSerializer(serializers.ModelSerializer):

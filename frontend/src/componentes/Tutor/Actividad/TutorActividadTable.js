@@ -14,7 +14,7 @@ import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
 import { Link } from "react-router-dom";
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 import { cerrarSesion } from '../../../servicios/AuthenticacionServicio';
-
+import { AiFillFilter } from "react-icons/ai";
 const TutorActividadTable = ({ usuario }) => {
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar, ponerActividadesPorConfimar] = useState({});
@@ -22,10 +22,10 @@ const TutorActividadTable = ({ usuario }) => {
   const [hijoSelecionado, setHijoSeleccionado] = useState(0);
   const [nombreHijo, setNombreHijo] = useState('');
   const [reload, setReload] = useState(false);
-  const [completed, setCompleted ] = useState(0)
+  const [completed, setCompleted] = useState(0)
   const [pendiente, setPendiente] = useState(0)
+  const [dia, setDia] = useState('hoy');
 
-  
 
   const conseguirInformacionDeLosHijos = async () => {
     const filtros = { 'tutor': usuario.id.toString() };
@@ -35,7 +35,7 @@ const TutorActividadTable = ({ usuario }) => {
   useEffect(() => {
     const conseguirDatosTabla = async () => {
       if (hijoSelecionado !== 0) {
-        const actividades = await conseguirActividadesParaTabla(hijoSelecionado);
+        const actividades = await conseguirActividadesParaTabla(hijoSelecionado, dia);
         ponerTablaDeActividades(actividades);
         const confimarActividad = await conseguirHistoriasDeActividadesParaLosEstados(hijoSelecionado);
         ponerActividadesPorConfimar(confimarActividad);
@@ -44,16 +44,16 @@ const TutorActividadTable = ({ usuario }) => {
       setHijos(informacionDeHijos);
     }
     conseguirDatosTabla();
-  }, [hijos, hijoSelecionado, reload]);
+  }, [hijoSelecionado, reload, dia]);
 
   useEffect(() => {
-    if(Object.values(actividadesPorConfimar).length > 0){
+    if (Object.values(actividadesPorConfimar).length > 0) {
       const completado = Object.values(actividadesPorConfimar).filter(activity => activity.confirmado === true).length
       const pendiente = Object.values(actividadesPorConfimar).filter(activity => activity.confirmado === false).length
       setCompleted(completado)
       setPendiente(pendiente)
     }
-    
+
   }, [actividadesPorConfimar]);
 
   const manejarDropDown = (event) => {
@@ -63,6 +63,10 @@ const TutorActividadTable = ({ usuario }) => {
     setNombreHijo(value);
     setHijoSeleccionado(id);
   };
+  const filtro = (event) => {
+    const valor = event.target.value;
+    setDia(valor);
+  }
   return (
 
     <Box>
@@ -76,11 +80,11 @@ const TutorActividadTable = ({ usuario }) => {
             <Typography variant="h6" color="#545454" marginTop={2}>¡Bienvenid@ {usuario.nombre + " " + usuario.apellido}!</Typography>
           </Stack>
           <Stack direction="row" marginRight={3} spacing={3}>
-            
-              <Link to='/monitoreo'>
-                <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} >Monitoreo</Button>
-              </Link>
-            
+
+            <Link to='/monitoreo'>
+              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} >Monitoreo</Button>
+            </Link>
+
             <Link to='/sugerencias'>
               <Button variant="contained" color="warning" sx={{ backgroundColor: '#FCA600', maxWidth: '150px' }} >Sugerencias</Button>
             </Link>
@@ -101,10 +105,10 @@ const TutorActividadTable = ({ usuario }) => {
 
 
         <Grid container direction="column">
-          <Stack  direction="row" alignItems="center" justifyContent="space-between" width="100%">
-            
-              <Stack marginLeft={7}   sx={{ width: '150px' , mb:2}}>
-              <FormControl sx={{ mt: 3, width: 250 ,backgroundColor: 'White' }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
+
+            <Stack direction="row" marginLeft={7} sx={{ mb: 2 }} spacing={2} >
+              <FormControl fullWidth sx={{ mt: 3, backgroundColor: 'White', width: 300 }}>
                 <InputLabel sx={{ width: 250 }} id="demo-multiple-name-label"> Seleccione niño </InputLabel>
                 <Select
                   labelId="demo-multiple-name-label"
@@ -120,34 +124,60 @@ const TutorActividadTable = ({ usuario }) => {
                   {hijos.map((hijo) => (<MenuItem id={hijo.usuario} value={hijo.nombre} key={hijo.usuario} >{hijo.nombre}</MenuItem>))}
                 </Select>
               </FormControl>
-              </Stack>
-              <Stack marginRight={15} marginTop={3} sx={{ width: '150px' }}>
+
+              <Box sx={{ mt: 3 }}>
+                <AiFillFilter />
+                <FormControl sx={{ backgroundColor: 'White', width: 100, }}>
+                  <InputLabel id="filtro"></InputLabel>
+                  <Select
+                    labelId="filtro"
+                    id="filtro"
+                    value={dia}
+                    label="filtro"
+                    onChange={filtro}
+                  >
+                    <MenuItem value={"hoy"}>Hoy</MenuItem>
+                    <MenuItem value={"todas"}>Todas</MenuItem>
+                    <MenuItem value={"Lunes"}>Lunes</MenuItem>
+                    <MenuItem value={"Martes"}>Martes</MenuItem>
+                    <MenuItem value={"Miercoles"}>Miércoles</MenuItem>
+                    <MenuItem value={"Jueves"}>Jueves</MenuItem>
+                    <MenuItem value={"Viernes"}>Viernes</MenuItem>
+                    <MenuItem value={"Sabado"}>Sábado</MenuItem>
+                    <MenuItem value={"Domingo"}>Domingo</MenuItem>
+
+                  </Select>
+                </FormControl>
+              </Box>
+
+            </Stack>
+            <Stack marginRight={15} marginTop={3} sx={{ width: '150px' }}>
               <Link to='crear/'>
                 <Button variant="contained" sx={{ backgroundColor: '#4EBFB7', maxWidth: '450px' }} >Agregar</Button>
               </Link>
-              
+
               <Box border={2} borderRadius={2} marginTop={2} color="#B4B1B1" sx={{ backgroundColor: 'White', maxWidth: '400px', maxHeight: '400px' }}>
 
-              <Stack direction="column" justifyContent="center" alignItems="center" margin={1}>
-              <Typography variant="subtitle2" color="#545454" >Estado Actividad</Typography>
-                <Stack direction="row"  marginTop={1} spacing={2}>
-                <Typography variant="subtitle2" color="#7560AB">Pendiente</Typography>
-                <Box  borderRadius={100} color="White" sx={{backgroundColor: '#7560AB', minHeight: '5px',minWidth: '20px'  }}>‎ ‎ {pendiente}</Box>
-                </Stack>
-                <Stack direction="row"  marginTop={1} spacing={1}>
-                <Typography variant="subtitle2" color="#79C665">Completada</Typography>
-                <Box borderRadius={100} color="White" sx={{backgroundColor: '#79C665', minHeight: '5px',minWidth: '20px'  }}>‎ ‎ {completed}</Box>
-                </Stack>
+                <Stack direction="column" justifyContent="center" alignItems="center" margin={1}>
+                  <Typography variant="subtitle2" color="#545454" >Estado Actividad</Typography>
+                  <Stack direction="row" marginTop={1} spacing={2}>
+                    <Typography variant="subtitle2" color="#7560AB">Pendiente</Typography>
+                    <Box borderRadius={100} color="White" sx={{ backgroundColor: '#7560AB', minHeight: '5px', minWidth: '20px' }}>‎ ‎ {pendiente}</Box>
+                  </Stack>
+                  <Stack direction="row" marginTop={1} spacing={1}>
+                    <Typography variant="subtitle2" color="#79C665">Completada</Typography>
+                    <Box borderRadius={100} color="White" sx={{ backgroundColor: '#79C665', minHeight: '5px', minWidth: '20px' }}>‎ ‎ {completed}</Box>
+                  </Stack>
                 </Stack>
               </Box>
-              
-              </Stack>
+
+            </Stack>
 
           </Stack>
 
           <Grid container direction="column" alignItems="center">
             <Box border={2} borderRadius={20} color="#B4B1B1" sx={{ backgroundColor: '#B4B1B1', maxHeight: '60px' }}>
-              <Typography variant="h5" color="White" margin={1}>Actividades Semanales</Typography>
+              <Typography variant="h5" color="White" margin={1}>{dia == 'todas' ? "Todas las actividades Semanales" : "Actividades de: " + dia + "."}</Typography>
             </Box>
 
             <Stack justifyContent={"center"} alignItems="center" sx={{ maxWidth: 1050, border: "4px solid #6DCBC4", borderRadius: 2 }} marginTop={3} flex={1}>
