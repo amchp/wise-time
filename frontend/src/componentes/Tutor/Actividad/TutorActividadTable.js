@@ -55,6 +55,7 @@ const TutorActividadTable = ({ usuario }) => {
     }
 
   }, [actividadesPorConfimar]);
+ 
 
   const manejarDropDown = (event) => {
     const id = event.explicitOriginalTarget.id;
@@ -99,8 +100,11 @@ const TutorActividadTable = ({ usuario }) => {
         style={{
           backgroundImage: `url(${fondoActividadTutor})`,
           backgroundSize: "cover",
-          height: "100vh",
-        }}>
+          height: tablaDeActividades.length > 4 ? (""):("100vh")
+        
+
+        }}
+        >
 
 
 
@@ -108,7 +112,7 @@ const TutorActividadTable = ({ usuario }) => {
           <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
 
             <Stack direction="row" marginLeft={7} sx={{ mb: 2 }} spacing={2} >
-              <FormControl fullWidth sx={{ mt: 3, backgroundColor: 'White', width: 300 }}>
+              <FormControl fullWidth sx={{ backgroundColor: 'White', width: 300 }}>
                 <InputLabel sx={{ width: 250 }} id="demo-multiple-name-label"> Seleccione niño </InputLabel>
                 <Select
                   labelId="demo-multiple-name-label"
@@ -125,16 +129,19 @@ const TutorActividadTable = ({ usuario }) => {
                 </Select>
               </FormControl>
 
-              <Box sx={{ mt: 3 }}>
+              
                 <AiFillFilter />
-                <FormControl sx={{ backgroundColor: 'White', width: 100, }}>
-                  <InputLabel id="filtro"></InputLabel>
+                <FormControl sx={{ backgroundColor: 'White', width: 150, }}>
+                  <InputLabel sx={{ width: 210 }} id="filtro">Seleccione día</InputLabel>
                   <Select
                     labelId="filtro"
                     id="filtro"
                     value={dia}
                     label="filtro"
                     onChange={filtro}
+                    input={
+                      <OutlinedInput id="filtro" label="Seleccione día" />
+                    }
                   >
                     <MenuItem value={"hoy"}>Hoy</MenuItem>
                     <MenuItem value={"todas"}>Todas</MenuItem>
@@ -148,7 +155,7 @@ const TutorActividadTable = ({ usuario }) => {
 
                   </Select>
                 </FormControl>
-              </Box>
+            
 
             </Stack>
             <Stack marginRight={15} marginTop={3} sx={{ width: '150px' }}>
