@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import FiltroDeMonitoreoDeHijo from './FiltroDeMonitoreoDeHijo';
 import GraficaDeMonitoreoDeHijo from './GraficaDeMonitoreoDeHijo';
+import { conseguirTodasActividades } from '../../../servicios/ActividadServicio';
 import { conseguirMonitoreoDeHijo } from '../../../servicios/HistoriaDeActividadServicio';
-import { Grid, Box, Container, Button, Stack, AppBar, Toolbar } from '@mui/material/';
+import { Box, Container, Button, Stack, AppBar, Toolbar } from '@mui/material/';
 import { Link } from "react-router-dom";
 import fondoHome from '../../../imagenes/fondoHome.png';
 
@@ -10,7 +11,7 @@ import fondoHome from '../../../imagenes/fondoHome.png';
 const MonitoreoDeHijo =  ({usuario}) => {
     const [hijoSelecionado, setHijoSeleccionado] = useState(0);
     const [dias, setDias] = useState([new Date(), new Date()]);
-    const [inforamacionDeGrafica, setInforamacionDeGrafica] = useState([{dia: "", cuenta: 0}]);
+    const [inforamacionDeGrafica, setInforamacionDeGrafica] = useState([]);
     
 
     const dateToString = (date) => {
@@ -28,8 +29,23 @@ const MonitoreoDeHijo =  ({usuario}) => {
             'confirmado': true
         }
         const datosDeGrafica = await conseguirMonitoreoDeHijo(filtros);
-        console.log(datosDeGrafica, typeof datosDeGrafica);
-        setInforamacionDeGrafica(datosDeGrafica);
+        coseguirActividadesQueSeTenianQueHacerEseDia(datosDeGrafica);
+    }
+
+    const coseguirActividadesQueSeTenianQueHacerEseDia = async (datosDeGrafica) =>{
+        let dia, cuentaDeActividad;
+        let filtros = {
+            'hijos': hijoSelecionado,
+        };
+        const diaADia = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+        for(const dato of datosDeGrafica){
+            dia = new Date(dato['dia']);
+            filtros['creado__gte'] = dateToString(dia);
+            filtros['dias'] = diaADia[dia.getDay()];
+            cuentaDeActividad = await conseguirTodasActividades(filtros);
+            dato['cuentaTotal'] = cuentaDeActividad.length;
+        }
+        setInforamacionDeGrafica(datosDeGrafica)
     }
 
     useEffect(()=> {
@@ -66,6 +82,7 @@ const MonitoreoDeHijo =  ({usuario}) => {
     }}>
             <FiltroDeMonitoreoDeHijo usuario={usuario} setHijoSeleccionado={setHijoSeleccionado} setDias={setDias} dias={dias}/>
             <Stack justifyContent={"center"} alignItems="center" marginTop={3} sx={{ backgroundColor: 'White'}}>
+            { inforamacionDeGrafica !== [] && <h1>No hay Información</h1>}
             <GraficaDeMonitoreoDeHijo inforamacionDeGrafica={inforamacionDeGrafica}/>
             </Stack>
         </Box>

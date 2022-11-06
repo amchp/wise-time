@@ -12,30 +12,31 @@ from django_filters.rest_framework import (
 )
 
 
-class DiasFilter(FilterSet):
+class ActividadFilter(FilterSet):
     dias = CharFilter(field_name='dias', lookup_expr='icontains')
 
     class Meta:
         model = Actividad
-        fields = ['dias']
+        fields = {
+            'nombre': ['exact'],
+            'descripcion': ['exact'],
+            'hijos': ['exact'],
+            'creado': ['gte', 'lte', 'exact'],
+            'dias': []
+        }
 
 
-class DiasFilterBackend(BaseFilterBackend):
+class ActividadFilterBackend(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        dias = DiasFilter(request.query_params)
-        return (queryset & dias.qs)
+        dias = ActividadFilter(request.query_params)
+        return (dias.qs)
 
 
 
 class ActividadView(viewsets.ModelViewSet):
 
     serializer_class = ActividadSerializer
-    filter_backends = [DjangoFilterBackend, DiasFilterBackend]
-    filterset_fields = [
-        'nombre',
-        'descripcion',
-        'hijos',
-    ]
+    filter_backends = [ActividadFilterBackend]
 
     def get_queryset(self):
         return Actividad.objects.all()
@@ -84,7 +85,7 @@ class MonitoreoDeActividadView(viewsets.ReadOnlyModelViewSet):
             'dia'
         ).annotate(
             cuenta=Count('dia')
-        )
+        ).order_by('dia')
 
         serializer = self.get_serializer(query_set_resumido, many=True)
         return Response(serializer.data)

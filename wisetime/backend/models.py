@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from datetime import date
+from math import floor, log2, ceil
+
 
 
 class Usuario(AbstractUser):
@@ -48,6 +50,46 @@ class HistoriaDeLaActividad(models.Model):
     confirmado = models.BooleanField(default=False)
     dia = models.DateField(default=date.today)
 
+    def save(self):
+        super(HistoriaDeLaActividad, self).save(0)
+        hijo = self.hijo_actividad.hijo
+        actividad = self.hijo_actividad.actividad
+        if self.confirmado:
+            Notificacion.objects.create(
+                descripcion=f'Se ha confirmado que hiciste {actividad.nombre}.',
+                usuario=hijo.usuario
+            )
+            numeroDeActividadesConfirmadas = HistoriaDeLaActividad.objects.filter(
+                    hijo_actividad__hijo=hijo,
+                    confirmado=True
+            ).count()
+            if floor(log2(numeroDeActividadesConfirmadas)) != floor(log2(numeroDeActividadesConfirmadas + 1)):
+                logro, created = Logro.objects.get_or_create(
+                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad',
+                )
+                LogroHijo(
+                    hijo=hijo,
+                    logro=logro
+                ).save()
+                self.hijo_actividad.hijo.puntos += ceil(
+                    max(numeroDeActividadesConfirmadas - 3, 0) *50 / numeroDeActividadesConfirmadas
+                )
+        if self.completado and not self.confirmado:
+            Notificacion.objects.create(
+                descripcion=f'{hijo.usuario} ha completado {actividad.nombre}.',
+                usuario=hijo.tutor.usuario
+            )
+
+    def delete(self, *args, **kwargs):
+        hijo = self.hijo_actividad.hijo
+        actividad = self.hijo_actividad.actividad
+        Notificacion.objects.create(
+            descripcion=f'No se ha confirmado que hiciste {actividad.nombre}.',
+            usuario=hijo.usuario
+        )
+        super().delete()
+
+
 
 class Actividad(models.Model):
     class DiasSemana(models.TextChoices):
@@ -64,6 +106,7 @@ class Actividad(models.Model):
         max_length=255, choices=DiasSemana.choices), max_length=7)
     hora = models.TimeField()
     hijos = models.ManyToManyField("Hijo", through=HijoActividad)
+    creado = models.DateTimeField(auto_now_add=True)
 
 
 class Hijo(models.Model):
@@ -80,14 +123,30 @@ class Sugerencia(models.Model):
     descripcion = models.CharField(max_length=255)
     edad = models.IntegerField()
 
+class LogroHijo(models.Model):
+    logro = models.ForeignKey("Logro", on_delete=models.CASCADE)
+    hijo = models.ForeignKey("Hijo", on_delete=models.CASCADE)
+
+    def save(self):
+        super(LogroHijo, self).save()
+        hijo = self.hijo
+        logro = self.logro
+        Notificacion.objects.create(
+            descripcion=f'Ganaste el logro {logro.descripcion}',
+            usuario=hijo.usuario
+        )
+        Notificacion.objects.create(
+            descripcion=f'{hijo.usuario} gano el logro {logro.descripcion}',
+            usuario=hijo.tutor.usuario
+        )
+
 
 class Logro(models.Model):
-    nombre = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255)
-    hijo = models.ManyToManyField(Hijo)
+    hijos = models.ManyToManyField(Hijo, through=LogroHijo)
 
 
 class Notificacion(models.Model):
     descripcion = models.CharField(max_length=255)
-    hijo = models.ForeignKey(Hijo, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     tiempo = models.DateTimeField(auto_now_add=True)
