@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Grid, Typography, TextField, Button, Container } from '@mui/material';
+import { Box, Grid, Typography, TextField, Button, Container, Stack, AppBar,Toolbar} from '@mui/material';
 import { conseguirActividad } from '../../../servicios/ActividadServicio';
 import { Link } from "react-router-dom";
+import fondoLoginTutor from '../../../imagenes/fondoLoginTutor.png';
 
 
 const TutorActivityInfo = () => {
@@ -17,22 +18,52 @@ const TutorActivityInfo = () => {
     }, [])
 
     return (
-        <Box >
+        <Box>
+            <AppBar position="static"  style={{
+                backgroundColor: "White"
+            }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters  >
+                        <Stack direction="row" alignItems="center"  justifyContent="space-between" width="100%">
+                            <img
+                            src={require('../../../imagenes/logoWiseTime2.png')}
+                            width="130" height="35"
+                            alt='Logo' />
+                            <Link to='/actividades'>
+                            <Button  variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '300px' }} >volver</Button>
+                            </Link>
+                        </Stack>
+                    </Toolbar>
+                    
+                </Container>
+        </AppBar>
+        <Box
+        class="fondoLoginTutor"
+        style={{
+          backgroundImage: `url(${fondoLoginTutor})`,
+          backgroundSize: "cover",
 
-            <Container fixed sx={{ borderRadius: '5%', border: '1px dashed blue', p: 10 }}>
+          height: "100vh",
+
+        }}>  
+
+            
                 <Grid container direction="column" alignItems="center">
+                <Box border={2} marginTop={5} borderRadius={5} color="#7560AB" sx={{ backgroundColor: 'White'}}>
+                <Stack justifyContent={"center"} padding={3} alignItems="center" sx={{maxHeight: '1000px', maxWidth: '900px' }}>   
                     <Grid item xs={6}>
-                        <Typography variant="h3" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                             Información de actividad
                         </Typography>
                     </Grid>
-                </Grid>
+                    
+                
 
 
                 <Grid container rowSpacing={2}>
 
                     <Grid item xs={12}>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="subtitle2" gutterBottom>
                             Nombre
                         </Typography>
                         <TextField
@@ -42,10 +73,11 @@ const TutorActivityInfo = () => {
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{width:"500px"}}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="subtitle2" gutterBottom>
                             Descripción
                         </Typography>
                         <TextField
@@ -55,6 +87,7 @@ const TutorActivityInfo = () => {
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{width:"500px"}}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -66,7 +99,7 @@ const TutorActivityInfo = () => {
 
                 <Grid container spacing={10} rowSpacing={3}>
                     <Grid item xs={2} >
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="subtitle2" gutterBottom>
                             Hora
                         </Typography>
                         <TextField
@@ -75,22 +108,21 @@ const TutorActivityInfo = () => {
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{width:"200px"}}
                         />
                     </Grid>
-                    <Grid item xs={2}>
-                        <Link to='/actividades'>
-                            <Button variant="contained" component="label">
-                                Volver
-                            </Button>
-                        </Link>
-                    </Grid>
+                    
+                </Grid>
+                </Stack>
+                </Box>
                 </Grid>
 
 
 
-            </Container>
-
-        </Box >
+            
+        
+        </Box>
+        </Box>
 
     )
 }

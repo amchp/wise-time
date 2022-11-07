@@ -3,8 +3,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useParams, useNavigate } from 'react-router-dom';
 import { conseguirActividad, crearActividad, actualizarActividad } from '../../../servicios/ActividadServicio';
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
-import { FormControl, InputLabel, MenuItem, Select, ListItemText, OutlinedInput, Grid, Container, TextField, Button, Typography, Stack, AppBar, Toolbar } from '@mui/material/';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { FormControl, InputLabel, MenuItem, Select, ListItemText, Box,OutlinedInput, Grid, Container, TextField, Button, Typography, Stack, AppBar, Toolbar } from '@mui/material/';
 import { Link } from "react-router-dom";
 import fondoLoginTutor from '../../../imagenes/fondoLoginTutor.png';
 const initialForm = {
@@ -144,31 +143,53 @@ const TutorActividadForm = ({ usuario }) => {
     navigate('/actividades/')
   };
 
-  const theme = createTheme({
-    typography: {
-      fontFamily: ["Nunito", "sans-serif"].join(","),
-    },
-  });
+  
 
   return (
-    <ThemeProvider theme={theme}>
+    <Box>
+      <AppBar position="static"  style={{
+                backgroundColor: "White"
+            }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters  >
+                        <Stack direction="row" alignItems="center"  justifyContent="space-between" width="100%">
+                            <img
+                            src={require('../../../imagenes/logoWiseTime2.png')}
+                            width="130" height="35"
+                            alt='Logo' />
+                            <Link to='/actividades'>
+                            <Button  variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '300px' }} >volver</Button>
+                            </Link>
+                        </Stack>
+                    </Toolbar>
+                    
+                </Container>
+        </AppBar>
+        <Box
+        class="fondoLoginTutor"
+        style={{
+          backgroundImage: `url(${fondoLoginTutor})`,
+          backgroundSize: "cover",
 
+          height: "100vh",
 
-      <Stack marginTop={5} sx={{ backgroundColor: 'white' }}>
-        <Container fixed sx={{ p: 2, border: '1px dashed grey' }}>
-          <Grid container direction="column" alignItems="center">
-            <Grid item xs={6}>
+        }}>  
+      <Grid container direction="column" alignItems="center">
+      
+      <Box border={2} marginTop={5} borderRadius={5} color="#7560AB" sx={{ backgroundColor: 'White'}}>
+      <Stack justifyContent={"center"} padding={3} alignItems="center" sx={{maxHeight: '1200px', maxWidth: '1000px' }}>   
+            <Grid>
               <Typography variant="h6" gutterBottom>
                 {creating ? "Agregar Actividad" : "Editar Actividad"}
               </Typography>
 
             </Grid>
-          </Grid>
+          
 
           <form onSubmit={handleSubmit}>
             <Grid container rowSpacing={2}>
               <Grid item xs={12}>
-                <FormControl sx={{ m: 1, width: 500 }}>
+                <FormControl sx={{ width: 500 }}>
                   <InputLabel id="dropDown">Seleccione niños</InputLabel>
                   <Select labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
@@ -199,6 +220,7 @@ const TutorActividadForm = ({ usuario }) => {
                   placeholder="Nombre de la tarea"
                   onChange={handleChange}
                   value={form.nombre}
+                  sx={{width:"500px"}}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -210,11 +232,12 @@ const TutorActividadForm = ({ usuario }) => {
                   placeholder="descripcion"
                   onChange={handleChange}
                   value={form.descripcion}
+                  sx={{width:"600px"}}
                 />
               </Grid>
             </Grid>
 
-            <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} >
+            <Grid container direction="row" margin={2} justifyContent="center" alignItems="center" spacing={2} >
 
               <Grid item xs={1}>
                 <Checkbox checked={mapaDeDias["Lunes"]} type="checkbox" onChange={handleCheckBox} name="Lunes" /><span>L</span>
@@ -250,7 +273,7 @@ const TutorActividadForm = ({ usuario }) => {
                   value={form.hora}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={2} marginTop={2}>
                 <Button variant="contained" component="label">
                   Guardar
                   <input type="submit" hidden />
@@ -259,15 +282,14 @@ const TutorActividadForm = ({ usuario }) => {
             </Grid>
           </form>
 
-          <Link to='/actividades'>
-            <Button variant="contained" component="label">
-              Volver
-            </Button>
-          </Link>
-        </Container>
-      </Stack>
-
-    </ThemeProvider>
+        
+        </Stack>
+        </Box>
+      
+      </Grid>
+      </Box>
+      </Box>
+  
 
   )
 
