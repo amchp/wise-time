@@ -163,3 +163,22 @@ export async function actualizarPassword(actual, nueva, repetida) {
     }
 
 }
+export async function actualizarEmail(actual, nuevoCorreo) {
+    const datos = {
+        "current_password": actual,
+        "new_username": nuevoCorreo,
+    };
+    const config = conseguirConfiguracionDeAutenticacion();
+    try {
+        await axios.post(
+            'http://127.0.0.1:8000/auth/users/set_username/', datos, config
+        );
+        alert("Correo actualizado correctamente, se direccionará a la página principal");
+        cerrarSesion();
+
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}

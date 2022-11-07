@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Grid, Modal, Box, Link, Typography, Button, Stack, Paper, TextField, FormControl, FormHelperText, Divider } from '@mui/material/';
+import { Input, InputLabel, InputAdornment, Grid, Modal, Box, Link, Typography, Button, Stack, Paper, TextField, FormControl, FormHelperText, Divider } from '@mui/material/';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { actualizarNombreYApellido } from '../../../servicios/AuthenticacionServicio';
 import PaswordContainer from './PaswordContainer';
 
+import { AiFillEdit } from "react-icons/ai";
+import EmailContainer from './EmailContainer';
 //import fondoLoginTutor from "../../../imagenes/fondoLoginTutor";
 function Cuenta({ usuario }) {
     const [open, setOpen] = useState(false);
-
+    const [openEmail, setOpenEmail] = useState(false);
     const userSchema = yup.object().shape({
         nombre: yup.string().required("Campo de nombre vacio"),
         apellido: yup.string().required("Campo de apellido vacio"),
@@ -18,6 +20,9 @@ function Cuenta({ usuario }) {
     const formHandleSubmit = (data) => {
         console.log(data);
         actualizarNombreYApellido(data);
+    }
+    const editarEmail = () => {
+
     }
     return (
         <>
@@ -89,27 +94,29 @@ function Cuenta({ usuario }) {
                                             </Box>
                                         </Grid>
                                         <Grid container item xs={6} direction="column" >
-                                            <TextField
-                                                margin="normal"
-
-                                                id="email"
-                                                label=" email"
-                                                name="email"
-                                                value={usuario.username}
-                                                color="secondary"
-
-                                            />
-                                            <Link
-                                                component="button"
-                                                variant="body2"
-                                                onClick={() => {
-                                                    console.info("I'm a button.");
-                                                }}
+                                            <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                                                <InputLabel htmlFor="email">E-mail</InputLabel>
+                                                <Input
+                                                    id="email"
+                                                    type="text"
+                                                    value={usuario.username}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <Button onClick={() => { setOpenEmail(true) }}><AiFillEdit /></Button>
+                                                        </InputAdornment>
+                                                    }
+                                                />
+                                            </FormControl>
+                                            <Modal
+                                                hideBackdrop
+                                                open={openEmail}
+                                                onClose={() => { setOpenEmail(false) }}
+                                                aria-labelledby="child-modal-title"
+                                                aria-describedby="child-modal-description"
                                             >
-                                                Click aquí para cambiar su email
-                                            </Link>
+                                                <EmailContainer cambiarEstado={() => { setOpenEmail(false) }} />
+                                            </Modal>
                                             <Button
-                                                type="submit"
                                                 fullWidth
                                                 color="secondary"
                                                 variant="contained"
@@ -121,11 +128,11 @@ function Cuenta({ usuario }) {
                                             <Modal
                                                 hideBackdrop
                                                 open={open}
-                                                onClose={()=>{setOpen(false)}}
+                                                onClose={() => { setOpen(false) }}
                                                 aria-labelledby="child-modal-title"
                                                 aria-describedby="child-modal-description"
                                             >
-                                                <PaswordContainer cambiarEstado={()=>{setOpen(false)}}/>
+                                                <PaswordContainer cambiarEstado={() => { setOpen(false) }} />
                                             </Modal>
                                         </Grid>
                                     </Grid>
