@@ -3,6 +3,8 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from datetime import date
 from math import floor, log2, ceil
+from django_cron import CronJobBase, Schedule
+from datetime import datetime
 
 
 
@@ -50,8 +52,8 @@ class HistoriaDeLaActividad(models.Model):
     confirmado = models.BooleanField(default=False)
     dia = models.DateField(default=date.today)
 
-    def save(self):
-        super(HistoriaDeLaActividad, self).save(0)
+    def save(self, *args, **kwarg):
+        super(HistoriaDeLaActividad, self).save(*args, **kwarg)
         hijo = self.hijo_actividad.hijo
         actividad = self.hijo_actividad.actividad
         if self.confirmado:
@@ -127,8 +129,8 @@ class LogroHijo(models.Model):
     logro = models.ForeignKey("Logro", on_delete=models.CASCADE)
     hijo = models.ForeignKey("Hijo", on_delete=models.CASCADE)
 
-    def save(self):
-        super(LogroHijo, self).save()
+    def save(self, *args, **kwarg):
+        super(LogroHijo, self).save(*args, **kwarg)
         hijo = self.hijo
         logro = self.logro
         Notificacion.objects.create(
@@ -150,3 +152,20 @@ class Notificacion(models.Model):
     descripcion = models.CharField(max_length=255)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     tiempo = models.DateTimeField(auto_now_add=True)
+
+class CheckForNotifications(CronJobBase):
+    RUN_EVERY_MINS = 1 # every 2 hours
+
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'backend.CheckForNotifications'    # a unique code
+
+    def do(self):
+        now = datetime.now()
+        actividades = Actividad.objects.filter(hora=f'{now.hour}:{now.minute}')
+        for actividad in actividades:
+            print(actividad.hijos.all())
+            for hijo in actividad.hijos.all():
+                Notificacion.objects.create(
+                    descripcion=f"Tiempo de hacer {actividad.nombre}",
+                    usuario=hijo.usuario
+                )
