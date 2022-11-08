@@ -1,4 +1,3 @@
-from urllib import response
 from .models import Actividad, Hijo, HijoActividad, HistoriaDeLaActividad, Logro, Notificacion, Sugerencia, Tutor
 from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSerializer, HistoriaDeLaActividadSerializer, LogroSerializer, MonitoreoDeActividadSerializer, NotificacionSerializer, SugerenciaSerializer, TutorSerializer
 from rest_framework import viewsets
