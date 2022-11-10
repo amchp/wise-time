@@ -67,7 +67,7 @@ class HistoriaDeLaActividad(models.Model):
             ).count()
             if floor(log2(numeroDeActividadesConfirmadas)) != floor(log2(numeroDeActividadesConfirmadas + 1)):
                 logro, created = Logro.objects.get_or_create(
-                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad',
+                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad(es)',
                 )
                 LogroHijo(
                     hijo=hijo,
