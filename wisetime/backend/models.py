@@ -118,6 +118,7 @@ class Hijo(models.Model):
     puntos = models.IntegerField(default=0)
     actividades = models.ManyToManyField(Actividad, through=HijoActividad)
     edad = models.IntegerField(default=0)
+    logros = models.ManyToManyField('Logro', through='LogroHijo')
 
 
 class Sugerencia(models.Model):
@@ -146,6 +147,9 @@ class LogroHijo(models.Model):
 class Logro(models.Model):
     descripcion = models.CharField(max_length=255)
     hijos = models.ManyToManyField(Hijo, through=LogroHijo)
+
+    def __str__(self):
+        return self.descripcion
 
 
 class Notificacion(models.Model):

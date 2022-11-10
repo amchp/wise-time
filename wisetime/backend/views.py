@@ -3,7 +3,7 @@ from .serializers import ActividadSerializer, HijoActividadSerializer, HijoSeria
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Count
-from rest_framework.filters import BaseFilterBackend
+from rest_framework.filters import BaseFilterBackend, OrderingFilter
 from django_filters.rest_framework import (
     DjangoFilterBackend,
     FilterSet,
@@ -142,13 +142,12 @@ class LogroView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Logro.objects.all()
 
-
 class NotificacionView(viewsets.ModelViewSet):
 
     serializer_class = NotificacionSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = [
-        'hijo',
+        'usuario',
     ]
 
     def get_queryset(self):

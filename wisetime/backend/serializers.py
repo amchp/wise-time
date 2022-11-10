@@ -43,6 +43,7 @@ class ActividadSerializer(serializers.ModelSerializer):
 
 class HijoSerializer(serializers.ModelSerializer):
     nombre = serializers.StringRelatedField(source='usuario')
+    logros__descripcion = serializers.SerializerMethodField('get_logros')
 
     class Meta:
         model = Hijo
@@ -51,8 +52,15 @@ class HijoSerializer(serializers.ModelSerializer):
             'tutor',
             'nombre',
             'puntos',
-            'edad'
+            'edad',
+            'logros__descripcion',
         ]
+
+    def get_logros(self, hijo):
+        logros = []
+        for logro in hijo.logros.all():
+            logros.append(str(logro))
+        return logros
 
 
 class HistoriaDeLaActividadSerializer(serializers.ModelSerializer):
@@ -103,14 +111,13 @@ class SugerenciaSerializer(serializers.ModelSerializer):
         model = Sugerencia
         fields = ['nombre', 'descripcion', 'edad']
 
-
 class LogroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Logro
-        fields = ['nombre', 'descripcion', 'hijo']
+        fields = ['descripcion', 'hijos']
 
 
 class NotificacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notificacion
-        fields = ['descripcion', 'hijo', 'tiempo']
+        fields = ['descripcion', 'usuario', 'tiempo']
