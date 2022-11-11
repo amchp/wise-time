@@ -7,15 +7,19 @@ import Stack from '@mui/material/Stack';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Grid, Paper, Box, AppBar, Container, Toolbar, Typography, FormControl, InputLabel, Select, MenuItem, OutlinedInput } from '@mui/material/';
+import Notificaciones from './Notificaciones';
+import { Grid, Paper, Box, Toolbar, Typography, FormControl, InputLabel, Select, MenuItem, OutlinedInput,Badge,Tooltip,Avatar,IconButton } from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados } from '../../../servicios/TablaServicio';
 import TutorActividadTableRow from './TutorActividadTableRow';
 import fondoActividadTutor from '../../../imagenes/fondoActividadTutor.svg';
 import { Link } from "react-router-dom";
 import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 import { cerrarSesion } from '../../../servicios/AuthenticacionServicio';
-import { AiFillFilter,AiOutlineLineChart,AiOutlineSetting,AiOutlineSchedule} from "react-icons/ai";
+import { FaPowerOff} from "react-icons/fa";
+import { BsFillGearFill} from "react-icons/bs";
+import { AiFillFilter,AiOutlineLineChart,AiOutlineSchedule} from "react-icons/ai";
 const TutorActividadTable = ({ usuario }) => {
+  
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar, ponerActividadesPorConfimar] = useState({});
   const [hijos, setHijos] = useState([]);
@@ -25,9 +29,10 @@ const TutorActividadTable = ({ usuario }) => {
   const [completed, setCompleted] = useState(0)
   const [pendiente, setPendiente] = useState(0)
   const [dia, setDia] = useState('hoy');
-
-
+  const [numeroNotificaciones,setNumeroNotificaciones]=useState(0);
+  console.log(numeroNotificaciones);
   const conseguirInformacionDeLosHijos = async () => {
+
     const filtros = { 'tutor': usuario.id.toString() };
     return await conseguirTodosLosHijos(filtros);
   }
@@ -83,18 +88,38 @@ const TutorActividadTable = ({ usuario }) => {
           <Stack direction="row" marginRight={3} spacing={3}>
          
             <Link to='/monitoreo'>
-              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} ><AiOutlineLineChart/>Monitoreo</Button>
+              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px',height: 40  }} ><AiOutlineLineChart/>Monitoreo</Button>
             </Link>
 
             <Link to='/sugerencias'>
-              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' }} > <AiOutlineSchedule/>Sugerencias</Button>
+              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '150px' ,height: 40 }} > <AiOutlineSchedule/>Sugerencias</Button>
             </Link>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+        <Tooltip title="Ajustes">
+        <Link to='/configuraciones'>
+          <IconButton
+            size="small"
+            >
+            <Avatar sx={{ width: 45, height: 45 ,backgroundColor: '#7560AB' }}>< BsFillGearFill/></Avatar>
+          </IconButton>
+          </Link>
+        </Tooltip>
+      </Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+        <Tooltip title="Cerrar Sesión">
+        
+          <IconButton
+            size="small"
+            onClick={() => { cerrarSesion() }}
+            >
+            <Avatar sx={{ width: 45, height: 45 ,backgroundColor: '#ED6060' }}><FaPowerOff/></Avatar>
+          </IconButton>
+          
+        </Tooltip>
+      </Box>
+            
 
-            <Link to='/configuraciones'>
-              <Button variant="contained" color="secondary" sx={{ backgroundColor: '#7560AB', maxWidth: '130px'}} ><AiOutlineSetting/>Ajustes</Button>
-            </Link>
-
-            <Button onClick={() => { cerrarSesion() }} variant="contained" color="error" sx={{ backgroundColor: '#ED6060', maxWidth: '150px' }} >Cerrar Sesión</Button>
+          
 
           </Stack>
         </Stack>
@@ -163,21 +188,28 @@ const TutorActividadTable = ({ usuario }) => {
 
             </Stack>
             <Stack marginRight={15} marginTop={3} sx={{ width: '150px' }}>
+              <Stack direction="row" spacing={2}>
               <Link to='crear/'>
                 <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '450px' }} >Agregar</Button>
               </Link>
-
+          
+             <Badge marginbottom={2} badgeContent={numeroNotificaciones} color="error" >
+              <Notificaciones usuario={usuario} setNumeroNotificaciones={setNumeroNotificaciones}/>
+            </Badge>
+              
+              </Stack>
               <Box border={2} borderRadius={2} marginTop={2} color="#B4B1B1" sx={{ backgroundColor: 'White', maxWidth: '400px', maxHeight: '400px' }}>
 
                 <Stack direction="column" justifyContent="center" alignItems="center" margin={1}>
+                  
                   <Typography variant="subtitle2" color="#545454" >Estado Actividad</Typography>
                   <Stack direction="row" marginTop={1} spacing={2}>
                     <Typography variant="subtitle2" color="#7560AB">Pendiente</Typography>
-                    <Box borderRadius={100} color="White" sx={{ backgroundColor: '#7560AB', minHeight: '5px', minWidth: '20px' }}>‎ ‎ {pendiente}</Box>
+                    <Box display="flex" alignItems="center"justifyContent="center" borderRadius={100} color="White" sx={{ backgroundColor: '#7560AB', minHeight: '5px', minWidth: '20px',padding:'2px'}}> {pendiente}</Box>
                   </Stack>
                   <Stack direction="row" marginTop={1} spacing={1}>
                     <Typography variant="subtitle2" color="#79C665">Completada</Typography>
-                    <Box borderRadius={100} color="White" sx={{ backgroundColor: '#79C665', minHeight: '5px', minWidth: '20px' }}>‎ ‎ {completed}</Box>
+                    <Box display="flex" alignItems="center"justifyContent="center"borderRadius={100} color="White" sx={{ backgroundColor: '#79C665', minHeight: '5px', minWidth: '20px', padding:'2px' }}> {completed}</Box>
                   </Stack>
                 </Stack>
               </Box>

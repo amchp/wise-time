@@ -12,11 +12,19 @@ import LogrosTableRow from './LogrosTableRow';
 import fondoLogros from '../../../imagenes/fondoLogros.svg';
 import { Link } from "react-router-dom";
 import Fab from '@mui/material/Fab';
-
+import { conseguirTodosLosHijos } from '../../../servicios/HijoServicio';
 
 
 const LogrosTable = ({usuario}) => {
+const [tablaDeLogros,setTablaDeLogros]=useState([]);
+useEffect(()=>{
+  const obtenerTabla=async()=>{
+    const respuesta= await conseguirTodosLosHijos({"usuario":usuario.id.toString()});
+    setTablaDeLogros(respuesta);
 
+  }
+  obtenerTabla();
+},[]);
 return(
 <Box>
 <AppBar position="static"  style={{
@@ -71,13 +79,16 @@ return(
 
             <TableBody>
               
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
-                >
-                  <TableCell component="th" scope="row">
-                  </TableCell>
-                  <TableCell align="right" colSpan="3">Sin Logros Registrados</TableCell>
-                </TableRow >
+            {tablaDeLogros.length === 0 ? (
+                      <TableRow
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell component="th" scope="row">
+                        </TableCell>
+                        <TableCell align="right" colSpan="3">Sin Actividades Registradas</TableCell>
+                      </TableRow >
+                    ) : (tablaDeLogros.map((el) => <HijoActividadTableRow usuario={usuario} key={el.id} el={el} historiaActividad={actividadesPorConfimar[el.id]} reload={reload} setReload={setReload} />)
+                    )}
               
             </TableBody>
 

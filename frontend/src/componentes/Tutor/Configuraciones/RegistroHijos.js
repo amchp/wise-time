@@ -26,6 +26,7 @@ export default function RegistroHijos({ usuario }) {
         edad: yup.number("Debe ser un valor numerico").positive("Tiene menos de 0 años?").integer("Debe ser entero").required("Campo de edad vacio"),
         username: yup.string().required("Campo de nombre de usuario vacio"),
         password: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
+        newpassword2: yup.string().oneOf([yup.ref('newpassword'), null], 'No concuerda con la contraseña anterior'),
     });
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: yupResolver(userSchema), });
     const formHandleSubmit = (data) => {
@@ -173,15 +174,17 @@ export default function RegistroHijos({ usuario }) {
                                     <FormHelperText sx={{ color: 'red' }}>{errors["password"] ? errors["password"].message : ""}</FormHelperText>
                                     <FormHelperText sx={{ color: 'red' }}>{valido && "password" in erroresUsuario ? erroresUsuario.password : ""}</FormHelperText>
                                 </FormControl>
-                                <Grid container spacing={2}>
+                                
+                                <Grid container direction="row" alignItems="center" justifyContent="center" spacing={7}>
                                     <Grid item xs={4}>
                                         <Button
                                             onClick={e => { setRefresh(true); }}
                                             type="submit"
                                             fullWidth
+                                            color="secondary"
                                             variant="contained"
                                             sx={{ mt: 3, mb: 2 }}>
-                                            Guarda los datos de este niño y registra otro
+                                            Registrar otro
                                         </Button>
                                     </Grid>
                                     <Grid item xs={4}>
@@ -190,8 +193,8 @@ export default function RegistroHijos({ usuario }) {
                                             type="submit"
                                             fullWidth
                                             variant="contained"
-                                            sx={{ mt: 3, mb: 2 }}>
-                                            Guardar y finalizar
+                                            sx={{ mt: 3, mb: 2,height:"60px" }}>
+                                            Finalizar
                                         </Button>
                                     </Grid>
                                 </Grid>
