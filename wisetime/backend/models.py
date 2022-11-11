@@ -66,16 +66,17 @@ class HistoriaDeLaActividad(models.Model):
                     confirmado=True
             ).count()
             if floor(log2(numeroDeActividadesConfirmadas)) != floor(log2(numeroDeActividadesConfirmadas + 1)):
+                puntos = ceil(
+                    max(numeroDeActividadesConfirmadas - 3, 0) *50 / numeroDeActividadesConfirmadas
+                )
                 logro, created = Logro.objects.get_or_create(
-                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad(es)',
+                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad(es) ganas {puntos}',
                 )
                 LogroHijo(
                     hijo=hijo,
                     logro=logro
                 ).save()
-                self.hijo_actividad.hijo.puntos += ceil(
-                    max(numeroDeActividadesConfirmadas - 3, 0) *50 / numeroDeActividadesConfirmadas
-                )
+                self.hijo_actividad.hijo.puntos += puntos
         if self.completado and not self.confirmado:
             Notificacion.objects.create(
                 descripcion=f'{hijo.usuario} ha completado {actividad.nombre}.',
@@ -167,7 +168,6 @@ class CheckForNotifications(CronJobBase):
         now = datetime.now()
         actividades = Actividad.objects.filter(hora=f'{now.hour}:{now.minute}')
         for actividad in actividades:
-            print(actividad.hijos.all())
             for hijo in actividad.hijos.all():
                 Notificacion.objects.create(
                     descripcion=f"Tiempo de hacer {actividad.nombre}",
