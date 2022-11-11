@@ -70,7 +70,7 @@ class HistoriaDeLaActividad(models.Model):
                     max(numeroDeActividadesConfirmadas - 3, 0) *50 / numeroDeActividadesConfirmadas
                 )
                 logro, created = Logro.objects.get_or_create(
-                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad(es) ganas {puntos}',
+                    descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad(es) ganas {puntos} puntos',
                 )
                 LogroHijo(
                     hijo=hijo,
@@ -156,6 +156,7 @@ class Logro(models.Model):
 class Notificacion(models.Model):
     descripcion = models.CharField(max_length=255)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    leido = models.BooleanField(default=False)
     tiempo = models.DateTimeField(auto_now_add=True)
 
 class CheckForNotifications(CronJobBase):
