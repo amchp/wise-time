@@ -8,13 +8,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Link } from "react-router-dom";
+import Notificaciones from '../../Tutor/Actividad/Notificaciones';
 import HijoActividadTableRow from './HijoActividadTableRow';
-import { Grid, Paper, Box, Toolbar, AppBar, Container, Typography } from '@mui/material/';
+import { Grid, Paper, Box, Toolbar, AppBar, Container, Typography ,Badge} from '@mui/material/';
 import { conseguirActividadesParaTabla, conseguirHistoriasDeActividadesParaLosEstados } from '../../../servicios/TablaServicio';
 import fondoActividadHijo1 from '../../../imagenes/fondoActividadHijo5.svg';
 import { cerrarSesion } from '../../../servicios/AuthenticacionServicio';
 
 const HijoActividadTable = ({ usuario }) => {
+  const [numeroNotificaciones,setNumeroNotificaciones]=useState(0);
   const [tablaDeActividades, ponerTablaDeActividades] = useState([]);
   const [actividadesPorConfimar, ponerActividadesPorConfimar] = useState({});
   const [reload, setReload] = useState(false);
@@ -68,24 +70,29 @@ const HijoActividadTable = ({ usuario }) => {
 
         <Grid container direction="column" alignItems="center" >
           <Box boxShadow={4} marginTop={6} padding={3} sx={{ backgroundColor: 'White', borderRadius: 2 }} >
-            <Stack alignItems="center" justifyContent="center" direction="row" spacing={3} marginBottom={4}>
-              <Stack>
+            <Stack alignItems="center" justifyContent="center" direction="row"  marginBottom={4}>
+              <Stack marginRight="25px">
                 <Link to="/mascota">
-                  <Button variant="contained" color="secondary" sx={{ backgroundColor: '#9D79FA' }} ><img width="60" height="65" src={require('../../../imagenes/fase1Mascota.gif')} alt="icono mascota" /></Button>
+                  <Button   variant="contained" color="secondary" sx={{ backgroundColor: '#9D79FA' }} ><img width="60" height="65" src={require('../../../imagenes/fase1Mascota.gif')} alt="icono mascota" /></Button>
                 </Link>
                 <Typography variant="subtitle2" color="White" sx={{ borderRadius: 2, border: "2px solid #9D79FA", minWidth: 86, backgroundColor: '#9D79FA' }} marginTop={1}>‎ Ver Mascota </Typography>
               </Stack>
               <Stack>
                 <Link to="/logros">
-                  <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} ><img width="65" height="70" src={require('../../../imagenes/trofeo1.png')} alt="icono trofeo" /></Button>
+                  <Button variant="contained" sx={{ backgroundColor: '#64C6FF' }} ><img width="65" height="68" src={require('../../../imagenes/trofeo1.png')} alt="icono trofeo" /></Button>
                 </Link>
-                <Typography variant="subtitle2" color="White" sx={{ borderRadius: 2, border: "2px solid #64C6FF", minWidth: 86, backgroundColor: '#64C6FF' }} marginTop={1}>‎ ‎ Ver Logros </Typography>
+                <Typography  variant="subtitle2" color="White" sx={{ borderRadius: 2, border: "2px solid #64C6FF", minWidth: 86, backgroundColor: '#64C6FF' }} marginTop={1}>‎ ‎ Ver Logros </Typography>
               </Stack>
-              <Stack>
-                <Link to="/">
-                  <Button variant="contained" color="warning" sx={{ backgroundColor: '#FCA600' }} ><img width="60" height="65" src={require('../../../imagenes/campana.png')} alt="icono trofeo" /></Button>
-                </Link>
-                <Typography variant="subtitle2" color="White" sx={{ borderRadius: 2, border: "2px solid #FCA600", minWidth: 90, backgroundColor: '#FCA600' }} marginTop={1}>Notificaciones </Typography>
+              <Stack direction="column" justifyContent="center" alignItems="center"  >
+                
+              <Badge badgeContent={numeroNotificaciones} color="error" >
+              
+                <Notificaciones usuario={usuario} setNumeroNotificaciones={setNumeroNotificaciones}/>
+              
+              </Badge>
+              <Stack   marginLeft="20px" justifyContent="center" alignItems="center" >
+                <Typography variant="subtitle2" color="White" sx={{ borderRadius: 2, border: "2px solid #FCA600", maxWidth: 110, backgroundColor: '#FCA600' }} marginTop={1}>Notificaciones </Typography>
+                </Stack>
               </Stack>
             </Stack>
 
