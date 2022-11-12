@@ -69,14 +69,14 @@ const LogrosTable = ({ usuario }) => {
 
                 <Grid container direction="column">
 
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%" marginTop={10} marginLeft={10}>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" width="80%" marginTop={10} marginLeft={10}>
                         <Link to="/actividades">
                             <Fab color="warning" sx={{ backgroundColor: '#FFB800' }} aria-label="add" height="90"
                                 width="90" >
                                 <img width="50" height="50" src={require('../../../imagenes/volver.png')} alt="icono volver" />
                             </Fab>
                         </Link>
-                        <Box border={2}  marginRight={40} borderRadius={2} color="#FFB800" sx={{ backgroundColor: 'White', maxWidth: '400px', maxHeight: '600px' }}>
+                        <Box border={2}   borderRadius={2} color="#FFB800" sx={{ backgroundColor: 'White', maxWidth: '400px', maxHeight: '600px' }}>
 
                             <Stack direction="column" justifyContent="center" alignItems="center" margin={1}>
 
