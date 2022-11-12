@@ -74,8 +74,7 @@ return(
 
             <TableHead>
               <TableRow>
-                <TableCell align="center"><b> </b></TableCell>
-                <TableCell align="center"><b>Logros</b></TableCell>
+                <TableCell align="center"><b>Logro</b></TableCell>
               </TableRow>
             </TableHead>
 

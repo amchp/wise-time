@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Input, InputLabel, InputAdornment, Grid, Modal, Box, Link, Typography, Button, Stack, Paper, TextField, FormControl, FormHelperText, Divider } from '@mui/material/';
+import { Input, InputLabel,Fab, InputAdornment, Grid, Modal, Box, Typography, Button, Stack, Paper, TextField, FormControl, FormHelperText, Divider } from '@mui/material/';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { actualizarNombreYApellido } from '../../../servicios/AuthenticacionServicio';
 import PaswordContainer from './PaswordContainer';
-
+import { GrAdd } from "react-icons/gr";
 import { AiFillEdit } from "react-icons/ai";
 import EmailContainer from './EmailContainer';
+import { Link } from "react-router-dom";
 //import fondoLoginTutor from "../../../imagenes/fondoLoginTutor";
 function Cuenta({ usuario }) {
     const [open, setOpen] = useState(false);
@@ -134,6 +135,12 @@ function Cuenta({ usuario }) {
                                             >
                                                 <PaswordContainer cambiarEstado={() => { setOpen(false) }} />
                                             </Modal>
+                                            <Link to='/registrohijos'>
+                                                <Fab color="secondary" aria-label="add">
+                                                    <GrAdd />
+                                                </Fab>
+                                            </Link>
+
                                         </Grid>
                                     </Grid>
                                 </Stack>

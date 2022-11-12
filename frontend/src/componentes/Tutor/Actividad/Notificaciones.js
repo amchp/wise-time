@@ -105,7 +105,7 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {notificaciones.map((notificacion) => (<div><MenuItem key={notificaciones.indexOf(notificacion)}><ListItemIcon><ImNotification /></ListItemIcon>{notificacion.descripcion}</MenuItem><Divider /></div>))}
+        {notificaciones.length>0?(notificaciones.map((notificacion) => (<div><MenuItem key={notificaciones.indexOf(notificacion)}><ListItemIcon><ImNotification /></ListItemIcon>{notificacion.descripcion}</MenuItem><Divider /></div>))):<MenuItem>Estás al día</MenuItem>}
       </Menu>
     </>
   )

@@ -9,7 +9,7 @@ import Cuenta from './Configuraciones/Cuenta';
 import MonitoreoDeHijo from './Monitoreo/MonitoreoDeHijo';
 import SugerenciaTable from './Sugerencias/SugerenciaTable';
 import '../../App.css';
-
+import WiseTimeHome from '../Home/WiseTimeHome'
 
 
 
@@ -32,6 +32,7 @@ const TutorApp =  ({data}) => {
                     <Route path="monitoreo" element={<MonitoreoDeHijo usuario={data}/>}/>
                     <Route path="sugerencias" element={<SugerenciaTable usuario={data}/>}/>
                     <Route path="configuraciones" element={<Cuenta usuario={data}/>}/>
+                    <Route path="/" element={<WiseTimeHome usuario={data}/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>

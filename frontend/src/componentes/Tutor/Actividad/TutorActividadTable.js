@@ -79,10 +79,15 @@ const TutorActividadTable = ({ usuario }) => {
       <Toolbar disableGutters  >
         <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
           <Stack marginLeft={2} marginTop={2}>
+            <Link to='/actividades/'>
             <img
               src={require('../../../imagenes/logoWiseTime2.png')}
               width="130" height="35"
-              alt='Logo' />
+              alt='Logo' 
+              href
+              />
+            </Link>
+            
             <Typography variant="h6" color="#545454" marginTop={2}>¡Bienvenid@ {usuario.nombre + " " + usuario.apellido}!</Typography>
           </Stack>
           <Stack direction="row" marginRight={3} spacing={3}>
