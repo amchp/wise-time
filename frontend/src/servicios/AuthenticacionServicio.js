@@ -32,10 +32,10 @@ export async function crearToken(user, password, login) {
 }
 export async function cerrarSesion() {
     const config = conseguirConfiguracionDeAutenticacion();
-    const token=localStorage.getItem('tokenKey');
+    const token = localStorage.getItem('tokenKey');
     try {
         await axios.post(
-            'http://127.0.0.1:8000/auth/token/logout',token,config
+            'http://127.0.0.1:8000/auth/token/logout', token, config
 
         ).then(response => {
             localStorage.removeItem('tokenKey');
@@ -49,11 +49,19 @@ export async function cerrarSesion() {
 }
 
 export async function conseguirUsurioLogeado() {
-    const config = conseguirConfiguracionDeAutenticacion();
-    const response = await axios.get(
-        'http://127.0.0.1:8000/auth/users/me/', config
-    );
-    return response.data;
+    try {
+        const config = conseguirConfiguracionDeAutenticacion();
+        const response = await axios.get(
+            'http://127.0.0.1:8000/auth/users/me/', config
+        );
+        return response.data;
+
+    } catch (error) {
+        const noData={es_hijo: false, es_tutor: false};
+
+        return noData
+    }
+
 }
 export async function crearUsuarioBase(data) {
     try {

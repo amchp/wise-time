@@ -74,7 +74,6 @@ return(
 
             <TableHead>
               <TableRow>
-                <TableCell align="center"><b>Puntos obtenidos</b></TableCell>
                 <TableCell align="center"><b>Logro</b></TableCell>
               </TableRow>
             </TableHead>
