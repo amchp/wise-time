@@ -21,10 +21,7 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
     setNotificaciones(respuesta);
   }
   const handleClick = (event) => {
-
     setAnchorEl(event.currentTarget);
-
-    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false});
   };
   const handleClose = () => {
     setAnchorEl(null);

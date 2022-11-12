@@ -77,6 +77,7 @@ class HistoriaDeLaActividad(models.Model):
                     logro=logro
                 ).save()
                 self.hijo_actividad.hijo.puntos += puntos
+                self.hijo_actividad.hijo.save()
         if self.completado and not self.confirmado:
             Notificacion.objects.create(
                 descripcion=f'{hijo.usuario} ha completado {actividad.nombre}.',
