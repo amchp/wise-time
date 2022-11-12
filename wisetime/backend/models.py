@@ -167,7 +167,8 @@ class CheckForNotifications(CronJobBase):
 
     def do(self):
         now = datetime.now()
-        actividades = Actividad.objects.filter(hora=f'{now.hour}:{now.minute}')
+        dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
+        actividades = Actividad.objects.filter(hora=f'{now.hour}:{now.minute}', dias__contains=[dias[now.weekday()]])
         for actividad in actividades:
             for hijo in actividad.hijos.all():
                 Notificacion.objects.create(

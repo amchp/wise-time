@@ -18,17 +18,17 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
   
   const traerNotificaciones = async (filtro) => {
     const respuesta = await conseguirNotificaciones(filtro);
-    console.log(respuesta);
     setNotificaciones(respuesta);
   }
   const handleClick = (event) => {
 
     setAnchorEl(event.currentTarget);
 
-    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false,"leer":true});
+    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false});
   };
   const handleClose = () => {
     setAnchorEl(null);
+    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false, "leer":true});
   };
   ///
   useEffect(()=>{
