@@ -187,13 +187,14 @@ const TutorActividadForm = ({ usuario }) => {
           
 
           <form onSubmit={handleSubmit}>
-            <Grid container rowSpacing={2}>
+            <Grid  marginTop={1} container rowSpacing={2}>
               <Grid item xs={12}>
                 <FormControl sx={{ width: 500 }}>
-                  <InputLabel id="dropDown">Seleccione niños</InputLabel>
+                  <InputLabel color="secondary" id="dropDown">Seleccione niños</InputLabel>
                   <Select labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
+                    color="secondary"
                     value={hijosSeleccionados}
                     onChange={handleCheckMark}
                     input={<OutlinedInput label="Seleccione niños" />}
@@ -216,6 +217,7 @@ const TutorActividadForm = ({ usuario }) => {
                   fullWidth
                   label="Nombre de la tarea"
                   type="text"
+                  color="secondary"
                   name="nombre"
                   placeholder="Nombre de la tarea"
                   onChange={handleChange}
@@ -226,60 +228,68 @@ const TutorActividadForm = ({ usuario }) => {
               <Grid item xs={12}>
                 <TextField
                   multiline
+                  color="secondary"
                   label="Descripcion de la tarea"
                   type="text"
                   name="descripcion"
-                  placeholder="descripcion"
+                  placeholder="Descripcion"
                   onChange={handleChange}
                   value={form.descripcion}
                   sx={{width:"600px"}}
                 />
               </Grid>
             </Grid>
+            <Stack marginTop={3}>
+              <Typography variant="subtitle2">
+                Selecciona los dias de la semana
+              </Typography>
+              </Stack>
+            <Grid container marginBottom={2} direction="row" spacing={2} >
 
-            <Grid container direction="row" margin={2} justifyContent="center" alignItems="center" spacing={2} >
-
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Lunes"]} type="checkbox" onChange={handleCheckBox} name="Lunes" /><span>L</span>
+                <Checkbox color="secondary" checked={mapaDeDias["Lunes"]} type="checkbox" onChange={handleCheckBox} name="Lunes" /><span>L</span>
               </Grid>
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Martes"]} type="checkbox" onChange={handleCheckBox} name="Martes" /><span>M</span>
+                <Checkbox color="secondary"checked={mapaDeDias["Martes"]} type="checkbox" onChange={handleCheckBox} name="Martes" /><span>M</span>
               </Grid>
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Miercoles"]} type="checkbox" onChange={handleCheckBox} name="Miercoles" /><span>MI</span>
+                <Checkbox color="secondary"checked={mapaDeDias["Miercoles"]} type="checkbox" onChange={handleCheckBox} name="Miercoles" /><span>MI</span>
               </Grid>
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Jueves"]} type="checkbox" onChange={handleCheckBox} name="Jueves" /><span>J</span>
+                <Checkbox color="secondary"checked={mapaDeDias["Jueves"]} type="checkbox" onChange={handleCheckBox} name="Jueves" /><span>J</span>
               </Grid>
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Viernes"]} type="checkbox" onChange={handleCheckBox} name="Viernes" /><span>V</span>
+                <Checkbox color="secondary" checked={mapaDeDias["Viernes"]} type="checkbox" onChange={handleCheckBox} name="Viernes" /><span>V</span>
               </Grid>
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Sabado"]} type="checkbox" onChange={handleCheckBox} name="Sabado" /><span>S</span>
+                <Checkbox color="secondary"checked={mapaDeDias["Sabado"]} type="checkbox" onChange={handleCheckBox} name="Sabado" /><span>S</span>
               </Grid>
               <Grid item xs={1}>
-                <Checkbox checked={mapaDeDias["Domingo"]} type="checkbox" onChange={handleCheckBox} name="Domingo" /><span>D</span>
+                <Checkbox color="secondary"checked={mapaDeDias["Domingo"]} type="checkbox" onChange={handleCheckBox} name="Domingo" /><span>D</span>
               </Grid>
 
             </Grid>
-            <Grid container spacing={10}>
+            <Grid container  spacing={10}>
               <Grid item xs={2} >
                 <TextField
                   type="text"
                   label="Hora"
                   name="hora"
-                  placeholder="hora"
+                  placeholder="Hora"
                   onChange={handleChange}
+                  color="secondary"
                   value={form.hora}
+                  sx={{width:"300px"}}
                 />
               </Grid>
-              <Grid item xs={2} marginTop={2}>
-                <Button variant="contained" component="label">
+              </Grid>
+              <Grid item xs={2} marginBottom={2} marginTop={2}>
+                <Button color="secondary" variant="contained" component="label" sx={{ backgroundColor: '#7560AB' }} >
                   Guardar
                   <input type="submit" hidden />
                 </Button>
               </Grid>
-            </Grid>
+            
           </form>
 
         

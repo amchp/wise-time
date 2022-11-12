@@ -70,6 +70,7 @@ const TutorActivityInfo = () => {
                             fullWidth
                             id="name"
                             value={actividad.nombre}
+                            color="secondary"
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -84,6 +85,7 @@ const TutorActivityInfo = () => {
                             fullWidth
                             id="description"
                             value={actividad.descripcion}
+                            color="secondary"
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -105,6 +107,7 @@ const TutorActivityInfo = () => {
                         <TextField
                             id="hora"
                             value={actividad.hora}
+                            color="secondary"
                             InputProps={{
                                 readOnly: true,
                             }}

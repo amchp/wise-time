@@ -38,10 +38,12 @@ const LoginHijo = () => {
                     <Container maxWidth="xl">
                         <Toolbar disableGutters  >
                             <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
+                            <Link to='/'>
                                 <img
                                     src={require('../../imagenes/logoWiseTime2.png')}
                                     width="130" height="35"
                                     alt='Logo' />
+                            </Link>
                                 <Link to='/login'>
                                     <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '300px' }} >volver</Button>
                                 </Link>
