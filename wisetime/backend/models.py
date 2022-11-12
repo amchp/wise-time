@@ -77,6 +77,7 @@ class HistoriaDeLaActividad(models.Model):
                     logro=logro
                 ).save()
                 self.hijo_actividad.hijo.puntos += puntos
+                self.hijo_actividad.hijo.save()
         if self.completado and not self.confirmado:
             Notificacion.objects.create(
                 descripcion=f'{hijo.usuario} ha completado {actividad.nombre}.',
@@ -167,7 +168,8 @@ class CheckForNotifications(CronJobBase):
 
     def do(self):
         now = datetime.now()
-        actividades = Actividad.objects.filter(hora=f'{now.hour}:{now.minute}')
+        dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
+        actividades = Actividad.objects.filter(hora=f'{now.hour}:{now.minute}', dias__contains=[dias[now.weekday()]])
         for actividad in actividades:
             for hijo in actividad.hijos.all():
                 Notificacion.objects.create(

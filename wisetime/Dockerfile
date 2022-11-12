@@ -2,7 +2,7 @@ FROM python:3.9-slim as dev
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y python3-pip libpq-dev
+RUN apt-get update && apt-get install -y python3-pip libpq-dev cron
 
 WORKDIR /app
 

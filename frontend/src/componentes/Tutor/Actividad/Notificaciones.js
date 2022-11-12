@@ -18,11 +18,9 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
   
   const traerNotificaciones = async (filtro) => {
     const respuesta = await conseguirNotificaciones(filtro);
-    console.log(respuesta);
     setNotificaciones(respuesta);
   }
   const handleClick = (event) => {
-
     setAnchorEl(event.currentTarget);
     
     
@@ -30,6 +28,7 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
   const handleClose = () => {
     traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false,"leer":true});
     setAnchorEl(null);
+    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false, "leer":true});
   };
   ///
   useEffect(()=>{
