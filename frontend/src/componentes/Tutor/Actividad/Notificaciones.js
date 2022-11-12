@@ -24,10 +24,11 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
   const handleClick = (event) => {
 
     setAnchorEl(event.currentTarget);
-
-    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false,"leer":true});
+    
+    
   };
   const handleClose = () => {
+    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false,"leer":true});
     setAnchorEl(null);
   };
   ///

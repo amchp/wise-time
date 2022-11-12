@@ -27,6 +27,7 @@ export default function HomePage() {
                     <Route path="login" element={<LoginHome/>}/>
                     <Route path="logintutor" element={<LoginTutor/>}/>
                     <Route path="loginhijo" element={<LoginHijo/>}/>
+                    <Route path="*" element={<WiseTimeHome/>}/>
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

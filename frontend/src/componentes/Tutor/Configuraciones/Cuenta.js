@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, InputLabel,Fab, InputAdornment, Grid, Modal, Box, Typography, Button, Stack, Paper, TextField, FormControl, FormHelperText, Divider } from '@mui/material/';
+import { Input, InputLabel, Fab, InputAdornment, Grid, Modal, Box, Typography, Button, Stack, Paper, TextField, FormControl, FormHelperText, Divider } from '@mui/material/';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,11 +8,13 @@ import PaswordContainer from './PaswordContainer';
 import { GrAdd } from "react-icons/gr";
 import { AiFillEdit } from "react-icons/ai";
 import EmailContainer from './EmailContainer';
+import RegistroHijos from './RegistroHijos';
 import { Link } from "react-router-dom";
 //import fondoLoginTutor from "../../../imagenes/fondoLoginTutor";
 function Cuenta({ usuario }) {
     const [open, setOpen] = useState(false);
     const [openEmail, setOpenEmail] = useState(false);
+    const [openRegister, setOpenRegister] = useState(false);
     const userSchema = yup.object().shape({
         nombre: yup.string().required("Campo de nombre vacio"),
         apellido: yup.string().required("Campo de apellido vacio"),
@@ -22,9 +24,7 @@ function Cuenta({ usuario }) {
         console.log(data);
         actualizarNombreYApellido(data);
     }
-    const editarEmail = () => {
 
-    }
     return (
         <>
             <Box
@@ -135,11 +135,22 @@ function Cuenta({ usuario }) {
                                             >
                                                 <PaswordContainer cambiarEstado={() => { setOpen(false) }} />
                                             </Modal>
-                                            <Link to='/registrohijos'>
-                                                <Fab color="secondary" aria-label="add">
-                                                    <GrAdd />
-                                                </Fab>
-                                            </Link>
+
+                                            <Fab color="secondary" aria-label="add" onClick={() => { setOpenRegister(true) }}>
+                                                <GrAdd /> Registra más hijos
+                                            </Fab>
+                                            <Modal
+                                                hideBackdrop
+                                                open={openRegister}
+                                                onClose={() => { setOpenRegister(false) }}
+                                                aria-labelledby="child-modal-title"
+                                                aria-describedby="child-modal-description"
+                                            >
+                                                <>
+                                                <RegistroHijos />
+                                                </>
+                                            </Modal>
+
 
                                         </Grid>
                                     </Grid>

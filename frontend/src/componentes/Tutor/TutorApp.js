@@ -32,7 +32,7 @@ const TutorApp =  ({data}) => {
                     <Route path="monitoreo" element={<MonitoreoDeHijo usuario={data}/>}/>
                     <Route path="sugerencias" element={<SugerenciaTable usuario={data}/>}/>
                     <Route path="configuraciones" element={<Cuenta usuario={data}/>}/>
-                    <Route path="/" element={<WiseTimeHome usuario={data}/>}/>
+                    <Route path="*" element={<WiseTimeHome usuario={data}/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>
