@@ -26,7 +26,6 @@ export default function Notificaciones({ usuario, setNumeroNotificaciones }) {
     
   };
   const handleClose = () => {
-    traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false,"leer":true});
     setAnchorEl(null);
     traerNotificaciones({ "usuario": usuario.id.toString(),"leido":false, "leer":true});
   };

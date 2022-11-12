@@ -8,13 +8,12 @@ import PaswordContainer from './PaswordContainer';
 import { GrAdd } from "react-icons/gr";
 import { AiFillEdit } from "react-icons/ai";
 import EmailContainer from './EmailContainer';
-import RegistroHijos from './RegistroHijos';
 import { Link } from "react-router-dom";
+import { BsFillGearFill } from "react-icons/bs";
 //import fondoLoginTutor from "../../../imagenes/fondoLoginTutor";
 function Cuenta({ usuario }) {
     const [open, setOpen] = useState(false);
     const [openEmail, setOpenEmail] = useState(false);
-    const [openRegister, setOpenRegister] = useState(false);
     const userSchema = yup.object().shape({
         nombre: yup.string().required("Campo de nombre vacio"),
         apellido: yup.string().required("Campo de apellido vacio"),
@@ -42,6 +41,7 @@ function Cuenta({ usuario }) {
                                 <Typography component="h5" variant="h6" color="#7560AB">
                                     Configuración
                                 </Typography>
+                                < BsFillGearFill />
                                 <Divider flexItem />
 
                                 <Stack justifyContent={"left"} alignItems="center" marginTop={2}>
@@ -135,28 +135,20 @@ function Cuenta({ usuario }) {
                                             >
                                                 <PaswordContainer cambiarEstado={() => { setOpen(false) }} />
                                             </Modal>
-
-                                            <Fab color="secondary" aria-label="add" onClick={() => { setOpenRegister(true) }}>
-                                                <GrAdd /> Registra más hijos
-                                            </Fab>
-                                            <Modal
-                                                hideBackdrop
-                                                open={openRegister}
-                                                onClose={() => { setOpenRegister(false) }}
-                                                aria-labelledby="child-modal-title"
-                                                aria-describedby="child-modal-description"
-                                            >
-                                                <>
-                                                <RegistroHijos />
-                                                </>
-                                            </Modal>
-
-
+                                            <Link to='/registrohijos'>
+                                                <Fab color="secondary" aria-label="add">
+                                                    <GrAdd />
+                                                </Fab>
+                                            </Link>
+                                            <Typography color="#7560AB">
+                                                Registra otro hijo
+                                            </Typography>
                                         </Grid>
                                     </Grid>
                                 </Stack>
-
-
+                                <Link to='/actividades'>
+                                    <Button variant="contained" sx={{ backgroundColor: '#64C6FF', maxWidth: '300px' }} >volver</Button>
+                                </Link>
                             </Stack>
                         </Grid>
                     </Stack>

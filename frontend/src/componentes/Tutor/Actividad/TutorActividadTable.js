@@ -30,7 +30,7 @@ const TutorActividadTable = ({ usuario }) => {
   const [pendiente, setPendiente] = useState(0)
   const [dia, setDia] = useState('hoy');
   const [numeroNotificaciones,setNumeroNotificaciones]=useState(0);
-  console.log(numeroNotificaciones);
+  
   const conseguirInformacionDeLosHijos = async () => {
 
     const filtros = { 'tutor': usuario.id.toString() };

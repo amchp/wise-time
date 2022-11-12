@@ -42,13 +42,13 @@ const TutorActividadForm = ({ usuario }) => {
     let listaHijos = [];
     const dicionarioDeIdAHijo = {};
     const dicionarioDeHijoAId = {};
-    console.log(informacionDeHijos);
+    
     informacionDeHijos.forEach((hijo) => {
       dicionarioDeIdAHijo[hijo.usuario] = hijo.nombre;
       dicionarioDeHijoAId[hijo.nombre] = hijo.usuario;
       listaHijos.push(hijo.nombre);
     });
-    console.log(listaHijos);
+   
     return { listaHijos, dicionarioDeIdAHijo, dicionarioDeHijoAId }
   }
 
@@ -71,13 +71,13 @@ const TutorActividadForm = ({ usuario }) => {
   const sacarListaDeSelecionados = async (dicionarioDeIdAHijo) => {
     const filtroDeHijoActvidad = { 'tutor': usuario.id, 'actividades': id };
     const hijoActividades = await conseguirTodosLosHijos(filtroDeHijoActvidad);
-    console.log(hijoActividades);
+    
     let listaSeleccionados = [];
     hijoActividades.forEach((hijoActividad) => {
       let idHijo = hijoActividad.usuario;
       listaSeleccionados.push(dicionarioDeIdAHijo[idHijo]);
     });
-    console.log("Lista ! :",listaSeleccionados);
+   
     return listaSeleccionados;
   }
 

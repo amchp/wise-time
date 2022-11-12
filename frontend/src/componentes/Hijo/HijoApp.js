@@ -21,6 +21,7 @@ const HijoApp = ({ usuario }) => {
                         <Route path="actividades" element={<HijoActividadTable usuario={usuario} />} />
                         <Route path="mascota" element={<HijoMascota usuario={usuario} />} />
                         <Route path="logros" element={<LogrosTable usuario={usuario} />} />
+                        <Route path="*" element={<WiseTimeHome usuario={usuario}/>} />
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
