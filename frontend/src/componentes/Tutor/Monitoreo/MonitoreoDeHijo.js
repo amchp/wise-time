@@ -82,7 +82,7 @@ const MonitoreoDeHijo =  ({usuario}) => {
     }}>
             <FiltroDeMonitoreoDeHijo usuario={usuario} setHijoSeleccionado={setHijoSeleccionado} setDias={setDias} dias={dias}/>
             <Stack justifyContent={"center"} alignItems="center" marginTop={3} sx={{ backgroundColor: 'White'}}>
-            { inforamacionDeGrafica !== [] && <h1>No hay Información</h1>}
+            { inforamacionDeGrafica.length === 0 && <h1>No hay Información</h1>}
             <GraficaDeMonitoreoDeHijo inforamacionDeGrafica={inforamacionDeGrafica}/>
             </Stack>
         </Box>
