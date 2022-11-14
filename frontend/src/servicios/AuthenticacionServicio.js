@@ -105,7 +105,7 @@ export async function crearUsuarioTutor(data) {
         return error;
     }
 }
-export async function crearUsuarioHijo(data, tutorId, edad, refresh, finalizar) {
+export async function crearUsuarioHijo(data, tutorId, edad, refresh, finalizar,registro) {
     try {
         const usuario = await crearUsuarioBase(data);
         const info = {
@@ -124,10 +124,16 @@ export async function crearUsuarioHijo(data, tutorId, edad, refresh, finalizar) 
 
                         alert("Registro de " + data.nombre + " completado");
                         window.location.reload();
+
                     } else if (finalizar) {
                         alert("Registro de " + data.nombre + " completado--->finalizar");
-                        window.location.href = '/actividades';
+                        
+                        if(registro){
+                            window.location.href = '/actividades';
 
+                        }else{
+                            window.location.href = '/guiausuario';
+                        }
                     }
                 })
         }
@@ -186,7 +192,7 @@ export async function actualizarEmail(actual, nuevoCorreo) {
 
 
     } catch (error) {
-        console.log(error);
+        return error.response.data;
     }
 
 }

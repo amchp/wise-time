@@ -9,17 +9,19 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { crearUsuarioHijo } from '../../../servicios/AuthenticacionServicio';
 import {useNavigate } from 'react-router-dom';
-export default function RegistroHijos({ usuario }) {
+export default function RegistroHijos({ usuario,registro }) {
     const navigate=useNavigate();
     const [erroresUsuario, setErroresUsuario] = useState({});
     const [valido, setValido] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [finalizar, setFinalizar] = useState(false);
+    const [configuraciones, setConfiguraciones] = useState(false);
     const theme = createTheme({
         typography: {
             fontFamily: ["Nunito", "sans-serif"].join(","),
         },
     });
+    
     const userSchema = yup.object().shape({
         nombreHijo: yup.string().required("Campo de nombre vacio"),
         apellidoHijo: yup.string().required("Campo de apellido vacio"),
@@ -41,12 +43,21 @@ export default function RegistroHijos({ usuario }) {
         };
         console.log(coleccion);
         const registro = async () => {
-            const errorUsuario = await crearUsuarioHijo(coleccion, usuario.id, data.edad,refresh,finalizar);
+            var location = window.location.pathname;
+            var directoryPath = location.substring(0, location.lastIndexOf("/")+1);
+            console.log(directoryPath);
+            
+            if (typeof registro!== 'undefined') {
+                setConfiguraciones(true);
+
+                const errorUsuario = await crearUsuarioHijo(coleccion, usuario.id, data.edad,refresh,finalizar,registro);
             if (errorUsuario.response.status == 400) {
                 setValido(true);
                 setErroresUsuario(errorUsuario.response.data);
                 console.log(errorUsuario.response);
             }
+            }   
+            
         }
         registro();
     

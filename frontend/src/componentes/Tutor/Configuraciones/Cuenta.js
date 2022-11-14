@@ -10,7 +10,7 @@ import { AiFillEdit } from "react-icons/ai";
 import EmailContainer from './EmailContainer';
 import { Link } from "react-router-dom";
 import { BsFillGearFill } from "react-icons/bs";
-//import fondoLoginTutor from "../../../imagenes/fondoLoginTutor";
+import fondoLoginTutor from "../../../imagenes/fondoLoginTutor.png";
 function Cuenta({ usuario }) {
     const [open, setOpen] = useState(false);
     const [openEmail, setOpenEmail] = useState(false);
@@ -27,11 +27,13 @@ function Cuenta({ usuario }) {
     return (
         <>
             <Box
-                class="fondoLogin"
+                class="fondoLoginTutor"
                 style={{
-                    //backgroundImage: `url(${fondoLoginTutor})`,
-                    backgroundSize: "cover",
-                    height: "100vh"
+                  backgroundImage: `url(${fondoLoginTutor})`,
+                  backgroundSize: "cover",
+        
+                  height: "100vh",
+        
                 }}>
 
                 <Grid container direction="column">
@@ -135,7 +137,7 @@ function Cuenta({ usuario }) {
                                             >
                                                 <PaswordContainer cambiarEstado={() => { setOpen(false) }} />
                                             </Modal>
-                                            <Link to='/registrohijos'>
+                                            <Link to='/configuraciones/registrohijos'>
                                                 <Fab color="secondary" aria-label="add">
                                                     <GrAdd />
                                                 </Fab>

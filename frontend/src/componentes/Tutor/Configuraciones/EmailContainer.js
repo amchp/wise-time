@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Grid, Button, Box,FormControl,TextField,FormHelperText} from '@mui/material/';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -20,13 +20,22 @@ const style = {
 
 
 const EmailContainer = ({cambiarEstado }) => {
+    const [error,setError]=useState({});
     const userSchema = yup.object().shape({
         currentpassword: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
         email: yup.string().email("No es un email valido").required("Campo de email vacio"),
     });
     const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(userSchema), });
     const formHandleSubmit = (data) => {
-        actualizarEmail(data.currentpassword,data.email);
+        const submitEmail=async()=>{
+            const error= await actualizarEmail(data.currentpassword,data.email);
+            if (typeof error !== 'undefined') {
+                setError(error);
+                console.log(error);
+            }
+        }
+        submitEmail();
+        
     }
     return (
         <>
@@ -54,6 +63,7 @@ const EmailContainer = ({cambiarEstado }) => {
                                     {...register("currentpassword")}
                                 />
                                 <FormHelperText sx={{ color: 'red' }}>{errors["currentpassword"] ? errors["currentpassword"].message : ""}</FormHelperText>
+                                <FormHelperText sx={{ color: 'red' }}>{error.hasOwnProperty("current_password")? error.current_password : ""}</FormHelperText>
                             </FormControl>
                             <FormControl>
                                 <TextField
@@ -70,6 +80,7 @@ const EmailContainer = ({cambiarEstado }) => {
                                     {...register("email")}
                                 />
                                 <FormHelperText sx={{ color: 'red' }}>{errors["email"] ? errors["email"].message : ""}</FormHelperText>
+                                <FormHelperText sx={{ color: 'red' }}>{error.hasOwnProperty("new_username")?"Este correro es el mismo o ya está en uso. Recuerde que no debe ser similar a la contraseña": ""}</FormHelperText>
                             </FormControl>
                             <Grid item sx={2} >
                                 <Button

@@ -10,6 +10,7 @@ import MonitoreoDeHijo from './Monitoreo/MonitoreoDeHijo';
 import SugerenciaTable from './Sugerencias/SugerenciaTable';
 import '../../App.css';
 import WiseTimeHome from '../Home/WiseTimeHome'
+import GuiaUsuario from './Guia/GuiaUsuario';
 
 
 
@@ -28,11 +29,13 @@ const TutorApp =  ({data}) => {
                     <Route path="actividades/crear" element={<TutorActividadForm usuario={data} />}/>
                     <Route path="actividades/:id/editar" element={<TutorActividadForm usuario={data}/>}/>
                     <Route path="actividades/:id" element={<TutorActivityInfo usuario={data}/>}/>
-                    <Route path="registrohijos" element={<RegistroHijos usuario={data}/>}/>
+                    <Route path="registrohijos" element={<RegistroHijos usuario={data} registro={false} />}/>
+                    <Route path="configuraciones/registrohijos" element={<RegistroHijos usuario={data} registro={true} />}/>
                     <Route path="monitoreo" element={<MonitoreoDeHijo usuario={data}/>}/>
                     <Route path="sugerencias" element={<SugerenciaTable usuario={data}/>}/>
-                    <Route path="configuraciones" element={<Cuenta usuario={data}/>}/>
+                    <Route path="configuraciones" element={<Cuenta usuario={data} />}/>
                     <Route path="*" element={<WiseTimeHome usuario={data}/>}/>
+                    <Route path="/guiausuario" element={<GuiaUsuario/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>
