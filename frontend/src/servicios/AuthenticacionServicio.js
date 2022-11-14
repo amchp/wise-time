@@ -174,6 +174,7 @@ export async function actualizarPassword(actual, nueva, repetida) {
 
     } catch (error) {
         console.log(error);
+        return error.response.data;
     }
 
 }
