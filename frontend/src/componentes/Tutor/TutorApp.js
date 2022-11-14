@@ -11,6 +11,7 @@ import SugerenciaTable from './Sugerencias/SugerenciaTable';
 import '../../App.css';
 import WiseTimeHome from '../Home/WiseTimeHome'
 import GuiaUsuario from './Guia/GuiaUsuario';
+import GuiaFuncionalidades from './Guia/GuiaFuncionalidades';
 
 
 
@@ -36,6 +37,7 @@ const TutorApp =  ({data}) => {
                     <Route path="configuraciones" element={<Cuenta usuario={data} />}/>
                     <Route path="*" element={<WiseTimeHome usuario={data}/>}/>
                     <Route path="/guiausuario" element={<GuiaUsuario/>}/>
+                    <Route path="/guiafunciones" element={<GuiaFuncionalidades/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>
