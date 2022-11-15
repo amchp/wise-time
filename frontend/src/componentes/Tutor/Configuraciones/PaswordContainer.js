@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Grid, Button, Box,FormControl,TextField,FormHelperText} from '@mui/material/';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -20,14 +20,24 @@ const style = {
 
 
 const PaswordContainer = ({cambiarEstado }) => {
+    const [error,setError]=useState({});
     const userSchema = yup.object().shape({
         currentpassword: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
         newpassword: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
         newpassword2: yup.string().oneOf([yup.ref('newpassword'), null], 'No concuerda con la contraseña anterior'),
     });
     const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(userSchema), });
+   
     const formHandleSubmit = (data) => {
-        actualizarPassword(data.currentpassword,data.newpassword,data.newpassword2);
+        const submitPassword=async()=>{
+            const error= await  actualizarPassword(data.currentpassword,data.newpassword,data.newpassword2);
+            if (typeof error !== 'undefined') {
+                setError(error);
+                console.log(error);
+            }
+        }
+        submitPassword();
+        
     }
     return (
         <>
@@ -55,6 +65,7 @@ const PaswordContainer = ({cambiarEstado }) => {
                                     {...register("currentpassword")}
                                 />
                                 <FormHelperText sx={{ color: 'red' }}>{errors["currentpassword"] ? errors["currentpassword"].message : ""}</FormHelperText>
+                                <FormHelperText sx={{ color: 'red' }}>{error.hasOwnProperty("current_password")? error.current_password : ""}</FormHelperText>
                             </FormControl>
                             <FormControl>
                                 <TextField
@@ -72,6 +83,7 @@ const PaswordContainer = ({cambiarEstado }) => {
                                     {...register("newpassword")}
                                 />
                                 <FormHelperText sx={{ color: 'red' }}>{errors["newpassword"] ? errors["newpassword"].message : ""}</FormHelperText>
+                                <FormHelperText sx={{ color: 'red' }}>{error.hasOwnProperty("new_password")? error.new_password : ""}</FormHelperText>
                             </FormControl>
                             <FormControl>
                                 <TextField

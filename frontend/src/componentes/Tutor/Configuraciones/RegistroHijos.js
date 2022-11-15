@@ -8,9 +8,9 @@ import fondoHomo from '../../../imagenes/fondoHomo.svg';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { crearUsuarioHijo } from '../../../servicios/AuthenticacionServicio';
-import {useNavigate } from 'react-router-dom';
-export default function RegistroHijos({ usuario }) {
-    const navigate=useNavigate();
+import { useNavigate } from 'react-router-dom';
+export default function RegistroHijos({ usuario, configuracion }) {
+    const navigate = useNavigate();
     const [erroresUsuario, setErroresUsuario] = useState({});
     const [valido, setValido] = useState(false);
     const [refresh, setRefresh] = useState(false);
@@ -20,13 +20,14 @@ export default function RegistroHijos({ usuario }) {
             fontFamily: ["Nunito", "sans-serif"].join(","),
         },
     });
+
     const userSchema = yup.object().shape({
         nombreHijo: yup.string().required("Campo de nombre vacio"),
         apellidoHijo: yup.string().required("Campo de apellido vacio"),
-        edad: yup.number("Debe ser un valor numerico").positive("Tiene menos de 0 años?").integer("Debe ser entero").required("Campo de edad vacio"),
+        edad: yup.number("Debe ser un valor numerico").typeError("Debe ingresar un valor númerico, no se permite el uso de símbolos").positive("Tiene menos de 0 años?").integer("Debe ser entero").min(5, "Debe tener al menos 5 años").max(13, "Lo recomendado es que sea menor a 14 años"),
         username: yup.string().required("Campo de nombre de usuario vacio"),
         password: yup.string().max(20).min(8, 'Minimo 8 caracteres').matches(/[0-9]/, 'Al menos un número').required("Campo de contraseña vacio"),
-        newpassword2: yup.string().oneOf([yup.ref('newpassword'), null], 'No concuerda con la contraseña anterior'),
+        re_password: yup.string().oneOf([yup.ref('password'), null], 'No concuerda con la contraseña anterior'),
     });
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({ resolver: yupResolver(userSchema), });
     const formHandleSubmit = (data) => {
@@ -41,15 +42,23 @@ export default function RegistroHijos({ usuario }) {
         };
         console.log(coleccion);
         const registro = async () => {
-            const errorUsuario = await crearUsuarioHijo(coleccion, usuario.id, data.edad,refresh,finalizar);
-            if (errorUsuario.response.status == 400) {
-                setValido(true);
-                setErroresUsuario(errorUsuario.response.data);
-                console.log(errorUsuario.response);
+            var location = window.location.pathname;
+            var directoryPath = location.substring(0, location.lastIndexOf("/") + 1);
+            console.log(directoryPath);
+
+            if (typeof configuracion !== 'undefined') {
+
+                const errorUsuario = await crearUsuarioHijo(coleccion, usuario.id, data.edad, refresh, finalizar, configuracion);
+                if (errorUsuario.response.status == 400) {
+                    setValido(true);
+                    setErroresUsuario(errorUsuario.response.data);
+                    console.log(errorUsuario.response);
+                }
             }
+
         }
         registro();
-    
+
     };
 
     return (
@@ -174,7 +183,24 @@ export default function RegistroHijos({ usuario }) {
                                     <FormHelperText sx={{ color: 'red' }}>{errors["password"] ? errors["password"].message : ""}</FormHelperText>
                                     <FormHelperText sx={{ color: 'red' }}>{valido && "password" in erroresUsuario ? erroresUsuario.password : ""}</FormHelperText>
                                 </FormControl>
-                                
+                                <FormControl>
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="newpassword2"
+                                        label="Repita la contraseña"
+                                        type="password"
+                                        name="password2"
+                                        autoComplete="newpassword2"
+                                        autoFocus
+                                        color="secondary"
+                                        error={!!errors["newpassword2"]}
+                                        {...register("newpassword2")}
+                                    />
+                                    <FormHelperText sx={{ color: 'red' }}>{errors["newpassword2"] ? errors["newpassword2"].message : ""}</FormHelperText>
+                                </FormControl>
+
                                 <Grid container direction="row" alignItems="center" justifyContent="center" spacing={7}>
                                     <Grid item xs={4}>
                                         <Button
@@ -193,7 +219,7 @@ export default function RegistroHijos({ usuario }) {
                                             type="submit"
                                             fullWidth
                                             variant="contained"
-                                            sx={{ mt: 3, mb: 2,height:"60px" }}>
+                                            sx={{ mt: 3, mb: 2, height: "60px" }}>
                                             Finalizar
                                         </Button>
                                     </Grid>
