@@ -67,7 +67,7 @@ class HistoriaDeLaActividad(models.Model):
             ).count()
             if floor(log2(numeroDeActividadesConfirmadas)) != floor(log2(numeroDeActividadesConfirmadas + 1)):
                 puntos = ceil(
-                    max(numeroDeActividadesConfirmadas - 3, 1) *50 / numeroDeActividadesConfirmadas
+                    50 / log2(numeroDeActividadesConfirmadas**2 + 4)
                 )
                 logro, created = Logro.objects.get_or_create(
                     descripcion=f'Has completado {numeroDeActividadesConfirmadas} actividad(es) ganas {puntos} puntos',
